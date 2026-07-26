@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Navbar } from "./components/Navbar";
 import { HeroBanner } from "./components/HeroBanner";
+import { ClientGuideBanner } from "./components/ClientGuideBanner";
 import { ProductGrid } from "./components/ProductGrid";
 import { ProductModal } from "./components/ProductModal";
 import { CartDrawer } from "./components/CartDrawer";
@@ -26,11 +27,10 @@ export function App() {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isChatOpen, setIsChatOpen] = useState(true);
 
-  // Check URL params for admin mode (e.g. ?admin=true or ?settings=1)
   const urlParams = new URLSearchParams(window.location.search);
   const isAdminMode = urlParams.get("admin") === "true" || urlParams.get("settings") === "1";
 
-  // API Settings state (falls back to Environment Variables if set)
+  // API Settings state
   const [settings, setSettings] = useState(() => {
     const saved = localStorage.getItem("aura_ai_settings");
     if (saved) return JSON.parse(saved);
@@ -69,13 +69,11 @@ export function App() {
     localStorage.setItem("aura_cart", JSON.stringify(cart));
   }, [cart]);
 
-  // Save Settings to LocalStorage
   const handleSaveSettings = (newSettings) => {
     setSettings(newSettings);
     localStorage.setItem("aura_ai_settings", JSON.stringify(newSettings));
   };
 
-  // Cart operations
   const handleAddToCart = (product) => {
     setCart(prev => {
       const existing = prev.find(item => item.id === product.id);
@@ -136,8 +134,17 @@ export function App() {
 
       {/* Main Content */}
       <main className="main-content">
+        
+        {/* Interactive Client User Guide Banner */}
+        <ClientGuideBanner
+          onOpenChat={() => setIsChatOpen(true)}
+          onOpenSettings={() => setIsSettingsOpen(true)}
+        />
+
+        {/* Hero Promo Banner */}
         <HeroBanner onOpenChat={() => setIsChatOpen(true)} />
 
+        {/* Catalog */}
         <ProductGrid
           products={displayedProducts}
           activeCategory={activeCategory}
@@ -187,10 +194,17 @@ export function App() {
         showSettingsButton={settings.showAdminControls || isAdminMode}
       />
 
-      {/* Footer */}
-      <footer className="border-t border-slate-900 bg-slate-950/80 py-8 text-center text-xs text-slate-500">
-        <p>© 2026 AURA AI Store. Powered by SaaS Multi-Provider Engine.</p>
-        <p className="mt-1 text-slate-600">OpenAI • Google Gemini • Shopify • WooCommerce • Supabase Sync</p>
+      {/* Footer with Creator Attribution */}
+      <footer className="border-t border-slate-900 bg-slate-950/90 py-8 text-center text-xs text-slate-400">
+        <p className="font-semibold text-slate-200">
+          AURA E-Commerce AI Chatbot Web App
+        </p>
+        <p className="mt-1 text-purple-400 font-bold">
+          Designed & Developed by Fouzi
+        </p>
+        <p className="mt-1 text-[11px] text-slate-500">
+          Powered by OpenAI (GPT-4o) • Google Gemini (2.0 Flash) • Shopify • WooCommerce • Supabase Sync
+        </p>
       </footer>
 
     </div>
