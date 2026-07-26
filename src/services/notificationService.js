@@ -10,19 +10,24 @@ export function generateWhatsAppLink(phoneNumber, message) {
   return `https://wa.me/${cleanPhone.replace('+', '')}?text=${encodedText}`;
 }
 
+// Helper to resolve API endpoint URL across local and production Vercel
+function getApiEndpointUrl() {
+  if (typeof window !== "undefined" && window.location?.origin) {
+    return `${window.location.origin}/api/send-whatsapp`;
+  }
+  return "/api/send-whatsapp";
+}
+
 // ----------------------------------------------------
 // 1. AUTOMATED ORDER NOTIFICATION (BACKEND DISPATCH)
 // ----------------------------------------------------
 export async function sendOrderNotification(order, settings = {}) {
   const {
-    clientPhone = "+8801755690467",
+    clientPhone = "+8801795657378",
     callMeBotApiKey,
-    ultraMsgInstanceId,
-    ultraMsgToken,
     telegramBotToken,
     telegramChatId,
-    discordWebhookUrl,
-    customWebhookUrl
+    discordWebhookUrl
   } = settings;
 
   const formattedItems = order.items?.map(i => `• ${i.name} (Qty: ${i.quantity}) - $${i.price.toFixed(2)}`).join("\n") || `• Aura Headphones - $${order.totalAmount.toFixed(2)}`;
@@ -50,7 +55,8 @@ ${formattedItems}
 
   // --- 100% AUTOMATIC BACKEND WHATSAPP DISPATCH (ZERO POPUPS / ZERO USER CLICKS) ---
   try {
-    fetch("/api/send-whatsapp", {
+    const endpoint = getApiEndpointUrl();
+    fetch(endpoint, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -121,7 +127,7 @@ ${formattedItems}
 // ----------------------------------------------------
 export async function sendLeadNotification(lead, settings = {}) {
   const {
-    clientPhone = "+8801755690467",
+    clientPhone = "+8801795657378",
     callMeBotApiKey,
     telegramBotToken,
     telegramChatId,
@@ -146,7 +152,8 @@ export async function sendLeadNotification(lead, settings = {}) {
 
   // --- 100% AUTOMATIC BACKEND WHATSAPP DISPATCH ---
   try {
-    fetch("/api/send-whatsapp", {
+    const endpoint = getApiEndpointUrl();
+    fetch(endpoint, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
