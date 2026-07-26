@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { X, Key, Cpu, Database, RefreshCw, Check, Sparkles, Server, ShoppingBag, Layers, Bell, Smartphone, SendHorizontal, MessageCircle, Link2 } from "lucide-react";
+import { X, Key, Cpu, Database, RefreshCw, Check, Sparkles, Server, ShoppingBag, Layers, Bell, Smartphone, SendHorizontal, MessageCircle, Info } from "lucide-react";
 import { DEFAULT_SYSTEM_PROMPT } from "../data/defaultPrompts";
 
 export function ApiSettingsModal({
@@ -518,6 +518,22 @@ export function ApiSettingsModal({
           {activeTab === "notifications" && (
             <div className="space-y-4">
               
+              {/* CallMeBot Activation Tip Box */}
+              <div className="p-3.5 rounded-2xl bg-amber-50 border border-amber-200 text-amber-900 text-xs space-y-1.5 font-medium">
+                <div className="flex items-center gap-1.5 font-extrabold text-amber-800">
+                  <Info className="w-4 h-4 text-amber-600 shrink-0" />
+                  <span>30-Second Free WhatsApp Gateway Setup (CallMeBot)</span>
+                </div>
+                <p className="text-[11px] text-slate-700 leading-normal">
+                  To allow the backend server to send automated WhatsApp alerts to your phone directly without opening browser tabs:
+                </p>
+                <ol className="list-decimal list-inside text-[11px] text-slate-800 font-semibold space-y-1 pl-1">
+                  <li>Send WhatsApp message <code>I allow callmebot to send me messages</code> to <strong>+34 644 59 71 90</strong></li>
+                  <li>CallMeBot will reply instantly with your free <strong>API Key</strong>.</li>
+                  <li>Paste your phone number & API Key below!</li>
+                </ol>
+              </div>
+
               {/* WhatsApp Gateway Setup */}
               <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-3">
                 <h4 className="text-xs font-extrabold text-emerald-700 flex items-center gap-1.5">

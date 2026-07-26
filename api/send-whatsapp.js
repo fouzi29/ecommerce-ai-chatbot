@@ -27,16 +27,18 @@ export default async function handler(req, res) {
   const cleanPhone = phone.replace(/[^\d+]/g, '');
 
   try {
-    // 1. CallMeBot Automated Backend WhatsApp Dispatch
+    // CallMeBot Automated Backend WhatsApp Dispatch
     const callMeBotUrl = `https://api.callmebot.com/whatsapp.php?phone=${encodeURIComponent(cleanPhone)}&text=${encodeURIComponent(message)}&apikey=${encodeURIComponent(apiKey || '123456')}`;
     
     const response = await fetch(callMeBotUrl);
+    const responseText = await response.text();
     
     return res.status(200).json({
-      success: true,
-      message: 'Automated WhatsApp notification dispatched successfully from backend server.',
+      success: response.ok,
+      message: 'Automated WhatsApp request processed by server.',
       phone: cleanPhone,
-      status: response.status
+      status: response.status,
+      callMeBotResponse: responseText
     });
   } catch (err) {
     console.error("Backend WhatsApp Dispatch Error:", err);
