@@ -11,8 +11,9 @@ import { ApiSettingsModal } from "./components/ApiSettingsModal";
 import { AdminDashboardModal } from "./components/AdminDashboardModal";
 import { UserGuideModal } from "./components/UserGuideModal";
 
-import { PRODUCTS } from "./data/products";
+import { PRODUCTS as DEFAULT_PRODUCTS } from "./data/products";
 import { DEFAULT_SYSTEM_PROMPT } from "./data/defaultPrompts";
+import { fetchLiveProducts } from "./services/databaseService";
 
 export function App() {
   // Modal states
@@ -26,6 +27,9 @@ export function App() {
   // Search & Filters
   const [searchQuery, setSearchQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState("All");
+
+  // Dynamic Catalog State (Default, Custom API, Shopify, WooCommerce, Supabase)
+  const [productsList, setProductsList] = useState(DEFAULT_PRODUCTS);
 
   // Cart
   const [cart, setCart] = useState(() => {
@@ -48,7 +52,7 @@ export function App() {
           temperature: 0.7,
           showAdminControls: true,
           dbMode: "demo",
-          clientPhone: "+8801755690467"
+          clientPhone: "+8801795657378"
         };
   });
 
@@ -60,6 +64,17 @@ export function App() {
       localStorage.setItem("aura_has_seen_guide", "true");
     }
   }, []);
+
+  // Fetch Live Products whenever DB Settings (Shopify, WooCommerce, Custom API, Supabase) Change!
+  useEffect(() => {
+    let isMounted = true;
+    fetchLiveProducts(settings).then((liveItems) => {
+      if (isMounted && liveItems && liveItems.length > 0) {
+        setProductsList(liveItems);
+      }
+    });
+    return () => { isMounted = false; };
+  }, [settings]);
 
   // Sync Settings to localStorage
   useEffect(() => {
@@ -120,11 +135,11 @@ export function App() {
     setIsChatOpen(true);
   };
 
-  const filteredProducts = PRODUCTS.filter((product) => {
+  const filteredProducts = productsList.filter((product) => {
     const matchesSearch =
-      product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      product.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      product.category.toLowerCase().includes(searchQuery.toLowerCase());
+      (product.name || "").toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (product.description || "").toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (product.category || "").toLowerCase().includes(searchQuery.toLowerCase());
     return matchesSearch;
   });
 
@@ -157,7 +172,7 @@ export function App() {
         {/* Hero Section */}
         <HeroBanner onOpenChat={() => setIsChatOpen(true)} />
 
-        {/* Product Catalog Grid */}
+        {/* Product Catalog Grid (Live Sync with Shopify, WooCommerce, Supabase, Custom API) */}
         <ProductGrid
           products={filteredProducts}
           activeCategory={activeCategory}
@@ -181,7 +196,7 @@ export function App() {
         onToggleOpen={() => setIsChatOpen(!isChatOpen)}
         settings={settings}
         onOpenSettings={() => setIsSettingsOpen(true)}
-        products={PRODUCTS}
+        products={productsList}
         cart={cart}
         onAddToCart={handleAddToCart}
         onQuickView={(product) => setSelectedProduct(product)}
