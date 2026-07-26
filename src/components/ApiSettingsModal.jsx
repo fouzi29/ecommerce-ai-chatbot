@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { X, Key, Cpu, Database, RefreshCw, Check, Sparkles, Server, ShoppingBag, Layers, MessageSquare, Bell, Send, SendHorizontal, MessageCircle } from "lucide-react";
+import { X, Key, Cpu, Database, RefreshCw, Check, Sparkles, Server, ShoppingBag, Layers, MessageSquare, Bell, SendHorizontal, MessageCircle } from "lucide-react";
 import { DEFAULT_SYSTEM_PROMPT } from "../data/defaultPrompts";
 
 export function ApiSettingsModal({
@@ -19,7 +19,7 @@ export function ApiSettingsModal({
   const [systemPrompt, setSystemPrompt] = useState(settings.systemPrompt || DEFAULT_SYSTEM_PROMPT);
   const [temperature, setTemperature] = useState(settings.temperature || 0.7);
 
-  // Database Integration State
+  // Database Integration State (ALL 5 DB OPTIONS RESTORED)
   const [dbMode, setDbMode] = useState(settings.dbMode || "demo");
   const [customApiUrl, setCustomApiUrl] = useState(settings.customApiUrl || "");
   const [customApiToken, setCustomApiToken] = useState(settings.customApiToken || "");
@@ -30,7 +30,7 @@ export function ApiSettingsModal({
   const [supabaseUrl, setSupabaseUrl] = useState(settings.supabaseUrl || "");
   const [supabaseAnonKey, setSupabaseAnonKey] = useState(settings.supabaseAnonKey || "");
 
-  // Multi-Channel Notifications State (WhatsApp, Telegram, Discord, SMS/Webhook)
+  // Multi-Channel Notifications State (WhatsApp, Telegram, Discord, Custom Webhook)
   const [clientPhone, setClientPhone] = useState(settings.clientPhone || "+15550192831");
   const [telegramBotToken, setTelegramBotToken] = useState(settings.telegramBotToken || "");
   const [telegramChatId, setTelegramChatId] = useState(settings.telegramChatId || "");
@@ -103,18 +103,18 @@ export function ApiSettingsModal({
   return (
     <div className="modal-backdrop" onClick={onClose}>
       <div
-        className="bg-slate-950 border border-purple-500/30 rounded-2xl max-w-xl w-full p-6 sm:p-8 relative shadow-2xl overflow-hidden animate-slideUp"
+        className="bg-indigo-950/95 border border-purple-500/40 rounded-2xl max-w-xl w-full p-6 sm:p-8 relative shadow-2xl overflow-hidden animate-slideUp backdrop-blur-2xl"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="flex items-center justify-between pb-4 mb-4 border-b border-slate-800">
+        <div className="flex items-center justify-between pb-4 mb-4 border-b border-purple-500/20">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-purple-600/20 text-purple-400 border border-purple-500/30 flex items-center justify-center">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-purple-600 to-cyan-500 text-white flex items-center justify-center shadow-lg shadow-purple-500/30">
               <Cpu className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="font-bold text-white text-lg">SaaS Client Multi-Channel Control</h3>
-              <p className="text-slate-400 text-xs">Configure AI, DB Sync & Instant Alerts (WhatsApp, Telegram, Discord, SMS)</p>
+              <h3 className="font-extrabold text-white text-lg tracking-tight">SaaS Client Control Panel</h3>
+              <p className="text-slate-300 text-xs">Configure AI Engines, 5 DB Sync Options & Multi-Channel Alerts</p>
             </div>
           </div>
           <button onClick={onClose} className="p-2 rounded-lg text-slate-400 hover:text-white">
@@ -123,37 +123,37 @@ export function ApiSettingsModal({
         </div>
 
         {/* Navigation Tabs */}
-        <div className="flex items-center gap-1.5 mb-6 bg-slate-900/80 p-1 rounded-xl border border-slate-800">
+        <div className="flex items-center gap-1.5 mb-6 bg-slate-900/90 p-1.5 rounded-xl border border-purple-500/30 shadow-inner">
           <button
             type="button"
             onClick={() => setActiveTab("ai")}
-            className={`flex-1 py-2 px-2 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1 ${
+            className={`flex-1 py-2 px-2.5 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1.5 ${
               activeTab === "ai"
                 ? "bg-purple-600 text-white shadow-md shadow-purple-600/30"
                 : "text-slate-400 hover:text-slate-200"
             }`}
           >
             <Cpu className="w-3.5 h-3.5" />
-            <span>AI Provider</span>
+            <span>AI Engine</span>
           </button>
 
           <button
             type="button"
             onClick={() => setActiveTab("database")}
-            className={`flex-1 py-2 px-2 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1 ${
+            className={`flex-1 py-2 px-2.5 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1.5 ${
               activeTab === "database"
                 ? "bg-cyan-600 text-white shadow-md shadow-cyan-600/30"
                 : "text-slate-400 hover:text-slate-200"
             }`}
           >
             <Database className="w-3.5 h-3.5" />
-            <span>DB Sync</span>
+            <span>DB Sync (5 Options)</span>
           </button>
 
           <button
             type="button"
             onClick={() => setActiveTab("notifications")}
-            className={`flex-1 py-2 px-2 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1 ${
+            className={`flex-1 py-2 px-2.5 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1.5 ${
               activeTab === "notifications"
                 ? "bg-emerald-600 text-white shadow-md shadow-emerald-600/30"
                 : "text-slate-400 hover:text-slate-200"
@@ -178,50 +178,50 @@ export function ApiSettingsModal({
                     type="button"
                     onClick={() => setProvider("demo")}
                     className={`p-3 rounded-xl border text-left transition-all ${
-                      provider === "demo" ? "bg-purple-600/20 border-purple-500 text-white" : "bg-slate-900 border-slate-800 text-slate-400"
+                      provider === "demo" ? "bg-purple-600/30 border-purple-400 text-white" : "bg-slate-900/80 border-slate-800 text-slate-400"
                     }`}
                   >
                     <div className="flex items-center justify-between mb-1">
                       <span className="font-bold text-xs">Smart Demo</span>
                       <Sparkles className="w-3.5 h-3.5 text-purple-400" />
                     </div>
-                    <span className="text-[10px] text-slate-400 block leading-tight">Zero API key needed</span>
+                    <span className="text-[10px] text-slate-300 block leading-tight">Zero API key needed</span>
                   </button>
 
                   <button
                     type="button"
                     onClick={() => setProvider("openai")}
                     className={`p-3 rounded-xl border text-left transition-all ${
-                      provider === "openai" ? "bg-emerald-600/20 border-emerald-500 text-white" : "bg-slate-900 border-slate-800 text-slate-400"
+                      provider === "openai" ? "bg-emerald-600/30 border-emerald-400 text-white" : "bg-slate-900/80 border-slate-800 text-slate-400"
                     }`}
                   >
                     <div className="flex items-center justify-between mb-1">
                       <span className="font-bold text-xs">OpenAI API</span>
                       <Key className="w-3.5 h-3.5 text-emerald-400" />
                     </div>
-                    <span className="text-[10px] text-slate-400 block leading-tight">GPT-4o & GPT-4o-mini</span>
+                    <span className="text-[10px] text-slate-300 block leading-tight">GPT-4o & GPT-4o-mini</span>
                   </button>
 
                   <button
                     type="button"
                     onClick={() => setProvider("gemini")}
                     className={`p-3 rounded-xl border text-left transition-all ${
-                      provider === "gemini" ? "bg-cyan-600/20 border-cyan-500 text-white" : "bg-slate-900 border-slate-800 text-slate-400"
+                      provider === "gemini" ? "bg-cyan-600/30 border-cyan-400 text-white" : "bg-slate-900/80 border-slate-800 text-slate-400"
                     }`}
                   >
                     <div className="flex items-center justify-between mb-1">
                       <span className="font-bold text-xs">Google Gemini</span>
                       <Key className="w-3.5 h-3.5 text-cyan-400" />
                     </div>
-                    <span className="text-[10px] text-slate-400 block leading-tight">Gemini 2.0 & 1.5 Flash</span>
+                    <span className="text-[10px] text-slate-300 block leading-tight">Gemini 2.0 & 1.5 Flash</span>
                   </button>
                 </div>
               </div>
 
               {provider === "openai" && (
-                <div className="bg-slate-900/60 p-4 rounded-xl border border-slate-800 space-y-3">
+                <div className="bg-slate-900/80 p-4 rounded-xl border border-purple-500/30 space-y-3">
                   <div>
-                    <label className="block text-xs font-semibold text-slate-300 mb-1">OpenAI API Key (sk-...)</label>
+                    <label className="block text-xs font-semibold text-slate-200 mb-1">OpenAI API Key (sk-...)</label>
                     <input
                       type="password"
                       placeholder="sk-proj-..."
@@ -231,7 +231,7 @@ export function ApiSettingsModal({
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-slate-300 mb-1">Model</label>
+                    <label className="block text-xs font-semibold text-slate-200 mb-1">Model</label>
                     <select
                       value={openAiModel}
                       onChange={(e) => setOpenAiModel(e.target.value)}
@@ -245,9 +245,9 @@ export function ApiSettingsModal({
               )}
 
               {provider === "gemini" && (
-                <div className="bg-slate-900/60 p-4 rounded-xl border border-slate-800 space-y-3">
+                <div className="bg-slate-900/80 p-4 rounded-xl border border-purple-500/30 space-y-3">
                   <div>
-                    <label className="block text-xs font-semibold text-slate-300 mb-1">Google Gemini API Key (AIza...)</label>
+                    <label className="block text-xs font-semibold text-slate-200 mb-1">Google Gemini API Key (AIza...)</label>
                     <input
                       type="password"
                       placeholder="AIzaSy..."
@@ -257,7 +257,7 @@ export function ApiSettingsModal({
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-slate-300 mb-1">Model</label>
+                    <label className="block text-xs font-semibold text-slate-200 mb-1">Model</label>
                     <select
                       value={geminiModel}
                       onChange={(e) => setGeminiModel(e.target.value)}
@@ -269,64 +269,239 @@ export function ApiSettingsModal({
                   </div>
                 </div>
               )}
+
+              <div>
+                <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1.5">
+                  Custom E-Commerce System Prompt
+                </label>
+                <textarea
+                  rows={3}
+                  value={systemPrompt}
+                  onChange={(e) => setSystemPrompt(e.target.value)}
+                  className="w-full bg-slate-900 border border-slate-800 rounded-xl p-3 text-xs text-slate-200 outline-none leading-relaxed"
+                />
+              </div>
+
+              <div>
+                <div className="flex justify-between items-center text-xs font-semibold text-slate-300 mb-1.5">
+                  <span>Creativity Temperature</span>
+                  <span className="text-purple-400 font-mono">{temperature}</span>
+                </div>
+                <input
+                  type="range"
+                  min="0"
+                  max="1"
+                  step="0.1"
+                  value={temperature}
+                  onChange={(e) => setTemperature(parseFloat(e.target.value))}
+                  className="w-full accent-purple-600 bg-slate-800 h-1.5 rounded-lg cursor-pointer"
+                />
+              </div>
             </>
           )}
 
-          {/* TAB 2: DATABASE INTEGRATION */}
+          {/* TAB 2: DATABASE INTEGRATION (ALL 5 DB OPTIONS RENDERED) */}
           {activeTab === "database" && (
             <div className="space-y-4">
               <div>
                 <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">
-                  Select Product & Order Data Source
+                  Select Product & Order Data Source (5 Platform Connectors)
                 </label>
 
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                  
+                  {/* 1. Default Catalog */}
                   <button
                     type="button"
                     onClick={() => setDbMode("demo")}
                     className={`p-3 rounded-xl border text-left transition-all ${
-                      dbMode === "demo" ? "bg-purple-600/20 border-purple-500 text-white" : "bg-slate-900 border-slate-800 text-slate-400"
+                      dbMode === "demo" ? "bg-purple-600/30 border-purple-400 text-white" : "bg-slate-900/80 border-slate-800 text-slate-400"
                     }`}
                   >
                     <Layers className="w-4 h-4 text-purple-400 mb-1" />
                     <span className="font-bold text-xs block">Default Catalog</span>
-                    <span className="text-[10px] text-slate-400">Sample store items</span>
+                    <span className="text-[10px] text-slate-300">Built-in sample items</span>
                   </button>
 
+                  {/* 2. Custom REST API */}
                   <button
                     type="button"
                     onClick={() => setDbMode("custom_api")}
                     className={`p-3 rounded-xl border text-left transition-all ${
-                      dbMode === "custom_api" ? "bg-cyan-600/20 border-cyan-500 text-white" : "bg-slate-900 border-slate-800 text-slate-400"
+                      dbMode === "custom_api" ? "bg-cyan-600/30 border-cyan-400 text-white" : "bg-slate-900/80 border-slate-800 text-slate-400"
                     }`}
                   >
                     <Server className="w-4 h-4 text-cyan-400 mb-1" />
                     <span className="font-bold text-xs block">Custom REST API</span>
-                    <span className="text-[10px] text-slate-400">MySQL/Node/PHP</span>
+                    <span className="text-[10px] text-slate-300">MySQL/Node/PHP</span>
                   </button>
 
+                  {/* 3. Shopify Store */}
                   <button
                     type="button"
                     onClick={() => setDbMode("shopify")}
                     className={`p-3 rounded-xl border text-left transition-all ${
-                      dbMode === "shopify" ? "bg-emerald-600/20 border-emerald-500 text-white" : "bg-slate-900 border-slate-800 text-slate-400"
+                      dbMode === "shopify" ? "bg-emerald-600/30 border-emerald-400 text-white" : "bg-slate-900/80 border-slate-800 text-slate-400"
                     }`}
                   >
                     <ShoppingBag className="w-4 h-4 text-emerald-400 mb-1" />
                     <span className="font-bold text-xs block">Shopify Store</span>
-                    <span className="text-[10px] text-slate-400">Storefront API</span>
+                    <span className="text-[10px] text-slate-300">Storefront API</span>
                   </button>
+
+                  {/* 4. WooCommerce */}
+                  <button
+                    type="button"
+                    onClick={() => setDbMode("woocommerce")}
+                    className={`p-3 rounded-xl border text-left transition-all ${
+                      dbMode === "woocommerce" ? "bg-amber-600/30 border-amber-400 text-white" : "bg-slate-900/80 border-slate-800 text-slate-400"
+                    }`}
+                  >
+                    <ShoppingBag className="w-4 h-4 text-amber-400 mb-1" />
+                    <span className="font-bold text-xs block">WooCommerce</span>
+                    <span className="text-[10px] text-slate-300">WP REST API</span>
+                  </button>
+
+                  {/* 5. Supabase PostgreSQL */}
+                  <button
+                    type="button"
+                    onClick={() => setDbMode("supabase")}
+                    className={`p-3 rounded-xl border text-left transition-all ${
+                      dbMode === "supabase" ? "bg-indigo-600/30 border-indigo-400 text-white" : "bg-slate-900/80 border-slate-800 text-slate-400"
+                    }`}
+                  >
+                    <Database className="w-4 h-4 text-indigo-400 mb-1" />
+                    <span className="font-bold text-xs block">Supabase DB</span>
+                    <span className="text-[10px] text-slate-300">PostgreSQL</span>
+                  </button>
+
                 </div>
               </div>
+
+              {dbMode === "custom_api" && (
+                <div className="bg-slate-900/80 p-4 rounded-xl border border-purple-500/30 space-y-3">
+                  <h4 className="text-xs font-bold text-cyan-400 flex items-center gap-1.5">
+                    <Server className="w-3.5 h-3.5" />
+                    <span>Custom Backend API Connection</span>
+                  </h4>
+                  <div>
+                    <label className="block text-[11px] text-slate-300 mb-1">Products API Endpoint URL</label>
+                    <input
+                      type="url"
+                      placeholder="https://yourstore.com/api/products"
+                      value={customApiUrl}
+                      onChange={(e) => setCustomApiUrl(e.target.value)}
+                      className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white outline-none"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[11px] text-slate-300 mb-1">API Secret Token (Bearer / Header)</label>
+                    <input
+                      type="password"
+                      placeholder="bearer_token_..."
+                      value={customApiToken}
+                      onChange={(e) => setCustomApiToken(e.target.value)}
+                      className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white outline-none"
+                    />
+                  </div>
+                </div>
+              )}
+
+              {dbMode === "shopify" && (
+                <div className="bg-slate-900/80 p-4 rounded-xl border border-purple-500/30 space-y-3">
+                  <h4 className="text-xs font-bold text-emerald-400 flex items-center gap-1.5">
+                    <ShoppingBag className="w-3.5 h-3.5" />
+                    <span>Shopify Storefront Connection</span>
+                  </h4>
+                  <div>
+                    <label className="block text-[11px] text-slate-300 mb-1">Shopify Store Domain</label>
+                    <input
+                      type="text"
+                      placeholder="your-shop.myshopify.com"
+                      value={shopifyDomain}
+                      onChange={(e) => setShopifyDomain(e.target.value)}
+                      className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white outline-none"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[11px] text-slate-300 mb-1">Storefront Access Token</label>
+                    <input
+                      type="password"
+                      placeholder="shpat_..."
+                      value={shopifyAccessToken}
+                      onChange={(e) => setShopifyAccessToken(e.target.value)}
+                      className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white outline-none"
+                    />
+                  </div>
+                </div>
+              )}
+
+              {dbMode === "woocommerce" && (
+                <div className="bg-slate-900/80 p-4 rounded-xl border border-purple-500/30 space-y-3">
+                  <h4 className="text-xs font-bold text-amber-400 flex items-center gap-1.5">
+                    <ShoppingBag className="w-3.5 h-3.5" />
+                    <span>WooCommerce REST Integration</span>
+                  </h4>
+                  <div>
+                    <label className="block text-[11px] text-slate-300 mb-1">WordPress / Store URL</label>
+                    <input
+                      type="url"
+                      placeholder="https://mywoostore.com"
+                      value={wooUrl}
+                      onChange={(e) => setWooUrl(e.target.value)}
+                      className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white outline-none"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[11px] text-slate-300 mb-1">Consumer Key (ck_...)</label>
+                    <input
+                      type="password"
+                      placeholder="ck_..."
+                      value={wooConsumerKey}
+                      onChange={(e) => setWooConsumerKey(e.target.value)}
+                      className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white outline-none"
+                    />
+                  </div>
+                </div>
+              )}
+
+              {dbMode === "supabase" && (
+                <div className="bg-slate-900/80 p-4 rounded-xl border border-purple-500/30 space-y-3">
+                  <h4 className="text-xs font-bold text-indigo-400 flex items-center gap-1.5">
+                    <Database className="w-3.5 h-3.5" />
+                    <span>Supabase PostgreSQL Integration</span>
+                  </h4>
+                  <div>
+                    <label className="block text-[11px] text-slate-300 mb-1">Supabase Project URL</label>
+                    <input
+                      type="url"
+                      placeholder="https://xyzcompany.supabase.co"
+                      value={supabaseUrl}
+                      onChange={(e) => setSupabaseUrl(e.target.value)}
+                      className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white outline-none"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[11px] text-slate-300 mb-1">Supabase Anon Key</label>
+                    <input
+                      type="password"
+                      placeholder="eyJhbGci..."
+                      value={supabaseAnonKey}
+                      onChange={(e) => setSupabaseAnonKey(e.target.value)}
+                      className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white outline-none"
+                    />
+                  </div>
+                </div>
+              )}
+
             </div>
           )}
 
-          {/* TAB 3: MULTI-CHANNEL ALERTS (WhatsApp, Telegram, Discord, SMS) */}
+          {/* TAB 3: MULTI-CHANNEL ALERTS */}
           {activeTab === "notifications" && (
             <div className="space-y-4">
               
-              {/* WhatsApp Config */}
-              <div className="bg-slate-900/60 p-4 rounded-xl border border-emerald-500/30 space-y-3">
+              <div className="bg-slate-900/80 p-4 rounded-xl border border-emerald-500/30 space-y-3">
                 <h4 className="text-xs font-bold text-emerald-400 flex items-center gap-1.5">
                   <MessageCircle className="w-4 h-4" />
                   <span>1. WhatsApp 1-Click Instant Alerts</span>
@@ -343,8 +518,7 @@ export function ApiSettingsModal({
                 </div>
               </div>
 
-              {/* Telegram Bot Config */}
-              <div className="bg-slate-900/60 p-4 rounded-xl border border-cyan-500/30 space-y-3">
+              <div className="bg-slate-900/80 p-4 rounded-xl border border-cyan-500/30 space-y-3">
                 <h4 className="text-xs font-bold text-cyan-400 flex items-center gap-1.5">
                   <SendHorizontal className="w-4 h-4" />
                   <span>2. Telegram Bot Instant Channel Alerts</span>
@@ -371,8 +545,7 @@ export function ApiSettingsModal({
                 </div>
               </div>
 
-              {/* Discord Webhook Config */}
-              <div className="bg-slate-900/60 p-4 rounded-xl border border-purple-500/30 space-y-3">
+              <div className="bg-slate-900/80 p-4 rounded-xl border border-purple-500/30 space-y-3">
                 <h4 className="text-xs font-bold text-purple-400 flex items-center gap-1.5">
                   <Bell className="w-4 h-4" />
                   <span>3. Discord Channel Webhook Integration</span>
@@ -384,24 +557,6 @@ export function ApiSettingsModal({
                     placeholder="https://discord.com/api/webhooks/123456/abcdef..."
                     value={discordWebhookUrl}
                     onChange={(e) => setDiscordWebhookUrl(e.target.value)}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white outline-none"
-                  />
-                </div>
-              </div>
-
-              {/* Custom REST Webhook */}
-              <div className="bg-slate-900/60 p-4 rounded-xl border border-amber-500/30 space-y-3">
-                <h4 className="text-xs font-bold text-amber-400 flex items-center gap-1.5">
-                  <Server className="w-4 h-4" />
-                  <span>4. Custom REST Webhook / SMS Gateway</span>
-                </h4>
-                <div>
-                  <label className="block text-[11px] text-slate-300 mb-1">Generic Webhook Endpoint URL</label>
-                  <input
-                    type="url"
-                    placeholder="https://yourserver.com/api/webhooks/notifications"
-                    value={customWebhookUrl}
-                    onChange={(e) => setCustomWebhookUrl(e.target.value)}
                     className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white outline-none"
                   />
                 </div>
@@ -428,7 +583,7 @@ export function ApiSettingsModal({
               {isSaved ? (
                 <>
                   <Check className="w-4 h-4 text-emerald-400" />
-                  <span>Config Saved!</span>
+                  <span>SaaS Config Saved!</span>
                 </>
               ) : (
                 <span>Save SaaS Config</span>
