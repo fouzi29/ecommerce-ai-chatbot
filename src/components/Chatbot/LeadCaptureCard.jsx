@@ -12,6 +12,9 @@ export function LeadCaptureCard({ onLeadCaptured }) {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [submittedLead, setSubmittedLead] = useState(null);
 
+  const savedSettings = JSON.parse(localStorage.getItem("aura_ai_settings") || "{}");
+  const clientPhone = savedSettings.clientPhone || "+8801755690467";
+
   const handleSubmit = (e) => {
     e.preventDefault();
     setErrorMessage("");
@@ -21,7 +24,6 @@ export function LeadCaptureCard({ onLeadCaptured }) {
       return;
     }
 
-    // Dynamic Requirement: At least Email OR Phone MUST be provided!
     if (!email.trim() && !phone.trim()) {
       setErrorMessage("Please enter either an Email Address OR a Phone Number.");
       return;
@@ -35,15 +37,24 @@ export function LeadCaptureCard({ onLeadCaptured }) {
       note: "Submitted via AI Lead Collector Form"
     });
 
+    // Auto-open WhatsApp in new tab!
+    const leadMsg = `🔥 NEW PROSPECT LEAD (#${lead.id})\nName: ${lead.name}\nEmail: ${lead.email}\nPhone: ${lead.phone || 'N/A'}\nInterest: ${lead.interestCategory}`;
+    const whatsappUrl = generateWhatsAppLink(clientPhone, leadMsg);
+
+    if (whatsappUrl) {
+      try {
+        window.open(whatsappUrl, "_blank");
+      } catch (err) {
+        console.warn("Auto WhatsApp pop-up blocked:", err);
+      }
+    }
+
     setSubmittedLead(lead);
     setIsSubmitted(true);
     if (onLeadCaptured) {
       onLeadCaptured(lead);
     }
   };
-
-  const savedSettings = JSON.parse(localStorage.getItem("aura_ai_settings") || "{}");
-  const clientPhone = savedSettings.clientPhone || "+8801755690467";
 
   if (isSubmitted && submittedLead) {
     const leadMsg = `🔥 NEW PROSPECT LEAD (#${submittedLead.id})\nName: ${submittedLead.name}\nEmail: ${submittedLead.email}\nPhone: ${submittedLead.phone || 'N/A'}\nInterest: ${submittedLead.interestCategory}`;
@@ -68,7 +79,7 @@ export function LeadCaptureCard({ onLeadCaptured }) {
           >
             <MessageCircle className="w-4 h-4 fill-white" />
             <span>📲 Send Lead Alert to WhatsApp ({clientPhone})</span>
-            <ExternalLink className="w-3 h-3" />
+            <ExternalLink className="w-3.5 h-3.5" />
           </a>
         )}
       </div>
@@ -105,7 +116,7 @@ export function LeadCaptureCard({ onLeadCaptured }) {
 
         <input
           type="email"
-          placeholder="Email Address (Email or Phone required) *"
+          placeholder="Email Address *"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           className="w-full bg-slate-50 border border-slate-200 focus:border-purple-500 rounded-lg px-2.5 py-1.5 text-xs text-slate-900 outline-none"
@@ -113,7 +124,7 @@ export function LeadCaptureCard({ onLeadCaptured }) {
 
         <input
           type="tel"
-          placeholder="Phone Number (Email or Phone required) *"
+          placeholder="Phone Number *"
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
           className="w-full bg-slate-50 border border-slate-200 focus:border-purple-500 rounded-lg px-2.5 py-1.5 text-xs text-slate-900 outline-none"
@@ -135,7 +146,7 @@ export function LeadCaptureCard({ onLeadCaptured }) {
           className="w-full py-2 bg-gradient-to-r from-purple-600 to-cyan-600 text-white font-bold text-xs rounded-xl flex items-center justify-center gap-1.5 shadow-md hover:opacity-95 transition-opacity"
         >
           <Send className="w-3.5 h-3.5" />
-          <span>Submit & Save to Database</span>
+          <span>Submit & Auto-Send WhatsApp</span>
         </button>
       </form>
     </div>

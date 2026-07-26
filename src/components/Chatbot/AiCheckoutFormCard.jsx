@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { ShoppingBag, Send, AlertCircle } from "lucide-react";
 import { placeAiDirectOrder } from "../../services/orderService";
+import { generateWhatsAppLink } from "../../services/notificationService";
 
 export function AiCheckoutFormCard({ itemToOrder, onOrderPlaced }) {
   const [customerName, setCustomerName] = useState("");
@@ -17,7 +18,6 @@ export function AiCheckoutFormCard({ itemToOrder, onOrderPlaced }) {
     e.preventDefault();
     setErrorMessage("");
 
-    // Name & Shipping Address are required
     if (!customerName.trim()) {
       setErrorMessage("Please enter your Full Name.");
       return;
@@ -42,6 +42,21 @@ export function AiCheckoutFormCard({ itemToOrder, onOrderPlaced }) {
       items: [{ id: product.id, name: product.name, price: product.price, quantity }],
       totalAmount
     });
+
+    // Get active WhatsApp settings & auto-open WhatsApp link!
+    const savedSettings = JSON.parse(localStorage.getItem("aura_ai_settings") || "{}");
+    const clientPhone = savedSettings.clientPhone || "+8801755690467";
+    const orderMessage = `🛍️ NEW AI ORDER (#${newOrder.id})\nCustomer: ${newOrder.customerName}\nPhone/Email: ${newOrder.customerPhone || newOrder.customerEmail}\nTotal: $${newOrder.totalAmount?.toFixed(2)}\nAddress: ${newOrder.shippingAddress}`;
+    const whatsappUrl = generateWhatsAppLink(clientPhone, orderMessage);
+
+    // Auto-open WhatsApp in new tab!
+    if (whatsappUrl) {
+      try {
+        window.open(whatsappUrl, "_blank");
+      } catch (err) {
+        console.warn("Auto WhatsApp pop-up blocked:", err);
+      }
+    }
 
     if (onOrderPlaced) {
       onOrderPlaced(newOrder);
@@ -85,7 +100,7 @@ export function AiCheckoutFormCard({ itemToOrder, onOrderPlaced }) {
         <div className="grid grid-cols-2 gap-2">
           <input
             type="email"
-            placeholder="Email Address (Email or Phone required) *"
+            placeholder="Email Address *"
             value={customerEmail}
             onChange={(e) => setCustomerEmail(e.target.value)}
             className="w-full bg-slate-50 border border-slate-200 focus:border-purple-500 rounded-lg px-2.5 py-1.5 text-xs text-slate-900 outline-none"
@@ -93,7 +108,7 @@ export function AiCheckoutFormCard({ itemToOrder, onOrderPlaced }) {
 
           <input
             type="tel"
-            placeholder="Phone Number (Email or Phone required) *"
+            placeholder="Phone Number *"
             value={customerPhone}
             onChange={(e) => setCustomerPhone(e.target.value)}
             className="w-full bg-slate-50 border border-slate-200 focus:border-purple-500 rounded-lg px-2.5 py-1.5 text-xs text-slate-900 outline-none"
@@ -128,7 +143,7 @@ export function AiCheckoutFormCard({ itemToOrder, onOrderPlaced }) {
             className="py-2 px-4 bg-gradient-to-r from-purple-600 to-cyan-600 text-white font-bold text-xs rounded-xl flex items-center gap-1.5 shadow-md hover:opacity-95 transition-opacity"
           >
             <Send className="w-3.5 h-3.5" />
-            <span>Confirm & Place Order</span>
+            <span>Confirm & Auto-Send WhatsApp</span>
           </button>
         </div>
       </form>
