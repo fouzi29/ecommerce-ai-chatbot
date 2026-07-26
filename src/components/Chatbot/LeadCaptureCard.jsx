@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { UserCheck, Check, Send, Sparkles } from "lucide-react";
+import { UserCheck, Check, Send, Sparkles, MessageCircle, ExternalLink } from "lucide-react";
 import { captureCustomerLead } from "../../services/orderService";
+import { generateWhatsAppLink } from "../../services/notificationService";
 
 export function LeadCaptureCard({ onLeadCaptured }) {
   const [name, setName] = useState("");
@@ -8,6 +9,7 @@ export function LeadCaptureCard({ onLeadCaptured }) {
   const [phone, setPhone] = useState("");
   const [interest, setInterest] = useState("Audio & Headphones");
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [submittedLead, setSubmittedLead] = useState(null);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -21,22 +23,42 @@ export function LeadCaptureCard({ onLeadCaptured }) {
       note: "Submitted via AI Lead Collector Form"
     });
 
+    setSubmittedLead(lead);
     setIsSubmitted(true);
     if (onLeadCaptured) {
       onLeadCaptured(lead);
     }
   };
 
-  if (isSubmitted) {
+  const savedSettings = JSON.parse(localStorage.getItem("aura_ai_settings") || "{}");
+  const clientPhone = savedSettings.clientPhone || "+15550192831";
+
+  if (isSubmitted && submittedLead) {
+    const leadMsg = `🔥 NEW PROSPECT LEAD (#${submittedLead.id})\nName: ${submittedLead.name}\nEmail: ${submittedLead.email}\nPhone: ${submittedLead.phone || 'N/A'}\nInterest: ${submittedLead.interestCategory}`;
+    const whatsappUrl = generateWhatsAppLink(clientPhone, leadMsg);
+
     return (
-      <div className="mt-3 p-3.5 bg-emerald-500/10 border border-emerald-500/30 rounded-xl text-emerald-300 text-xs space-y-1">
+      <div className="mt-3 p-4 bg-emerald-500/10 border border-emerald-500/30 rounded-xl text-emerald-300 text-xs space-y-3">
         <div className="flex items-center gap-1.5 font-bold">
           <Check className="w-4 h-4 text-emerald-400" />
           <span>VIP Lead Captured & Saved to Database!</span>
         </div>
         <p className="text-[11px] text-slate-300">
-          Thank you, <strong>{name}</strong>! An AURA product specialist will email your custom VIP quote to <strong>{email}</strong> shortly.
+          Thank you, <strong>{name}</strong>! An AURA product specialist will email your custom VIP quote to <strong>{email}</strong>.
         </p>
+
+        {whatsappUrl && (
+          <a
+            href={whatsappUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-center gap-2 w-full py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-md transition-all"
+          >
+            <MessageCircle className="w-4 h-4 fill-white" />
+            <span>📲 Send Lead Alert to WhatsApp ({clientPhone})</span>
+            <ExternalLink className="w-3 h-3" />
+          </a>
+        )}
       </div>
     );
   }
