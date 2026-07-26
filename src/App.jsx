@@ -52,6 +52,15 @@ export function App() {
         };
   });
 
+  // Automatically Pop Up User Guide for First Time Visitors!
+  useEffect(() => {
+    const hasSeenGuide = localStorage.getItem("aura_has_seen_guide");
+    if (!hasSeenGuide) {
+      setIsGuideOpen(true);
+      localStorage.setItem("aura_has_seen_guide", "true");
+    }
+  }, []);
+
   // Sync Settings to localStorage
   useEffect(() => {
     localStorage.setItem("aura_ai_settings", JSON.stringify(settings));
@@ -215,7 +224,7 @@ export function App() {
         onClose={() => setIsAdminOpen(false)}
       />
 
-      {/* Interactive Client User Guide Modal */}
+      {/* Interactive Client User Guide Modal (Auto Pops Up for First-Time Visitors) */}
       <UserGuideModal
         isOpen={isGuideOpen}
         onClose={() => setIsGuideOpen(false)}

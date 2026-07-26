@@ -22,8 +22,8 @@ export function ProductGrid({
       {/* Category Pills & Section Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
         <div>
-          <h2 className="text-2xl font-black text-white tracking-tight">Featured Gear Catalog</h2>
-          <p className="text-purple-200 text-xs sm:text-sm font-medium">High-performance tech curated for modern lifestyles</p>
+          <h2 className="text-2xl font-black text-slate-900 tracking-tight">Featured Gear Catalog</h2>
+          <p className="text-slate-600 text-xs sm:text-sm font-medium">High-performance tech curated for modern lifestyles</p>
         </div>
 
         {/* Filter Tabs */}
@@ -35,7 +35,7 @@ export function ProductGrid({
               className={`px-4 py-2 rounded-xl font-bold text-xs transition-all whitespace-nowrap ${
                 activeCategory === cat
                   ? "bg-gradient-to-r from-purple-600 to-cyan-500 text-white shadow-lg shadow-purple-600/30"
-                  : "bg-indigo-950/80 border border-purple-500/30 text-purple-200 hover:text-white hover:border-purple-400"
+                  : "bg-white border border-purple-200 text-slate-700 hover:text-purple-600 hover:border-purple-400 shadow-sm"
               }`}
             >
               {cat}
@@ -46,8 +46,8 @@ export function ProductGrid({
 
       {/* Grid */}
       {filteredProducts.length === 0 ? (
-        <div className="text-center py-16 bg-indigo-950/60 rounded-2xl border border-purple-500/30">
-          <p className="text-purple-200 font-bold text-sm">No products found matching your search filter.</p>
+        <div className="text-center py-16 bg-white rounded-2xl border border-purple-200 shadow-sm">
+          <p className="text-slate-600 font-bold text-sm">No products found matching your search filter.</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">

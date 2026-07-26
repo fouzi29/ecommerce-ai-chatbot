@@ -3,9 +3,9 @@ import { Bot, Sparkles, ShieldCheck, Truck, RefreshCw } from "lucide-react";
 
 export function HeroBanner({ onOpenChat }) {
   return (
-    <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-purple-900/90 via-indigo-900/90 to-cyan-950/90 border border-purple-400/40 p-8 sm:p-12 mb-10 shadow-2xl shadow-purple-950/50 backdrop-blur-xl">
+    <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-purple-900 via-indigo-900 to-slate-900 border border-purple-400/40 p-8 sm:p-12 mb-10 shadow-2xl shadow-purple-900/20 text-white backdrop-blur-xl">
       {/* Luminous Glow Orbs background */}
-      <div className="absolute top-0 right-0 -mt-12 -mr-12 w-96 h-96 bg-purple-500/30 rounded-full blur-3xl pointer-events-none animate-pulse" />
+      <div className="absolute top-0 right-0 -mt-12 -mr-12 w-96 h-96 bg-purple-500/25 rounded-full blur-3xl pointer-events-none animate-pulse" />
       <div className="absolute bottom-0 left-1/3 -mb-12 w-80 h-80 bg-cyan-400/20 rounded-full blur-3xl pointer-events-none" />
 
       <div className="relative z-10 max-w-2xl">
@@ -36,7 +36,7 @@ export function HeroBanner({ onOpenChat }) {
 
           <a
             href="#catalog"
-            className="px-6 py-3.5 rounded-2xl bg-indigo-950/80 hover:bg-indigo-900 border border-purple-400/40 text-white font-bold text-sm transition-all shadow-lg"
+            className="px-6 py-3.5 rounded-2xl bg-white/10 hover:bg-white/20 border border-purple-400/40 text-white font-bold text-sm transition-all shadow-lg backdrop-blur-md"
           >
             Explore Catalog
           </a>
