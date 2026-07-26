@@ -129,7 +129,7 @@ body {
   to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
-/* Chatbot Floating FAB & Window Styling (Modern Light Theme) */
+/* Chatbot Floating FAB & Window Styling */
 .chat-fab-container {
   position: fixed;
   bottom: 1.5rem;
@@ -197,15 +197,6 @@ body {
   max-height: none;
 }
 
-.chat-header-bar {
-  padding: 1rem 1.25rem;
-  background: linear-gradient(135deg, #7c3aed 0%, #4c1d95 100%);
-  color: #ffffff;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
 .chat-messages-area {
   flex: 1;
   overflow-y: auto;
@@ -239,7 +230,7 @@ body {
   line-height: 1.4;
 }
 
-/* Chat Row & Bubbles (Light Theme) */
+/* Chat Row & Bubbles (High Contrast Crisp Styling) */
 .chat-row {
   display: flex;
   gap: 0.75rem;
@@ -276,19 +267,29 @@ body {
   border-radius: 18px;
   font-size: 0.8125rem;
   line-height: 1.5;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
+/* ASSISTANT BUBBLE: Clean White Card with Dark Crisp Text */
 .chat-row.assistant .chat-bubble {
-  background: #ffffff;
-  color: #0f172a;
-  border: 1px solid #e2e8f0;
+  background: #ffffff !important;
+  color: #0f172a !important;
+  border: 1px solid #cbd5e1 !important;
   border-top-left-radius: 4px;
 }
 
+.chat-row.assistant .chat-bubble p,
+.chat-row.assistant .chat-bubble span,
+.chat-row.assistant .chat-bubble div,
+.chat-row.assistant .chat-bubble li,
+.chat-row.assistant .chat-bubble strong {
+  color: #0f172a !important;
+}
+
+/* USER BUBBLE: Royal Violet Gradient with Pure White Text */
 .chat-row.user .chat-bubble {
-  background: linear-gradient(135deg, #7c3aed 0%, #4338ca 100%);
-  color: #ffffff;
+  background: linear-gradient(135deg, #7c3aed 0%, #4338ca 100%) !important;
+  color: #ffffff !important;
   border-top-right-radius: 4px;
 }
 
