@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Sparkles, Bot, ShoppingCart, Database, ChevronDown, ChevronUp, Code2, Zap, ExternalLink, Bell } from "lucide-react";
+import { Zap, ChevronDown, ChevronUp, Code2, ExternalLink, Bot, ShoppingCart, Database, Bell } from "lucide-react";
 
 export function ClientGuideBanner({ onOpenChat, onOpenSettings, onOpenGuide }) {
   const [isExpanded, setIsExpanded] = useState(true);
@@ -24,7 +24,7 @@ export function ClientGuideBanner({ onOpenChat, onOpenSettings, onOpenGuide }) {
                 Portfolio Edition
               </span>
             </div>
-            <p className="text-slate-600 text-xs mt-0.5 font-medium">
+            <p className="text-slate-600 text-xs mt-0.5 font-semibold">
               Engineered & Designed by <span className="text-purple-600 font-extrabold">Fouzi</span> • Dual OpenAI & Gemini AI Architecture
             </p>
           </div>
@@ -36,15 +36,15 @@ export function ClientGuideBanner({ onOpenChat, onOpenSettings, onOpenGuide }) {
             href={FIVERR_GIG_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-bold text-xs shadow-md hover:scale-105 transition-all"
+            className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs shadow-md transition-all border border-emerald-500"
           >
-            <span>Hire Fouzi on Fiverr</span>
-            <ExternalLink className="w-3.5 h-3.5" />
+            <span className="text-white font-extrabold">Hire Fouzi on Fiverr</span>
+            <ExternalLink className="w-3.5 h-3.5 text-white" />
           </a>
 
           <button
             onClick={() => setIsExpanded(!isExpanded)}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs border border-slate-300 transition-all"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-extrabold text-xs border border-slate-300 transition-all"
           >
             <span>{isExpanded ? "Hide Guide" : "View Client Guide"}</span>
             {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
@@ -53,7 +53,7 @@ export function ClientGuideBanner({ onOpenChat, onOpenSettings, onOpenGuide }) {
 
       </div>
 
-      {/* Expanded User Guide Cards (Clean White / Slate Theme) */}
+      {/* Expanded User Guide Cards */}
       {isExpanded && (
         <div className="mt-6 pt-5 border-t border-slate-200 grid grid-cols-1 md:grid-cols-4 gap-4">
           
@@ -63,12 +63,12 @@ export function ClientGuideBanner({ onOpenChat, onOpenSettings, onOpenGuide }) {
               <Bot className="w-4 h-4 text-purple-600" />
               <span>1. AI Engines & Provider</span>
             </div>
-            <p className="text-slate-600 text-xs leading-relaxed mb-3 font-medium">
-              Test AI models seamlessly. Choose **Smart Demo Mode** for zero-cost testing, or switch to **OpenAI (GPT-4o)** or **Google Gemini (2.0 Flash)**.
+            <p className="text-slate-700 text-xs leading-relaxed mb-3 font-medium">
+              Test AI models seamlessly. Choose <strong>Smart Demo Mode</strong> for zero-cost testing, or switch to <strong>OpenAI (GPT-4o)</strong> or <strong>Google Gemini (2.0 Flash)</strong>.
             </p>
             <button
               onClick={onOpenSettings}
-              className="text-[11px] font-extrabold text-purple-600 hover:text-purple-800 flex items-center gap-1 underline"
+              className="text-[11px] font-extrabold text-purple-700 hover:text-purple-900 flex items-center gap-1 underline"
             >
               <span>AI Settings →</span>
             </button>
@@ -80,12 +80,12 @@ export function ClientGuideBanner({ onOpenChat, onOpenSettings, onOpenGuide }) {
               <ShoppingCart className="w-4 h-4 text-cyan-600" />
               <span>2. Direct Orders & Leads</span>
             </div>
-            <p className="text-slate-600 text-xs leading-relaxed mb-3 font-medium">
-              Try direct AI order placement 🛍️ (*"Order Aura Headphones"*), lead capture form 👥, voice input 🎙️, and promo codes (<code className="text-cyan-700 font-bold bg-cyan-100 px-1 rounded">AURA20</code>).
+            <p className="text-slate-700 text-xs leading-relaxed mb-3 font-medium">
+              Try direct AI order placement 🛍️ (<em>"Order Aura Headphones"</em>), lead capture form 👥, voice input 🎙️, and promo codes (<code className="text-cyan-800 font-bold bg-cyan-100 px-1 rounded">AURA20</code>).
             </p>
             <button
               onClick={onOpenChat}
-              className="text-[11px] font-extrabold text-cyan-600 hover:text-cyan-800 flex items-center gap-1 underline"
+              className="text-[11px] font-extrabold text-cyan-700 hover:text-cyan-900 flex items-center gap-1 underline"
             >
               <span>AI Widget →</span>
             </button>
@@ -97,12 +97,12 @@ export function ClientGuideBanner({ onOpenChat, onOpenSettings, onOpenGuide }) {
               <Database className="w-4 h-4 text-emerald-600" />
               <span>3. Database & Platform Sync</span>
             </div>
-            <p className="text-slate-600 text-xs leading-relaxed mb-3 font-medium">
-              Connect to live databases! Supports custom REST APIs (MySQL/Node/PHP), **Shopify**, **WooCommerce**, or **Supabase PostgreSQL**.
+            <p className="text-slate-700 text-xs leading-relaxed mb-3 font-medium">
+              Connect to live databases! Supports custom REST APIs (MySQL/Node/PHP), <strong>Shopify</strong>, <strong>WooCommerce</strong>, or <strong>Supabase PostgreSQL</strong>.
             </p>
             <button
               onClick={onOpenSettings}
-              className="text-[11px] font-extrabold text-emerald-600 hover:text-emerald-800 flex items-center gap-1 underline"
+              className="text-[11px] font-extrabold text-emerald-700 hover:text-emerald-900 flex items-center gap-1 underline"
             >
               <span>Database Sync →</span>
             </button>
@@ -114,12 +114,12 @@ export function ClientGuideBanner({ onOpenChat, onOpenSettings, onOpenGuide }) {
               <Bell className="w-4 h-4 text-amber-600" />
               <span>4. WhatsApp & SMS Alerts</span>
             </div>
-            <p className="text-slate-600 text-xs leading-relaxed mb-3 font-medium">
+            <p className="text-slate-700 text-xs leading-relaxed mb-3 font-medium">
               Instant store owner notifications! Automatically sends WhatsApp or SMS alerts whenever an order or customer lead is captured.
             </p>
             <button
               onClick={onOpenSettings}
-              className="text-[11px] font-extrabold text-amber-600 hover:text-amber-800 flex items-center gap-1 underline"
+              className="text-[11px] font-extrabold text-amber-700 hover:text-amber-900 flex items-center gap-1 underline"
             >
               <span>Setup Alerts →</span>
             </button>
@@ -129,13 +129,13 @@ export function ClientGuideBanner({ onOpenChat, onOpenSettings, onOpenGuide }) {
       )}
 
       {/* Developer Credit Footer Bar */}
-      <div className="mt-4 pt-3 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-2 text-[11px] text-slate-500">
+      <div className="mt-4 pt-3 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-2 text-[11px] text-slate-600">
         <div className="flex items-center gap-2">
           <Code2 className="w-3.5 h-3.5 text-purple-600" />
           <span>Application Creator: <strong className="text-slate-900 font-extrabold">Fouzi</strong></span>
         </div>
 
-        <div className="flex items-center gap-3 font-semibold">
+        <div className="flex items-center gap-3 font-bold">
           <a
             href={FIVERR_PROFILE_URL}
             target="_blank"
