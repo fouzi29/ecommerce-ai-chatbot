@@ -2,7 +2,7 @@
  * Persistent Data Store for AI Placed Orders & Captured Customer Leads
  */
 
-const DEFAULT_ORDERS = [
+export const mockOrders = [
   {
     id: "AU-9821",
     customerName: "Alex Rivera",
@@ -33,7 +33,7 @@ const DEFAULT_ORDERS = [
   }
 ];
 
-const DEFAULT_LEADS = [
+export const mockLeads = [
   {
     id: "LEAD-101",
     name: "Michael Scott",
@@ -61,7 +61,7 @@ const DEFAULT_LEADS = [
 // Helper functions for persistent LocalStorage DB
 export function getStoredOrders() {
   const saved = localStorage.getItem("aura_db_orders");
-  return saved ? JSON.parse(saved) : DEFAULT_ORDERS;
+  return saved ? JSON.parse(saved) : mockOrders;
 }
 
 export function saveStoredOrders(orders) {
@@ -70,7 +70,7 @@ export function saveStoredOrders(orders) {
 
 export function getStoredLeads() {
   const saved = localStorage.getItem("aura_db_leads");
-  return saved ? JSON.parse(saved) : DEFAULT_LEADS;
+  return saved ? JSON.parse(saved) : mockLeads;
 }
 
 export function saveStoredLeads(leads) {
