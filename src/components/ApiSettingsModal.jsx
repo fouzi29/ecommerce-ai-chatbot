@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { X, Key, Cpu, Database, RefreshCw, Check, Sparkles, Server, ShoppingBag, Layers, MessageSquare, Bell, SendHorizontal, MessageCircle } from "lucide-react";
+import { X, Key, Cpu, Database, RefreshCw, Check, Sparkles, Server, ShoppingBag, Layers, MessageSquare, Bell, SendHorizontal, MessageCircle, Smartphone } from "lucide-react";
 import { DEFAULT_SYSTEM_PROMPT } from "../data/defaultPrompts";
 
 export function ApiSettingsModal({
@@ -19,7 +19,7 @@ export function ApiSettingsModal({
   const [systemPrompt, setSystemPrompt] = useState(settings.systemPrompt || DEFAULT_SYSTEM_PROMPT);
   const [temperature, setTemperature] = useState(settings.temperature || 0.7);
 
-  // Database Integration State (ALL 5 DB OPTIONS RESTORED)
+  // Database Integration State
   const [dbMode, setDbMode] = useState(settings.dbMode || "demo");
   const [customApiUrl, setCustomApiUrl] = useState(settings.customApiUrl || "");
   const [customApiToken, setCustomApiToken] = useState(settings.customApiToken || "");
@@ -30,8 +30,15 @@ export function ApiSettingsModal({
   const [supabaseUrl, setSupabaseUrl] = useState(settings.supabaseUrl || "");
   const [supabaseAnonKey, setSupabaseAnonKey] = useState(settings.supabaseAnonKey || "");
 
-  // Multi-Channel Notifications State (WhatsApp, Telegram, Discord, Custom Webhook)
-  const [clientPhone, setClientPhone] = useState(settings.clientPhone || "+15550192831");
+  // Automated WhatsApp & SMS Notification Gateway State
+  const [clientPhone, setClientPhone] = useState(settings.clientPhone || "+8801755690467");
+  const [whatsappGatewayProvider, setWhatsappGatewayProvider] = useState(settings.whatsappGatewayProvider || "callmebot"); // "callmebot", "ultramsg", "twilio"
+  const [callMeBotApiKey, setCallMeBotApiKey] = useState(settings.callMeBotApiKey || "");
+  const [ultraMsgInstanceId, setUltraMsgInstanceId] = useState(settings.ultraMsgInstanceId || "");
+  const [ultraMsgToken, setUltraMsgToken] = useState(settings.ultraMsgToken || "");
+  const [twilioSid, setTwilioSid] = useState(settings.twilioSid || "");
+  const [twilioAuthToken, setTwilioAuthToken] = useState(settings.twilioAuthToken || "");
+  const [twilioFromPhone, setTwilioFromPhone] = useState(settings.twilioFromPhone || "");
   const [telegramBotToken, setTelegramBotToken] = useState(settings.telegramBotToken || "");
   const [telegramChatId, setTelegramChatId] = useState(settings.telegramChatId || "");
   const [discordWebhookUrl, setDiscordWebhookUrl] = useState(settings.discordWebhookUrl || "");
@@ -62,8 +69,15 @@ export function ApiSettingsModal({
       wooConsumerKey,
       supabaseUrl,
       supabaseAnonKey,
-      // Multi-Channel Notifications
+      // Automated WhatsApp & SMS
       clientPhone,
+      whatsappGatewayProvider,
+      callMeBotApiKey,
+      ultraMsgInstanceId,
+      ultraMsgToken,
+      twilioSid,
+      twilioAuthToken,
+      twilioFromPhone,
       telegramBotToken,
       telegramChatId,
       discordWebhookUrl,
@@ -93,7 +107,14 @@ export function ApiSettingsModal({
     setWooConsumerKey("");
     setSupabaseUrl("");
     setSupabaseAnonKey("");
-    setClientPhone("+15550192831");
+    setClientPhone("+8801755690467");
+    setWhatsappGatewayProvider("callmebot");
+    setCallMeBotApiKey("");
+    setUltraMsgInstanceId("");
+    setUltraMsgToken("");
+    setTwilioSid("");
+    setTwilioAuthToken("");
+    setTwilioFromPhone("");
     setTelegramBotToken("");
     setTelegramChatId("");
     setDiscordWebhookUrl("");
@@ -114,7 +135,7 @@ export function ApiSettingsModal({
             </div>
             <div>
               <h3 className="font-extrabold text-white text-lg tracking-tight">SaaS Client Control Panel</h3>
-              <p className="text-slate-300 text-xs">Configure AI Engines, 5 DB Sync Options & Multi-Channel Alerts</p>
+              <p className="text-slate-300 text-xs">Configure AI Engines, 5 DB Sync Options & Automated WhatsApp Gateway</p>
             </div>
           </div>
           <button onClick={onClose} className="p-2 rounded-lg text-slate-400 hover:text-white">
@@ -147,7 +168,7 @@ export function ApiSettingsModal({
             }`}
           >
             <Database className="w-3.5 h-3.5" />
-            <span>DB Sync (5 Options)</span>
+            <span>DB Sync</span>
           </button>
 
           <button
@@ -160,7 +181,7 @@ export function ApiSettingsModal({
             }`}
           >
             <Bell className="w-3.5 h-3.5" />
-            <span>Alerts & Webhooks</span>
+            <span>Auto WhatsApp/SMS</span>
           </button>
         </div>
 
@@ -269,48 +290,18 @@ export function ApiSettingsModal({
                   </div>
                 </div>
               )}
-
-              <div>
-                <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1.5">
-                  Custom E-Commerce System Prompt
-                </label>
-                <textarea
-                  rows={3}
-                  value={systemPrompt}
-                  onChange={(e) => setSystemPrompt(e.target.value)}
-                  className="w-full bg-slate-900 border border-slate-800 rounded-xl p-3 text-xs text-slate-200 outline-none leading-relaxed"
-                />
-              </div>
-
-              <div>
-                <div className="flex justify-between items-center text-xs font-semibold text-slate-300 mb-1.5">
-                  <span>Creativity Temperature</span>
-                  <span className="text-purple-400 font-mono">{temperature}</span>
-                </div>
-                <input
-                  type="range"
-                  min="0"
-                  max="1"
-                  step="0.1"
-                  value={temperature}
-                  onChange={(e) => setTemperature(parseFloat(e.target.value))}
-                  className="w-full accent-purple-600 bg-slate-800 h-1.5 rounded-lg cursor-pointer"
-                />
-              </div>
             </>
           )}
 
-          {/* TAB 2: DATABASE INTEGRATION (ALL 5 DB OPTIONS RENDERED) */}
+          {/* TAB 2: DATABASE INTEGRATION */}
           {activeTab === "database" && (
             <div className="space-y-4">
               <div>
                 <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">
-                  Select Product & Order Data Source (5 Platform Connectors)
+                  Select Product & Order Data Source (5 Connectors)
                 </label>
 
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                  
-                  {/* 1. Default Catalog */}
                   <button
                     type="button"
                     onClick={() => setDbMode("demo")}
@@ -323,7 +314,6 @@ export function ApiSettingsModal({
                     <span className="text-[10px] text-slate-300">Built-in sample items</span>
                   </button>
 
-                  {/* 2. Custom REST API */}
                   <button
                     type="button"
                     onClick={() => setDbMode("custom_api")}
@@ -336,7 +326,6 @@ export function ApiSettingsModal({
                     <span className="text-[10px] text-slate-300">MySQL/Node/PHP</span>
                   </button>
 
-                  {/* 3. Shopify Store */}
                   <button
                     type="button"
                     onClick={() => setDbMode("shopify")}
@@ -349,7 +338,6 @@ export function ApiSettingsModal({
                     <span className="text-[10px] text-slate-300">Storefront API</span>
                   </button>
 
-                  {/* 4. WooCommerce */}
                   <button
                     type="button"
                     onClick={() => setDbMode("woocommerce")}
@@ -362,7 +350,6 @@ export function ApiSettingsModal({
                     <span className="text-[10px] text-slate-300">WP REST API</span>
                   </button>
 
-                  {/* 5. Supabase PostgreSQL */}
                   <button
                     type="button"
                     onClick={() => setDbMode("supabase")}
@@ -374,143 +361,26 @@ export function ApiSettingsModal({
                     <span className="font-bold text-xs block">Supabase DB</span>
                     <span className="text-[10px] text-slate-300">PostgreSQL</span>
                   </button>
-
                 </div>
               </div>
-
-              {dbMode === "custom_api" && (
-                <div className="bg-slate-900/80 p-4 rounded-xl border border-purple-500/30 space-y-3">
-                  <h4 className="text-xs font-bold text-cyan-400 flex items-center gap-1.5">
-                    <Server className="w-3.5 h-3.5" />
-                    <span>Custom Backend API Connection</span>
-                  </h4>
-                  <div>
-                    <label className="block text-[11px] text-slate-300 mb-1">Products API Endpoint URL</label>
-                    <input
-                      type="url"
-                      placeholder="https://yourstore.com/api/products"
-                      value={customApiUrl}
-                      onChange={(e) => setCustomApiUrl(e.target.value)}
-                      className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white outline-none"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-[11px] text-slate-300 mb-1">API Secret Token (Bearer / Header)</label>
-                    <input
-                      type="password"
-                      placeholder="bearer_token_..."
-                      value={customApiToken}
-                      onChange={(e) => setCustomApiToken(e.target.value)}
-                      className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white outline-none"
-                    />
-                  </div>
-                </div>
-              )}
-
-              {dbMode === "shopify" && (
-                <div className="bg-slate-900/80 p-4 rounded-xl border border-purple-500/30 space-y-3">
-                  <h4 className="text-xs font-bold text-emerald-400 flex items-center gap-1.5">
-                    <ShoppingBag className="w-3.5 h-3.5" />
-                    <span>Shopify Storefront Connection</span>
-                  </h4>
-                  <div>
-                    <label className="block text-[11px] text-slate-300 mb-1">Shopify Store Domain</label>
-                    <input
-                      type="text"
-                      placeholder="your-shop.myshopify.com"
-                      value={shopifyDomain}
-                      onChange={(e) => setShopifyDomain(e.target.value)}
-                      className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white outline-none"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-[11px] text-slate-300 mb-1">Storefront Access Token</label>
-                    <input
-                      type="password"
-                      placeholder="shpat_..."
-                      value={shopifyAccessToken}
-                      onChange={(e) => setShopifyAccessToken(e.target.value)}
-                      className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white outline-none"
-                    />
-                  </div>
-                </div>
-              )}
-
-              {dbMode === "woocommerce" && (
-                <div className="bg-slate-900/80 p-4 rounded-xl border border-purple-500/30 space-y-3">
-                  <h4 className="text-xs font-bold text-amber-400 flex items-center gap-1.5">
-                    <ShoppingBag className="w-3.5 h-3.5" />
-                    <span>WooCommerce REST Integration</span>
-                  </h4>
-                  <div>
-                    <label className="block text-[11px] text-slate-300 mb-1">WordPress / Store URL</label>
-                    <input
-                      type="url"
-                      placeholder="https://mywoostore.com"
-                      value={wooUrl}
-                      onChange={(e) => setWooUrl(e.target.value)}
-                      className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white outline-none"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-[11px] text-slate-300 mb-1">Consumer Key (ck_...)</label>
-                    <input
-                      type="password"
-                      placeholder="ck_..."
-                      value={wooConsumerKey}
-                      onChange={(e) => setWooConsumerKey(e.target.value)}
-                      className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white outline-none"
-                    />
-                  </div>
-                </div>
-              )}
-
-              {dbMode === "supabase" && (
-                <div className="bg-slate-900/80 p-4 rounded-xl border border-purple-500/30 space-y-3">
-                  <h4 className="text-xs font-bold text-indigo-400 flex items-center gap-1.5">
-                    <Database className="w-3.5 h-3.5" />
-                    <span>Supabase PostgreSQL Integration</span>
-                  </h4>
-                  <div>
-                    <label className="block text-[11px] text-slate-300 mb-1">Supabase Project URL</label>
-                    <input
-                      type="url"
-                      placeholder="https://xyzcompany.supabase.co"
-                      value={supabaseUrl}
-                      onChange={(e) => setSupabaseUrl(e.target.value)}
-                      className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white outline-none"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-[11px] text-slate-300 mb-1">Supabase Anon Key</label>
-                    <input
-                      type="password"
-                      placeholder="eyJhbGci..."
-                      value={supabaseAnonKey}
-                      onChange={(e) => setSupabaseAnonKey(e.target.value)}
-                      className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white outline-none"
-                    />
-                  </div>
-                </div>
-              )}
-
             </div>
           )}
 
-          {/* TAB 3: MULTI-CHANNEL ALERTS */}
+          {/* TAB 3: AUTOMATED WHATSAPP & SMS DISPATCHER */}
           {activeTab === "notifications" && (
             <div className="space-y-4">
               
+              {/* Store Owner Phone */}
               <div className="bg-slate-900/80 p-4 rounded-xl border border-emerald-500/30 space-y-3">
                 <h4 className="text-xs font-bold text-emerald-400 flex items-center gap-1.5">
-                  <MessageCircle className="w-4 h-4" />
-                  <span>1. WhatsApp 1-Click Instant Alerts</span>
+                  <Smartphone className="w-4 h-4" />
+                  <span>Admin WhatsApp / Phone Number</span>
                 </h4>
                 <div>
                   <label className="block text-[11px] text-slate-300 mb-1">Store Owner WhatsApp Number (with Country Code)</label>
                   <input
                     type="tel"
-                    placeholder="+1 (555) 019-2831"
+                    placeholder="+8801755690467"
                     value={clientPhone}
                     onChange={(e) => setClientPhone(e.target.value)}
                     className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white outline-none font-mono"
@@ -518,10 +388,117 @@ export function ApiSettingsModal({
                 </div>
               </div>
 
+              {/* Automatic WhatsApp Gateway Selector */}
+              <div className="bg-slate-900/80 p-4 rounded-xl border border-purple-500/30 space-y-3">
+                <h4 className="text-xs font-bold text-purple-400 flex items-center gap-1.5">
+                  <MessageCircle className="w-4 h-4" />
+                  <span>Automated Background WhatsApp Gateway</span>
+                </h4>
+
+                <div className="grid grid-cols-3 gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setWhatsappGatewayProvider("callmebot")}
+                    className={`p-2.5 rounded-lg border text-left text-xs transition-all ${
+                      whatsappGatewayProvider === "callmebot" ? "bg-emerald-600/30 border-emerald-400 text-white" : "bg-slate-950 border-slate-800 text-slate-400"
+                    }`}
+                  >
+                    <span className="font-bold block">CallMeBot</span>
+                    <span className="text-[9px] text-slate-300">Free WhatsApp API</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setWhatsappGatewayProvider("ultramsg")}
+                    className={`p-2.5 rounded-lg border text-left text-xs transition-all ${
+                      whatsappGatewayProvider === "ultramsg" ? "bg-purple-600/30 border-purple-400 text-white" : "bg-slate-950 border-slate-800 text-slate-400"
+                    }`}
+                  >
+                    <span className="font-bold block">UltraMsg</span>
+                    <span className="text-[9px] text-slate-300">WhatsApp Gateway</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setWhatsappGatewayProvider("twilio")}
+                    className={`p-2.5 rounded-lg border text-left text-xs transition-all ${
+                      whatsappGatewayProvider === "twilio" ? "bg-cyan-600/30 border-cyan-400 text-white" : "bg-slate-950 border-slate-800 text-slate-400"
+                    }`}
+                  >
+                    <span className="font-bold block">Twilio SMS</span>
+                    <span className="text-[9px] text-slate-300">WhatsApp / SMS API</span>
+                  </button>
+                </div>
+
+                {whatsappGatewayProvider === "callmebot" && (
+                  <div>
+                    <label className="block text-[11px] text-slate-300 mb-1">CallMeBot Free WhatsApp API Key (Get at callmebot.com)</label>
+                    <input
+                      type="password"
+                      placeholder="123456"
+                      value={callMeBotApiKey}
+                      onChange={(e) => setCallMeBotApiKey(e.target.value)}
+                      className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white outline-none font-mono"
+                    />
+                  </div>
+                )}
+
+                {whatsappGatewayProvider === "ultramsg" && (
+                  <div className="space-y-2">
+                    <div>
+                      <label className="block text-[11px] text-slate-300 mb-1">UltraMsg Instance ID</label>
+                      <input
+                        type="text"
+                        placeholder="instance12345"
+                        value={ultraMsgInstanceId}
+                        onChange={(e) => setUltraMsgInstanceId(e.target.value)}
+                        className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white outline-none font-mono"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[11px] text-slate-300 mb-1">UltraMsg Token</label>
+                      <input
+                        type="password"
+                        placeholder="token_abc123..."
+                        value={ultraMsgToken}
+                        onChange={(e) => setUltraMsgToken(e.target.value)}
+                        className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white outline-none font-mono"
+                      />
+                    </div>
+                  </div>
+                )}
+
+                {whatsappGatewayProvider === "twilio" && (
+                  <div className="space-y-2">
+                    <div>
+                      <label className="block text-[11px] text-slate-300 mb-1">Twilio Account SID</label>
+                      <input
+                        type="text"
+                        placeholder="AC_123456789..."
+                        value={twilioSid}
+                        onChange={(e) => setTwilioSid(e.target.value)}
+                        className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white outline-none font-mono"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[11px] text-slate-300 mb-1">Twilio Auth Token</label>
+                      <input
+                        type="password"
+                        placeholder="auth_token_..."
+                        value={twilioAuthToken}
+                        onChange={(e) => setTwilioAuthToken(e.target.value)}
+                        className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white outline-none font-mono"
+                      />
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Telegram Bot */}
               <div className="bg-slate-900/80 p-4 rounded-xl border border-cyan-500/30 space-y-3">
                 <h4 className="text-xs font-bold text-cyan-400 flex items-center gap-1.5">
                   <SendHorizontal className="w-4 h-4" />
-                  <span>2. Telegram Bot Instant Channel Alerts</span>
+                  <span>Telegram Bot Automatic Alerts</span>
                 </h4>
                 <div>
                   <label className="block text-[11px] text-slate-300 mb-1">Telegram Bot Token (bot...)</label>
@@ -537,27 +514,10 @@ export function ApiSettingsModal({
                   <label className="block text-[11px] text-slate-300 mb-1">Telegram Chat ID / Channel ID</label>
                   <input
                     type="text"
-                    placeholder="-100123456789 or @mychannel"
+                    placeholder="-100123456789"
                     value={telegramChatId}
                     onChange={(e) => setTelegramChatId(e.target.value)}
                     className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white outline-none font-mono"
-                  />
-                </div>
-              </div>
-
-              <div className="bg-slate-900/80 p-4 rounded-xl border border-purple-500/30 space-y-3">
-                <h4 className="text-xs font-bold text-purple-400 flex items-center gap-1.5">
-                  <Bell className="w-4 h-4" />
-                  <span>3. Discord Channel Webhook Integration</span>
-                </h4>
-                <div>
-                  <label className="block text-[11px] text-slate-300 mb-1">Discord Webhook URL</label>
-                  <input
-                    type="url"
-                    placeholder="https://discord.com/api/webhooks/123456/abcdef..."
-                    value={discordWebhookUrl}
-                    onChange={(e) => setDiscordWebhookUrl(e.target.value)}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white outline-none"
                   />
                 </div>
               </div>
