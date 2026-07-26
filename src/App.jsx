@@ -8,11 +8,13 @@ import { ApiSettingsModal } from "./components/ApiSettingsModal";
 import { ChatWidget } from "./components/Chatbot/ChatWidget";
 import { PRODUCTS } from "./data/products";
 import { DEFAULT_SYSTEM_PROMPT } from "./data/defaultPrompts";
+import { fetchLiveProducts } from "./services/databaseService";
 
 export function App() {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState("All");
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const [liveProducts, setLiveProducts] = useState(PRODUCTS);
   
   // Shopping Cart state
   const [cart, setCart] = useState(() => {
@@ -33,7 +35,6 @@ export function App() {
     const saved = localStorage.getItem("aura_ai_settings");
     if (saved) return JSON.parse(saved);
 
-    // Read optional environment variables
     const envOpenAiKey = import.meta.env.VITE_OPENAI_API_KEY || "";
     const envGeminiKey = import.meta.env.VITE_GEMINI_API_KEY || "";
 
@@ -49,10 +50,19 @@ export function App() {
       geminiModel: "gemini-1.5-flash",
       systemPrompt: DEFAULT_SYSTEM_PROMPT,
       temperature: 0.7,
-      // Hide settings button for general store visitors unless admin mode is active
-      showAdminControls: true 
+      showAdminControls: true,
+      dbMode: "demo"
     };
   });
+
+  // Sync Products from Database / Platform when settings change
+  useEffect(() => {
+    fetchLiveProducts(settings).then(prods => {
+      if (prods && prods.length > 0) {
+        setLiveProducts(prods);
+      }
+    });
+  }, [settings]);
 
   // Save Cart to LocalStorage
   useEffect(() => {
@@ -99,10 +109,10 @@ export function App() {
     setIsChatOpen(true);
   };
 
-  const displayedProducts = PRODUCTS.filter(p => {
+  const displayedProducts = liveProducts.filter(p => {
     const matchesSearch = p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      p.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      p.tags.some(t => t.toLowerCase().includes(searchQuery.toLowerCase()));
+      (p.description && p.description.toLowerCase().includes(searchQuery.toLowerCase())) ||
+      (p.tags && p.tags.some(t => t.toLowerCase().includes(searchQuery.toLowerCase())));
     
     return matchesSearch;
   });
@@ -170,7 +180,7 @@ export function App() {
         onToggleOpen={() => setIsChatOpen(!isChatOpen)}
         settings={settings}
         onOpenSettings={() => setIsSettingsOpen(true)}
-        products={PRODUCTS}
+        products={liveProducts}
         cart={cart}
         onAddToCart={handleAddToCart}
         onQuickView={(product) => setSelectedProduct(product)}
@@ -179,8 +189,8 @@ export function App() {
 
       {/* Footer */}
       <footer className="border-t border-slate-900 bg-slate-950/80 py-8 text-center text-xs text-slate-500">
-        <p>© 2026 AURA AI Store. Powered by AI E-Commerce Engine.</p>
-        <p className="mt-1 text-slate-600">Fiverr Demo Portfolio • OpenAI & Google Gemini Integration</p>
+        <p>© 2026 AURA AI Store. Powered by SaaS Multi-Provider Engine.</p>
+        <p className="mt-1 text-slate-600">OpenAI • Google Gemini • Shopify • WooCommerce • Supabase Sync</p>
       </footer>
 
     </div>
