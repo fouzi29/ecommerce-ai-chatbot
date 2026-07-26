@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { X, Key, Cpu, Database, RefreshCw, Check, Sparkles, Server, ShoppingBag, Layers, Bell, Smartphone, SendHorizontal, MessageCircle, Info } from "lucide-react";
+import { X, Key, Cpu, Database, RefreshCw, Check, Sparkles, Server, ShoppingBag, Layers, Bell, Smartphone, SendHorizontal, MessageCircle, Info, ExternalLink } from "lucide-react";
 import { DEFAULT_SYSTEM_PROMPT } from "../data/defaultPrompts";
 
 export function ApiSettingsModal({
@@ -133,7 +133,7 @@ export function ApiSettingsModal({
             </div>
             <div>
               <h3 className="font-black text-slate-900 text-lg tracking-tight">SaaS Client Control Panel</h3>
-              <p className="text-slate-600 text-xs font-semibold">Configure AI Engines, 5 Database Connectors & Notification Gateways</p>
+              <p className="text-slate-600 text-xs font-semibold">Configure AI Engines, 5 Database Connectors & API Gateways</p>
             </div>
           </div>
           <button onClick={onClose} className="p-2 rounded-xl text-slate-400 hover:text-slate-900 hover:bg-slate-100 transition-colors">
@@ -239,16 +239,25 @@ export function ApiSettingsModal({
 
               {provider === "openai" && (
                 <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-3">
-                  <div>
-                    <label className="block text-xs font-bold text-slate-800 mb-1">OpenAI API Key (sk-...)</label>
-                    <input
-                      type="password"
-                      placeholder="sk-proj-..."
-                      value={openAiKey}
-                      onChange={(e) => setOpenAiKey(e.target.value)}
-                      className="w-full bg-white border border-slate-200 rounded-xl px-3.5 py-2 text-xs text-slate-900 outline-none"
-                    />
+                  <div className="flex items-center justify-between">
+                    <label className="block text-xs font-bold text-slate-800">OpenAI API Key (sk-...)</label>
+                    <a
+                      href="https://platform.openai.com/api-keys"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-[11px] text-emerald-700 hover:text-emerald-900 font-extrabold flex items-center gap-1"
+                    >
+                      <span>🔑 Get OpenAI Key</span>
+                      <ExternalLink className="w-3 h-3" />
+                    </a>
                   </div>
+                  <input
+                    type="password"
+                    placeholder="sk-proj-..."
+                    value={openAiKey}
+                    onChange={(e) => setOpenAiKey(e.target.value)}
+                    className="w-full bg-white border border-slate-200 rounded-xl px-3.5 py-2 text-xs text-slate-900 outline-none"
+                  />
                   <div>
                     <label className="block text-xs font-bold text-slate-800 mb-1">Model Selection</label>
                     <select
@@ -265,16 +274,25 @@ export function ApiSettingsModal({
 
               {provider === "gemini" && (
                 <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-3">
-                  <div>
-                    <label className="block text-xs font-bold text-slate-800 mb-1">Google Gemini API Key (AIza...)</label>
-                    <input
-                      type="password"
-                      placeholder="AIzaSy..."
-                      value={geminiKey}
-                      onChange={(e) => setGeminiKey(e.target.value)}
-                      className="w-full bg-white border border-slate-200 rounded-xl px-3.5 py-2 text-xs text-slate-900 outline-none"
-                    />
+                  <div className="flex items-center justify-between">
+                    <label className="block text-xs font-bold text-slate-800">Google Gemini API Key (AIza...)</label>
+                    <a
+                      href="https://aistudio.google.com/app/apikey"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-[11px] text-cyan-700 hover:text-cyan-900 font-extrabold flex items-center gap-1"
+                    >
+                      <span>🔑 Get Gemini Key</span>
+                      <ExternalLink className="w-3 h-3" />
+                    </a>
                   </div>
+                  <input
+                    type="password"
+                    placeholder="AIzaSy..."
+                    value={geminiKey}
+                    onChange={(e) => setGeminiKey(e.target.value)}
+                    className="w-full bg-white border border-slate-200 rounded-xl px-3.5 py-2 text-xs text-slate-900 outline-none"
+                  />
                   <div>
                     <label className="block text-xs font-bold text-slate-800 mb-1">Model Selection</label>
                     <select
@@ -399,26 +417,27 @@ export function ApiSettingsModal({
                       className="w-full bg-white border border-slate-200 rounded-xl px-3.5 py-2 text-xs text-slate-900 outline-none"
                     />
                   </div>
-                  <div>
-                    <label className="block text-[11px] text-slate-700 font-bold mb-1">API Authorization Bearer Key</label>
-                    <input
-                      type="password"
-                      placeholder="bearer_token_..."
-                      value={customApiToken}
-                      onChange={(e) => setCustomApiToken(e.target.value)}
-                      className="w-full bg-white border border-slate-200 rounded-xl px-3.5 py-2 text-xs text-slate-900 outline-none font-mono"
-                    />
-                  </div>
                 </div>
               )}
 
               {/* Shopify Configuration */}
               {dbMode === "shopify" && (
                 <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-3">
-                  <h4 className="text-xs font-extrabold text-emerald-700 flex items-center gap-1.5">
-                    <ShoppingBag className="w-4 h-4" />
-                    <span>Shopify Storefront API Integration</span>
-                  </h4>
+                  <div className="flex items-center justify-between">
+                    <h4 className="text-xs font-extrabold text-emerald-700 flex items-center gap-1.5">
+                      <ShoppingBag className="w-4 h-4" />
+                      <span>Shopify Storefront API Integration</span>
+                    </h4>
+                    <a
+                      href="https://help.shopify.com/en/manual/apps/custom-apps"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-[11px] text-emerald-700 font-extrabold flex items-center gap-1"
+                    >
+                      <span>📖 Shopify Setup Guide</span>
+                      <ExternalLink className="w-3 h-3" />
+                    </a>
+                  </div>
                   <div>
                     <label className="block text-[11px] text-slate-700 font-bold mb-1">Shopify Store Domain</label>
                     <input
@@ -445,10 +464,21 @@ export function ApiSettingsModal({
               {/* WooCommerce Configuration */}
               {dbMode === "woocommerce" && (
                 <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-3">
-                  <h4 className="text-xs font-extrabold text-indigo-700 flex items-center gap-1.5">
-                    <ShoppingBag className="w-4 h-4" />
-                    <span>WooCommerce REST API Integration</span>
-                  </h4>
+                  <div className="flex items-center justify-between">
+                    <h4 className="text-xs font-extrabold text-indigo-700 flex items-center gap-1.5">
+                      <ShoppingBag className="w-4 h-4" />
+                      <span>WooCommerce REST API Integration</span>
+                    </h4>
+                    <a
+                      href="https://woocommerce.com/document/woocommerce-rest-api/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-[11px] text-indigo-700 font-extrabold flex items-center gap-1"
+                    >
+                      <span>📖 Woo API Guide</span>
+                      <ExternalLink className="w-3 h-3" />
+                    </a>
+                  </div>
                   <div>
                     <label className="block text-[11px] text-slate-700 font-bold mb-1">WordPress Store URL</label>
                     <input
@@ -469,26 +499,27 @@ export function ApiSettingsModal({
                       className="w-full bg-white border border-slate-200 rounded-xl px-3.5 py-2 text-xs text-slate-900 outline-none font-mono"
                     />
                   </div>
-                  <div>
-                    <label className="block text-[11px] text-slate-700 font-bold mb-1">Consumer Secret (cs_...)</label>
-                    <input
-                      type="password"
-                      placeholder="cs_123456789..."
-                      value={wooConsumerSecret}
-                      onChange={(e) => setWooConsumerSecret(e.target.value)}
-                      className="w-full bg-white border border-slate-200 rounded-xl px-3.5 py-2 text-xs text-slate-900 outline-none font-mono"
-                    />
-                  </div>
                 </div>
               )}
 
               {/* Supabase Configuration */}
               {dbMode === "supabase" && (
                 <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-3">
-                  <h4 className="text-xs font-extrabold text-teal-700 flex items-center gap-1.5">
-                    <Database className="w-4 h-4" />
-                    <span>Supabase PostgreSQL Integration</span>
-                  </h4>
+                  <div className="flex items-center justify-between">
+                    <h4 className="text-xs font-extrabold text-teal-700 flex items-center gap-1.5">
+                      <Database className="w-4 h-4" />
+                      <span>Supabase PostgreSQL Integration</span>
+                    </h4>
+                    <a
+                      href="https://supabase.com/dashboard"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-[11px] text-teal-700 font-extrabold flex items-center gap-1"
+                    >
+                      <span>🔑 Supabase Dashboard</span>
+                      <ExternalLink className="w-3 h-3" />
+                    </a>
+                  </div>
                   <div>
                     <label className="block text-[11px] text-slate-700 font-bold mb-1">Supabase Project URL</label>
                     <input
@@ -497,16 +528,6 @@ export function ApiSettingsModal({
                       value={supabaseUrl}
                       onChange={(e) => setSupabaseUrl(e.target.value)}
                       className="w-full bg-white border border-slate-200 rounded-xl px-3.5 py-2 text-xs text-slate-900 outline-none"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-[11px] text-slate-700 font-bold mb-1">Supabase Anon Key</label>
-                    <input
-                      type="password"
-                      placeholder="eyJh..."
-                      value={supabaseAnonKey}
-                      onChange={(e) => setSupabaseAnonKey(e.target.value)}
-                      className="w-full bg-white border border-slate-200 rounded-xl px-3.5 py-2 text-xs text-slate-900 outline-none font-mono"
                     />
                   </div>
                 </div>
@@ -518,20 +539,42 @@ export function ApiSettingsModal({
           {activeTab === "notifications" && (
             <div className="space-y-4">
               
-              {/* CallMeBot Activation Tip Box */}
-              <div className="p-3.5 rounded-2xl bg-amber-50 border border-amber-200 text-amber-900 text-xs space-y-1.5 font-medium">
-                <div className="flex items-center gap-1.5 font-extrabold text-amber-800">
-                  <Info className="w-4 h-4 text-amber-600 shrink-0" />
-                  <span>30-Second Free WhatsApp Gateway Setup (CallMeBot)</span>
+              {/* WhatsApp Gateway Direct Links & Guide */}
+              <div className="p-4 rounded-2xl bg-amber-50 border border-amber-200 text-amber-900 text-xs space-y-2 font-medium">
+                <div className="flex items-center justify-between font-extrabold text-amber-800">
+                  <span className="flex items-center gap-1.5">
+                    <Info className="w-4 h-4 text-amber-600 shrink-0" />
+                    <span>How to Get WhatsApp API Keys (TextMeBot & CallMeBot)</span>
+                  </span>
                 </div>
-                <p className="text-[11px] text-slate-700 leading-normal">
-                  To allow the backend server to send automated WhatsApp alerts to your phone directly without opening browser tabs:
-                </p>
-                <ol className="list-decimal list-inside text-[11px] text-slate-800 font-semibold space-y-1 pl-1">
-                  <li>Send WhatsApp message <code>I allow callmebot to send me messages</code> to <strong>+34 644 59 71 90</strong></li>
-                  <li>CallMeBot will reply instantly with your free <strong>API Key</strong>.</li>
-                  <li>Paste your phone number & API Key below!</li>
-                </ol>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
+                  <a
+                    href="https://api.textmebot.com/addphone.php"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="p-2.5 bg-white border border-amber-300 rounded-xl text-slate-900 hover:border-amber-500 flex items-center justify-between"
+                  >
+                    <div>
+                      <span className="font-extrabold text-xs block text-purple-700">1. TextMeBot Gateway</span>
+                      <span className="text-[10px] text-slate-600">Alphanumeric Key (e.g. Lgy1D7Prsd5u)</span>
+                    </div>
+                    <ExternalLink className="w-3.5 h-3.5 text-purple-600" />
+                  </a>
+
+                  <a
+                    href="https://wa.me/34644597190"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="p-2.5 bg-white border border-amber-300 rounded-xl text-slate-900 hover:border-amber-500 flex items-center justify-between"
+                  >
+                    <div>
+                      <span className="font-extrabold text-xs block text-emerald-700">2. CallMeBot Gateway</span>
+                      <span className="text-[10px] text-slate-600">Send WhatsApp to +34 644 59 71 90</span>
+                    </div>
+                    <ExternalLink className="w-3.5 h-3.5 text-emerald-600" />
+                  </a>
+                </div>
               </div>
 
               {/* WhatsApp Gateway Setup */}
@@ -545,7 +588,7 @@ export function ApiSettingsModal({
                   <label className="block text-[11px] text-slate-700 font-bold mb-1">Admin Phone Number (with Country Code)</label>
                   <input
                     type="tel"
-                    placeholder="+8801795657378"
+                    placeholder="+8801755690467"
                     value={clientPhone}
                     onChange={(e) => setClientPhone(e.target.value)}
                     className="w-full bg-white border border-slate-200 rounded-xl px-3.5 py-2 text-xs text-slate-900 outline-none font-mono"
@@ -553,10 +596,10 @@ export function ApiSettingsModal({
                 </div>
 
                 <div>
-                  <label className="block text-[11px] text-slate-700 font-bold mb-1">CallMeBot Free WhatsApp API Key</label>
+                  <label className="block text-[11px] text-slate-700 font-bold mb-1">WhatsApp API Key (TextMeBot e.g. Lgy1D7Prsd5u OR CallMeBot)</label>
                   <input
                     type="text"
-                    placeholder="123456"
+                    placeholder="Lgy1D7Prsd5u"
                     value={callMeBotApiKey}
                     onChange={(e) => setCallMeBotApiKey(e.target.value)}
                     className="w-full bg-white border border-slate-200 rounded-xl px-3.5 py-2 text-xs text-slate-900 outline-none font-mono"
@@ -566,10 +609,21 @@ export function ApiSettingsModal({
 
               {/* Telegram Bot Setup */}
               <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-3">
-                <h4 className="text-xs font-extrabold text-cyan-700 flex items-center gap-1.5">
-                  <SendHorizontal className="w-4 h-4 text-cyan-600" />
-                  <span>Telegram Bot Instant Alerts</span>
-                </h4>
+                <div className="flex items-center justify-between">
+                  <h4 className="text-xs font-extrabold text-cyan-700 flex items-center gap-1.5">
+                    <SendHorizontal className="w-4 h-4 text-cyan-600" />
+                    <span>Telegram Bot Instant Alerts</span>
+                  </h4>
+                  <a
+                    href="https://t.me/BotFather"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[11px] text-cyan-700 font-extrabold flex items-center gap-1"
+                  >
+                    <span>🤖 Open @BotFather</span>
+                    <ExternalLink className="w-3 h-3" />
+                  </a>
+                </div>
                 
                 <div className="grid grid-cols-2 gap-2">
                   <div>
@@ -593,25 +647,6 @@ export function ApiSettingsModal({
                       className="w-full bg-white border border-slate-200 rounded-xl px-3.5 py-2 text-xs text-slate-900 outline-none font-mono"
                     />
                   </div>
-                </div>
-              </div>
-
-              {/* Discord Webhook Setup */}
-              <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-3">
-                <h4 className="text-xs font-extrabold text-indigo-700 flex items-center gap-1.5">
-                  <MessageCircle className="w-4 h-4 text-indigo-600" />
-                  <span>Discord Webhook Instant Alerts</span>
-                </h4>
-                
-                <div>
-                  <label className="block text-[11px] text-slate-700 font-bold mb-1">Discord Webhook URL</label>
-                  <input
-                    type="url"
-                    placeholder="https://discord.com/api/webhooks/..."
-                    value={discordWebhookUrl}
-                    onChange={(e) => setDiscordWebhookUrl(e.target.value)}
-                    className="w-full bg-white border border-slate-200 rounded-xl px-3.5 py-2 text-xs text-slate-900 outline-none font-mono"
-                  />
                 </div>
               </div>
 
