@@ -1,104 +1,105 @@
 import React, { useState, useEffect } from "react";
 import { Navbar } from "./components/Navbar";
-import { HeroBanner } from "./components/HeroBanner";
 import { ClientGuideBanner } from "./components/ClientGuideBanner";
+import { HeroBanner } from "./components/HeroBanner";
 import { ProductGrid } from "./components/ProductGrid";
+import { Footer } from "./components/Footer";
+import { ChatWidget } from "./components/Chatbot/ChatWidget";
 import { ProductModal } from "./components/ProductModal";
 import { CartDrawer } from "./components/CartDrawer";
 import { ApiSettingsModal } from "./components/ApiSettingsModal";
 import { AdminDashboardModal } from "./components/AdminDashboardModal";
-import { ChatWidget } from "./components/Chatbot/ChatWidget";
-import { PRODUCTS } from "./data/products";
+import { UserGuideModal } from "./components/UserGuideModal";
+
+import { initialProducts } from "./data/products";
 import { DEFAULT_SYSTEM_PROMPT } from "./data/defaultPrompts";
-import { fetchLiveProducts } from "./services/databaseService";
 
 export function App() {
+  // Modal states
+  const [isChatOpen, setIsChatOpen] = useState(false);
+  const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [isAdminOpen, setIsAdminOpen] = useState(false);
+  const [isGuideOpen, setIsGuideOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+
+  // Search & Filters
   const [searchQuery, setSearchQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState("All");
-  const [selectedProduct, setSelectedProduct] = useState(null);
-  const [liveProducts, setLiveProducts] = useState(PRODUCTS);
-  
-  // Shopping Cart state
+
+  // Cart
   const [cart, setCart] = useState(() => {
     const saved = localStorage.getItem("aura_cart");
     return saved ? JSON.parse(saved) : [];
   });
 
-  const [isCartOpen, setIsCartOpen] = useState(false);
-  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
-  const [isAdminOpen, setIsAdminOpen] = useState(false);
-  const [isChatOpen, setIsChatOpen] = useState(true);
-
-  const urlParams = new URLSearchParams(window.location.search);
-  const isAdminMode = urlParams.get("admin") === "true" || urlParams.get("settings") === "1";
-
-  // API Settings state
+  // Saved AI & System Settings
   const [settings, setSettings] = useState(() => {
     const saved = localStorage.getItem("aura_ai_settings");
-    if (saved) return JSON.parse(saved);
-
-    const envOpenAiKey = import.meta.env.VITE_OPENAI_API_KEY || "";
-    const envGeminiKey = import.meta.env.VITE_GEMINI_API_KEY || "";
-
-    let defaultProvider = "demo";
-    if (envOpenAiKey) defaultProvider = "openai";
-    else if (envGeminiKey) defaultProvider = "gemini";
-
-    return {
-      provider: defaultProvider,
-      openAiKey: envOpenAiKey,
-      geminiKey: envGeminiKey,
-      openAiModel: "gpt-4o-mini",
-      geminiModel: "gemini-1.5-flash",
-      systemPrompt: DEFAULT_SYSTEM_PROMPT,
-      temperature: 0.7,
-      showAdminControls: true,
-      dbMode: "demo"
-    };
+    return saved
+      ? JSON.parse(saved)
+      : {
+          provider: "demo",
+          openAiKey: "",
+          geminiKey: "",
+          openAiModel: "gpt-4o-mini",
+          geminiModel: "gemini-1.5-flash",
+          systemPrompt: DEFAULT_SYSTEM_PROMPT,
+          temperature: 0.7,
+          showAdminControls: true,
+          dbMode: "demo",
+          clientPhone: "+8801755690467"
+        };
   });
 
-  // Sync Products from Database / Platform when settings change
+  // Sync Settings to localStorage
   useEffect(() => {
-    fetchLiveProducts(settings).then(prods => {
-      if (prods && prods.length > 0) {
-        setLiveProducts(prods);
-      }
-    });
+    localStorage.setItem("aura_ai_settings", JSON.stringify(settings));
   }, [settings]);
 
-  // Save Cart to LocalStorage
+  // Sync Cart to localStorage
   useEffect(() => {
     localStorage.setItem("aura_cart", JSON.stringify(cart));
   }, [cart]);
 
-  const handleSaveSettings = (newSettings) => {
-    setSettings(newSettings);
-    localStorage.setItem("aura_ai_settings", JSON.stringify(newSettings));
-  };
-
-  const handleAddToCart = (product) => {
-    setCart(prev => {
-      const existing = prev.find(item => item.id === product.id);
-      if (existing) {
-        return prev.map(item =>
-          item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
-        );
-      }
-      return [...prev, { ...product, quantity: 1 }];
-    });
-    setIsCartOpen(true);
-  };
-
-  const handleUpdateQuantity = (productId, newQty) => {
-    if (newQty <= 0) {
-      handleRemoveFromCart(productId);
-      return;
+  // Handle URL Admin Query Parameter (e.g. ?admin=true)
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get("admin") === "true") {
+      setIsAdminOpen(true);
     }
-    setCart(prev => prev.map(item => item.id === productId ? { ...item, quantity: newQty } : item));
+  }, []);
+
+  // Cart actions
+  const handleAddToCart = (product, quantity = 1) => {
+    setCart((prevCart) => {
+      const existingIndex = prevCart.findIndex((item) => item.id === product.id);
+      if (existingIndex > -1) {
+        const newCart = [...prevCart];
+        newCart[existingIndex].quantity += quantity;
+        return newCart;
+      } else {
+        return [...prevCart, { ...product, quantity }];
+      }
+    });
+  };
+
+  const handleUpdateQuantity = (productId, delta) => {
+    setCart((prevCart) => {
+      return prevCart
+        .map((item) => {
+          if (item.id === productId) {
+            const newQty = item.quantity + delta;
+            return newQty > 0 ? { ...item, quantity: newQty } : null;
+          }
+          return item;
+        })
+        .filter(Boolean);
+    });
   };
 
   const handleRemoveFromCart = (productId) => {
-    setCart(prev => prev.filter(item => item.id !== productId));
+    setCart((prevCart) => prevCart.filter((item) => item.id !== productId));
   };
 
   const handleClearCart = () => {
@@ -106,53 +107,50 @@ export function App() {
   };
 
   const handleAskAiAboutProduct = (product) => {
+    setSelectedProduct(null);
     setIsChatOpen(true);
   };
 
-  const displayedProducts = liveProducts.filter(p => {
-    const matchesSearch = p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      (p.description && p.description.toLowerCase().includes(searchQuery.toLowerCase())) ||
-      (p.tags && p.tags.some(t => t.toLowerCase().includes(searchQuery.toLowerCase())));
-    
+  const filteredProducts = initialProducts.filter((product) => {
+    const matchesSearch =
+      product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      product.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      product.category.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesSearch;
   });
 
-  const cartTotalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-
-  const FIVERR_PROFILE_URL = "https://www.fiverr.com/s/e6BNbv3";
-  const FIVERR_GIG_URL = "https://www.fiverr.com/s/GzVdLez";
-
   return (
     <div className="app-container">
-      
-      {/* Navbar */}
+      {/* Top Sticky Navbar */}
       <Navbar
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
-        cartCount={cartTotalItems}
+        cartCount={cart.reduce((sum, item) => sum + item.quantity, 0)}
         onOpenCart={() => setIsCartOpen(true)}
         onOpenSettings={() => setIsSettingsOpen(true)}
         onOpenAdmin={() => setIsAdminOpen(true)}
+        onOpenGuide={() => setIsGuideOpen(true)}
         onOpenChat={() => setIsChatOpen(true)}
         currentProvider={settings.provider}
-        showSettingsButton={settings.showAdminControls || isAdminMode}
+        showSettingsButton={settings.showAdminControls}
       />
 
-      {/* Main Content */}
+      {/* Main Page Layout */}
       <main className="main-content">
         
-        {/* Interactive Client User Guide Banner */}
+        {/* Client User Guide Banner */}
         <ClientGuideBanner
           onOpenChat={() => setIsChatOpen(true)}
           onOpenSettings={() => setIsSettingsOpen(true)}
+          onOpenGuide={() => setIsGuideOpen(true)}
         />
 
-        {/* Hero Promo Banner */}
+        {/* Hero Section */}
         <HeroBanner onOpenChat={() => setIsChatOpen(true)} />
 
-        {/* Catalog */}
+        {/* Product Catalog Grid */}
         <ProductGrid
-          products={displayedProducts}
+          products={filteredProducts}
           activeCategory={activeCategory}
           setActiveCategory={setActiveCategory}
           onAddToCart={handleAddToCart}
@@ -161,7 +159,27 @@ export function App() {
         />
       </main>
 
-      {/* Product Detail Modal */}
+      {/* Footer */}
+      <Footer
+        onOpenSettings={() => setIsSettingsOpen(true)}
+        onOpenAdmin={() => setIsAdminOpen(true)}
+        onOpenGuide={() => setIsGuideOpen(true)}
+      />
+
+      {/* AI Floating Chatbot Widget */}
+      <ChatWidget
+        isOpen={isChatOpen}
+        onToggleOpen={() => setIsChatOpen(!isChatOpen)}
+        settings={settings}
+        onOpenSettings={() => setIsSettingsOpen(true)}
+        products={initialProducts}
+        cart={cart}
+        onAddToCart={handleAddToCart}
+        onQuickView={(product) => setSelectedProduct(product)}
+        showSettingsButton={settings.showAdminControls}
+      />
+
+      {/* Product Quick View Modal */}
       <ProductModal
         product={selectedProduct}
         onClose={() => setSelectedProduct(null)}
@@ -177,70 +195,33 @@ export function App() {
         onUpdateQuantity={handleUpdateQuantity}
         onRemoveItem={handleRemoveFromCart}
         onClearCart={handleClearCart}
+        onOpenChat={() => {
+          setIsCartOpen(false);
+          setIsChatOpen(true);
+        }}
       />
 
-      {/* API Settings Modal */}
+      {/* SaaS AI & Multi-Channel Settings Modal */}
       <ApiSettingsModal
         isOpen={isSettingsOpen}
         onClose={() => setIsSettingsOpen(false)}
         settings={settings}
-        onSaveSettings={handleSaveSettings}
+        onSaveSettings={(newSettings) => setSettings(newSettings)}
       />
 
-      {/* Admin Dashboard Modal */}
+      {/* Admin Orders & Leads Dashboard Modal */}
       <AdminDashboardModal
         isOpen={isAdminOpen}
         onClose={() => setIsAdminOpen(false)}
-        settings={settings}
       />
 
-      {/* Floating AI Chatbot Widget */}
-      <ChatWidget
-        isOpen={isChatOpen}
-        onToggleOpen={() => setIsChatOpen(!isChatOpen)}
-        settings={settings}
+      {/* Interactive Client User Guide Modal */}
+      <UserGuideModal
+        isOpen={isGuideOpen}
+        onClose={() => setIsGuideOpen(false)}
+        onOpenChat={() => setIsChatOpen(true)}
         onOpenSettings={() => setIsSettingsOpen(true)}
-        products={liveProducts}
-        cart={cart}
-        onAddToCart={handleAddToCart}
-        onQuickView={(product) => setSelectedProduct(product)}
-        showSettingsButton={settings.showAdminControls || isAdminMode}
       />
-
-      {/* Footer with Fiverr Creator Attribution */}
-      <footer className="border-t border-slate-900 bg-slate-950/90 py-8 text-center text-xs text-slate-400">
-        <p className="font-semibold text-slate-200">
-          AURA E-Commerce AI Chatbot Web App
-        </p>
-        
-        <div className="mt-2 flex items-center justify-center gap-4 text-xs">
-          <span>Engineered & Developed by <strong className="text-purple-400">Fouzi</strong></span>
-          <span>•</span>
-          <a
-            href={FIVERR_PROFILE_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-emerald-400 hover:text-emerald-300 font-bold underline"
-          >
-            Fiverr Profile
-          </a>
-          <span>•</span>
-          <a
-            href={FIVERR_GIG_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-cyan-400 hover:text-cyan-300 font-bold underline"
-          >
-            Hire on Fiverr (Order Gig)
-          </a>
-        </div>
-
-        <p className="mt-2 text-[11px] text-slate-500">
-          Powered by OpenAI (GPT-4o) • Google Gemini (2.0 Flash) • Direct AI Orders • Lead Generation Engine
-        </p>
-      </footer>
-
     </div>
   );
 }
-export default App;
