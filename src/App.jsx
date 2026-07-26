@@ -11,7 +11,7 @@ import { ApiSettingsModal } from "./components/ApiSettingsModal";
 import { AdminDashboardModal } from "./components/AdminDashboardModal";
 import { UserGuideModal } from "./components/UserGuideModal";
 
-import { initialProducts } from "./data/products";
+import { PRODUCTS } from "./data/products";
 import { DEFAULT_SYSTEM_PROMPT } from "./data/defaultPrompts";
 
 export function App() {
@@ -111,7 +111,7 @@ export function App() {
     setIsChatOpen(true);
   };
 
-  const filteredProducts = initialProducts.filter((product) => {
+  const filteredProducts = PRODUCTS.filter((product) => {
     const matchesSearch =
       product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       product.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -172,7 +172,7 @@ export function App() {
         onToggleOpen={() => setIsChatOpen(!isChatOpen)}
         settings={settings}
         onOpenSettings={() => setIsSettingsOpen(true)}
-        products={initialProducts}
+        products={PRODUCTS}
         cart={cart}
         onAddToCart={handleAddToCart}
         onQuickView={(product) => setSelectedProduct(product)}
@@ -225,3 +225,5 @@ export function App() {
     </div>
   );
 }
+
+export default App;
