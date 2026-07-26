@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { ShoppingBag, Send, AlertCircle } from "lucide-react";
 import { placeAiDirectOrder } from "../../services/orderService";
-import { generateWhatsAppLink } from "../../services/notificationService";
 
 export function AiCheckoutFormCard({ itemToOrder, onOrderPlaced }) {
   const [customerName, setCustomerName] = useState("");
@@ -42,21 +41,6 @@ export function AiCheckoutFormCard({ itemToOrder, onOrderPlaced }) {
       items: [{ id: product.id, name: product.name, price: product.price, quantity }],
       totalAmount
     });
-
-    // Get active WhatsApp settings & auto-open WhatsApp link!
-    const savedSettings = JSON.parse(localStorage.getItem("aura_ai_settings") || "{}");
-    const clientPhone = savedSettings.clientPhone || "+8801755690467";
-    const orderMessage = `🛍️ NEW AI ORDER (#${newOrder.id})\nCustomer: ${newOrder.customerName}\nPhone/Email: ${newOrder.customerPhone || newOrder.customerEmail}\nTotal: $${newOrder.totalAmount?.toFixed(2)}\nAddress: ${newOrder.shippingAddress}`;
-    const whatsappUrl = generateWhatsAppLink(clientPhone, orderMessage);
-
-    // Auto-open WhatsApp in new tab!
-    if (whatsappUrl) {
-      try {
-        window.open(whatsappUrl, "_blank");
-      } catch (err) {
-        console.warn("Auto WhatsApp pop-up blocked:", err);
-      }
-    }
 
     if (onOrderPlaced) {
       onOrderPlaced(newOrder);
@@ -143,7 +127,7 @@ export function AiCheckoutFormCard({ itemToOrder, onOrderPlaced }) {
             className="py-2 px-4 bg-gradient-to-r from-purple-600 to-cyan-600 text-white font-bold text-xs rounded-xl flex items-center gap-1.5 shadow-md hover:opacity-95 transition-opacity"
           >
             <Send className="w-3.5 h-3.5" />
-            <span>Confirm & Auto-Send WhatsApp</span>
+            <span>Confirm & Place Order</span>
           </button>
         </div>
       </form>

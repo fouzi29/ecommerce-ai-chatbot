@@ -37,18 +37,6 @@ export function LeadCaptureCard({ onLeadCaptured }) {
       note: "Submitted via AI Lead Collector Form"
     });
 
-    // Auto-open WhatsApp in new tab!
-    const leadMsg = `🔥 NEW PROSPECT LEAD (#${lead.id})\nName: ${lead.name}\nEmail: ${lead.email}\nPhone: ${lead.phone || 'N/A'}\nInterest: ${lead.interestCategory}`;
-    const whatsappUrl = generateWhatsAppLink(clientPhone, leadMsg);
-
-    if (whatsappUrl) {
-      try {
-        window.open(whatsappUrl, "_blank");
-      } catch (err) {
-        console.warn("Auto WhatsApp pop-up blocked:", err);
-      }
-    }
-
     setSubmittedLead(lead);
     setIsSubmitted(true);
     if (onLeadCaptured) {
@@ -146,7 +134,7 @@ export function LeadCaptureCard({ onLeadCaptured }) {
           className="w-full py-2 bg-gradient-to-r from-purple-600 to-cyan-600 text-white font-bold text-xs rounded-xl flex items-center justify-center gap-1.5 shadow-md hover:opacity-95 transition-opacity"
         >
           <Send className="w-3.5 h-3.5" />
-          <span>Submit & Auto-Send WhatsApp</span>
+          <span>Submit Lead Quote Request</span>
         </button>
       </form>
     </div>
