@@ -1,6 +1,6 @@
 /**
- * Automated WhatsApp & SMS Notification Dispatcher
- * Supports: CallMeBot Free API, UltraMsg / GreenAPI Gateway, Twilio WhatsApp/SMS API, Discord, Telegram
+ * Universal Multi-Channel Notification Dispatcher
+ * Supports: 100% Automatic Backend WhatsApp Dispatch, CallMeBot API, UltraMsg, Telegram, Discord, Webhooks
  */
 
 export function generateWhatsAppLink(phoneNumber, message) {
@@ -11,18 +11,14 @@ export function generateWhatsAppLink(phoneNumber, message) {
 }
 
 // ----------------------------------------------------
-// 1. AUTOMATED ORDER NOTIFICATION (BACKGROUND DISPATCH)
+// 1. AUTOMATED ORDER NOTIFICATION (BACKEND DISPATCH)
 // ----------------------------------------------------
 export async function sendOrderNotification(order, settings = {}) {
   const {
     clientPhone = "+8801755690467",
-    whatsappGatewayProvider = "callmebot", // "callmebot", "ultramsg", "twilio", "custom"
     callMeBotApiKey,
     ultraMsgInstanceId,
     ultraMsgToken,
-    twilioSid,
-    twilioAuthToken,
-    twilioFromPhone,
     telegramBotToken,
     telegramChatId,
     discordWebhookUrl,
@@ -52,66 +48,23 @@ ${formattedItems}
   const waLink = generateWhatsAppLink(clientPhone, orderSummaryText);
   const results = { whatsappLink: waLink, channelsTriggered: [] };
 
-  // --- AUTOMATIC BACKGROUND WHATSAPP DISPATCH ---
-
-  // Option 1: CallMeBot Free WhatsApp API (Auto background send)
-  if (whatsappGatewayProvider === "callmebot" || callMeBotApiKey) {
-    try {
-      const cleanPhone = clientPhone.replace(/[^\d+]/g, '');
-      const callMeBotUrl = `https://api.callmebot.com/whatsapp.php?phone=${encodeURIComponent(cleanPhone)}&text=${encodeURIComponent(orderSummaryText)}&apikey=${encodeURIComponent(callMeBotApiKey || '123456')}`;
-      fetch(callMeBotUrl, { mode: 'no-cors' }).catch(() => {});
-      results.channelsTriggered.push("CallMeBot WhatsApp (Auto)");
-    } catch (err) {
-      console.warn("CallMeBot Error:", err);
-    }
+  // --- 100% AUTOMATIC BACKEND WHATSAPP DISPATCH (ZERO POPUPS / ZERO USER CLICKS) ---
+  try {
+    fetch("/api/send-whatsapp", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        phone: clientPhone,
+        message: orderSummaryText,
+        apiKey: callMeBotApiKey
+      })
+    }).catch(() => {});
+    results.channelsTriggered.push("Backend Auto WhatsApp");
+  } catch (err) {
+    console.warn("Backend WhatsApp Dispatch Warning:", err);
   }
 
-  // Option 2: UltraMsg WhatsApp Gateway (Auto background send)
-  if (whatsappGatewayProvider === "ultramsg" && ultraMsgInstanceId && ultraMsgToken) {
-    try {
-      const cleanPhone = clientPhone.replace(/[^\d+]/g, '');
-      const ultraMsgUrl = `https://api.ultramsg.com/${ultraMsgInstanceId}/messages/chat`;
-      await fetch(ultraMsgUrl, {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: new URLSearchParams({
-          token: ultraMsgToken,
-          to: cleanPhone,
-          body: orderSummaryText
-        })
-      });
-      results.channelsTriggered.push("UltraMsg WhatsApp Gateway");
-    } catch (err) {
-      console.warn("UltraMsg Error:", err);
-    }
-  }
-
-  // Option 3: Twilio WhatsApp / SMS API
-  if (twilioSid && twilioAuthToken && twilioFromPhone) {
-    try {
-      const cleanPhone = clientPhone.replace(/[^\d+]/g, '');
-      const twilioUrl = `https://api.twilio.com/2010-04-01/Accounts/${twilioSid}/Messages.json`;
-      const authHeader = "Basic " + btoa(`${twilioSid}:${twilioAuthToken}`);
-      
-      await fetch(twilioUrl, {
-        method: "POST",
-        headers: {
-          "Authorization": authHeader,
-          "Content-Type": "application/x-www-form-urlencoded"
-        },
-        body: new URLSearchParams({
-          From: twilioFromPhone.startsWith("whatsapp:") ? twilioFromPhone : `whatsapp:${twilioFromPhone}`,
-          To: `whatsapp:${cleanPhone}`,
-          Body: orderSummaryText
-        })
-      });
-      results.channelsTriggered.push("Twilio WhatsApp/SMS");
-    } catch (err) {
-      console.warn("Twilio API Error:", err);
-    }
-  }
-
-  // Option 4: Telegram Bot
+  // Telegram Bot
   if (telegramBotToken && telegramChatId) {
     try {
       const tgUrl = `https://api.telegram.org/bot${telegramBotToken.trim()}/sendMessage`;
@@ -130,7 +83,7 @@ ${formattedItems}
     }
   }
 
-  // Option 5: Discord Webhook
+  // Discord Webhook
   if (discordWebhookUrl) {
     try {
       await fetch(discordWebhookUrl.trim(), {
@@ -149,7 +102,7 @@ ${formattedItems}
               { name: "Shipping Address", value: order.shippingAddress, inline: false },
               { name: "Items", value: formattedItems, inline: false }
             ],
-            footer: { text: "Engineered by Fouzi • Automated Admin WhatsApp Gateway" },
+            footer: { text: "Engineered by Fouzi • Automated Backend WhatsApp Gateway" },
             timestamp: new Date().toISOString()
           }]
         })
@@ -164,15 +117,12 @@ ${formattedItems}
 }
 
 // ----------------------------------------------------
-// 2. AUTOMATED LEAD NOTIFICATION (BACKGROUND DISPATCH)
+// 2. AUTOMATED LEAD NOTIFICATION (BACKEND DISPATCH)
 // ----------------------------------------------------
 export async function sendLeadNotification(lead, settings = {}) {
   const {
     clientPhone = "+8801755690467",
-    whatsappGatewayProvider = "callmebot",
     callMeBotApiKey,
-    ultraMsgInstanceId,
-    ultraMsgToken,
     telegramBotToken,
     telegramChatId,
     discordWebhookUrl
@@ -194,36 +144,20 @@ export async function sendLeadNotification(lead, settings = {}) {
   const waLink = generateWhatsAppLink(clientPhone, leadSummaryText);
   const results = { whatsappLink: waLink, channelsTriggered: [] };
 
-  // CallMeBot Free API
-  if (whatsappGatewayProvider === "callmebot" || callMeBotApiKey) {
-    try {
-      const cleanPhone = clientPhone.replace(/[^\d+]/g, '');
-      const callMeBotUrl = `https://api.callmebot.com/whatsapp.php?phone=${encodeURIComponent(cleanPhone)}&text=${encodeURIComponent(leadSummaryText)}&apikey=${encodeURIComponent(callMeBotApiKey || '123456')}`;
-      fetch(callMeBotUrl, { mode: 'no-cors' }).catch(() => {});
-      results.channelsTriggered.push("CallMeBot WhatsApp (Auto)");
-    } catch (err) {
-      console.warn("CallMeBot Error:", err);
-    }
-  }
-
-  // UltraMsg WhatsApp Gateway
-  if (whatsappGatewayProvider === "ultramsg" && ultraMsgInstanceId && ultraMsgToken) {
-    try {
-      const cleanPhone = clientPhone.replace(/[^\d+]/g, '');
-      const ultraMsgUrl = `https://api.ultramsg.com/${ultraMsgInstanceId}/messages/chat`;
-      await fetch(ultraMsgUrl, {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: new URLSearchParams({
-          token: ultraMsgToken,
-          to: cleanPhone,
-          body: leadSummaryText
-        })
-      });
-      results.channelsTriggered.push("UltraMsg WhatsApp Gateway");
-    } catch (err) {
-      console.warn("UltraMsg Error:", err);
-    }
+  // --- 100% AUTOMATIC BACKEND WHATSAPP DISPATCH ---
+  try {
+    fetch("/api/send-whatsapp", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        phone: clientPhone,
+        message: leadSummaryText,
+        apiKey: callMeBotApiKey
+      })
+    }).catch(() => {});
+    results.channelsTriggered.push("Backend Auto WhatsApp");
+  } catch (err) {
+    console.warn("Backend WhatsApp Dispatch Warning:", err);
   }
 
   // Telegram Bot
@@ -245,7 +179,7 @@ export async function sendLeadNotification(lead, settings = {}) {
     }
   }
 
-  // Discord
+  // Discord Webhook
   if (discordWebhookUrl) {
     try {
       await fetch(discordWebhookUrl.trim(), {
@@ -263,7 +197,7 @@ export async function sendLeadNotification(lead, settings = {}) {
               { name: "Interest", value: lead.interestCategory, inline: false },
               { name: "Note", value: lead.note, inline: false }
             ],
-            footer: { text: "Engineered by Fouzi • Automated Admin WhatsApp Gateway" },
+            footer: { text: "Engineered by Fouzi • Automated Backend WhatsApp Gateway" },
             timestamp: new Date().toISOString()
           }]
         })
