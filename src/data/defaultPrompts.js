@@ -17,3 +17,11 @@ ORDER & LEAD TRIGGERS:
 - If shopper wants to buy -> Trigger in-chat Checkout Details Form.
 - If shopper hesitates or asks for custom quote -> Trigger VIP Lead Collector Form.
 `;
+
+export const SUGGESTION_CHIPS = [
+  { label: "🎧 Recommend best wireless headphones", query: "Recommend best wireless headphones" },
+  { label: "🎁 What discount codes are active?", query: "What discount codes are active?" },
+  { label: "🛍️ Order Aura Headphones", query: "Order Aura Headphones" },
+  { label: "💼 Request VIP custom quote", query: "Request VIP custom quote" },
+  { label: "📦 Track order #AU-8821", query: "Track order #AU-8821" }
+];
