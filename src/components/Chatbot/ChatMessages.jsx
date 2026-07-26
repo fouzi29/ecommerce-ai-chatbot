@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from "react";
 import { Bot, User, Volume2, Sparkles } from "lucide-react";
 import { ProductRecommendationCard } from "./ProductRecommendationCard";
 import { AiOrderPlacementCard } from "./AiOrderPlacementCard";
+import { AiCheckoutFormCard } from "./AiCheckoutFormCard";
 import { LeadCaptureCard } from "./LeadCaptureCard";
 
 export function ChatMessages({
@@ -9,7 +10,8 @@ export function ChatMessages({
   isLoading,
   products = [],
   onAddToCart,
-  onQuickView
+  onQuickView,
+  onOrderPlaced
 }) {
   const bottomRef = useRef(null);
 
@@ -58,7 +60,7 @@ export function ChatMessages({
           <Sparkles className="w-4 h-4" />
         </div>
         <h4>Welcome to AURA AI Shopping Assistant</h4>
-        <p>Order products directly, ask for discount quotes, track orders (#AU-8821), or get recommended gear!</p>
+        <p>Order products directly in chat, request custom VIP quotes, track orders (#AU-8821), or get recommended gear!</p>
       </div>
 
       {/* Message List */}
@@ -71,7 +73,17 @@ export function ChatMessages({
           <div className="chat-bubble">
             <div>{renderFormattedText(msg.text)}</div>
 
-            {/* Render AI Direct Order Placement Confirmation Card */}
+            {/* Render Pre-Order Customer Details Collection Form */}
+            {msg.showCheckoutForm && !msg.placedOrder && (
+              <AiCheckoutFormCard
+                itemToOrder={msg.itemToOrder}
+                onOrderPlaced={(order) => {
+                  if (onOrderPlaced) onOrderPlaced(msg.id, order);
+                }}
+              />
+            )}
+
+            {/* Render AI Order Placement Confirmation Card */}
             {msg.placedOrder && (
               <AiOrderPlacementCard order={msg.placedOrder} />
             )}

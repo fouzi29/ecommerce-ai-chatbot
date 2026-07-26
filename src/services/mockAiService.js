@@ -2,43 +2,31 @@ import { placeAiDirectOrder } from "./orderService";
 
 /**
  * Smart Offline Mock AI Generator for Demo Mode
- * Handles Direct Order Placement, Lead Capture, and Catalog Recommendations
+ * Handles Pre-Order Details Collection (Name, Email, Phone, Address), Lead Capture, and Catalog Recommendations
  */
 export async function sendMockAiRequest({ userQuery, storeContext }) {
   await new Promise(resolve => setTimeout(resolve, 600));
 
   const query = userQuery.toLowerCase();
   const products = storeContext.products || [];
-  const cart = storeContext.cart || [];
 
   let text = "";
   let recommendedProductIds = [];
-  let placedOrder = null;
+  let showCheckoutForm = false;
+  let itemToOrder = null;
   let showLeadForm = false;
 
-  // 1. Direct AI Order Placement Trigger
-  if (query.includes("order") && (query.includes("buy") || query.includes("place") || query.includes("headphone") || query.includes("now") || query.includes("item"))) {
-    // Find matching item or default to Aura Pro Headphones
-    const itemToOrder = products.find(p => query.includes(p.category.toLowerCase()) || p.name.toLowerCase().includes("headphone")) || products[0];
+  // 1. Order Intent Trigger -> Shows Interactive Form to collect Name, Email, Phone, & Address!
+  if (query.includes("order") || query.includes("buy") || query.includes("checkout")) {
+    // Identify item
+    itemToOrder = products.find(p => query.includes(p.category.toLowerCase()) || p.name.toLowerCase().includes("headphone") || query.includes(p.tags[0])) || products[0];
 
-    placedOrder = placeAiDirectOrder({
-      customerName: "Valued Shopper",
-      customerEmail: "shopper@aura-demo.com",
-      customerPhone: "+1 (555) 987-6543",
-      shippingAddress: "742 Evergreen Terrace, Springfield, IL",
-      items: [{ id: itemToOrder.id, name: itemToOrder.name, price: itemToOrder.price, quantity: 1 }],
-      totalAmount: itemToOrder.price
-    });
+    showCheckoutForm = true;
+    text = `🛒 **AI Instant Checkout Details Required**:
 
-    text = `🎉 **AI Order Placed Successfully!**
+Great choice! You selected **${itemToOrder.name}** ($${itemToOrder.price.toFixed(2)}).
 
-I have directly created order **${placedOrder.id}** for **${itemToOrder.name}** ($${itemToOrder.price.toFixed(2)}).
-
-• **Order Status**: Processing  
-• **Database Record**: Saved to Admin Orders Database  
-• **Delivery**: Express 2-Day Shipping  
-
-You can track this order in the **Admin Dashboard** or using order ID \`${placedOrder.id}\`.`;
+Before I place your order, please fill out your contact details & shipping address below:`;
   }
   // 2. Lead Capture Trigger
   else if (query.includes("quote") || query.includes("contact") || query.includes("lead") || query.includes("vip") || query.includes("custom discount") || query.includes("bulk")) {
@@ -78,7 +66,7 @@ Enter the promo code in your Shopping Cart drawer during checkout to claim your 
 - **Aura Pro Wireless ANC Headphones** ($249.99) — 40hr battery life & ANC.
 - **Aura Pods Pro True Wireless Earbuds** ($159.99) — IPX7 sweatproof.
 
-Say *"Place order for headphones"* to order directly in chat!`;
+Say *"Order headphones"* to fill out shipping details and order directly in chat!`;
   }
   // 6. Tech / Keyboards
   else if (query.includes("keyboard") || query.includes("mouse") || query.includes("tech") || query.includes("webcam")) {
@@ -95,7 +83,7 @@ Say *"Place order for headphones"* to order directly in chat!`;
     text = `Hello! I'm **AURA AI**, your personalized shopping assistant.
 
 I can help you:
-• **Place Direct Orders**: Say *"Place order for Aura Headphones"*.
+• **Place Direct Orders**: Say *"Order Aura Headphones"*.
 • **Request Custom Quotes**: Say *"Request custom quote"*.
 • **Recommend Products**: Ask for headphones, keyboards, or smartwatches.
 • **Track Packages**: Ask about order \`#AU-8821\`.`;
@@ -104,7 +92,8 @@ I can help you:
   return {
     text,
     recommendedProductIds,
-    placedOrder,
+    showCheckoutForm,
+    itemToOrder,
     showLeadForm
   };
 }

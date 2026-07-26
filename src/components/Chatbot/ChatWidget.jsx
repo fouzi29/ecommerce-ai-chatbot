@@ -20,7 +20,7 @@ export function ChatWidget({
     {
       id: "msg-1",
       sender: "assistant",
-      text: "👋 Hi there! I'm **AURA AI**, your personalized e-commerce shopping assistant.\n\nHow can I help you today? You can ask me to recommend gear, check active discount codes, or track your order!",
+      text: "👋 Hi there! I'm **AURA AI**, your personalized e-commerce shopping assistant.\n\nHow can I help you today? You can ask me to order gear, request custom quotes, check promo codes, or track your order!",
       time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     }
   ]);
@@ -86,6 +86,10 @@ export function ChatWidget({
         sender: "assistant",
         text: response.text,
         recommendedProductIds: response.recommendedProductIds || [],
+        showCheckoutForm: response.showCheckoutForm || false,
+        itemToOrder: response.itemToOrder || null,
+        placedOrder: response.placedOrder || null,
+        showLeadForm: response.showLeadForm || false,
         time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
       };
 
@@ -102,6 +106,20 @@ export function ChatWidget({
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleOrderFormCompleted = (messageId, order) => {
+    setMessages(prev => prev.map(m => {
+      if (m.id === messageId) {
+        return {
+          ...m,
+          showCheckoutForm: false,
+          placedOrder: order,
+          text: `🎉 **Order #${order.id} Confirmed!**\n\nThank you, **${order.customerName}**! Your order for **${order.items?.[0]?.name}** has been confirmed and saved to the database. Express 2-day delivery is on its way!`
+        };
+      }
+      return m;
+    }));
   };
 
   const handleClearChat = () => {
@@ -134,7 +152,6 @@ export function ChatWidget({
 
   return (
     <>
-      {/* Floating FAB Button */}
       {!isOpen && (
         <div className="chat-fab-container">
           <button onClick={onToggleOpen} className="chat-fab-button">
@@ -145,7 +162,6 @@ export function ChatWidget({
         </div>
       )}
 
-      {/* Expandable Chat Window */}
       {isOpen && (
         <div className={`chat-window ${isFullscreen ? "fullscreen" : ""}`}>
           <ChatHeader
@@ -166,6 +182,7 @@ export function ChatWidget({
             products={products}
             onAddToCart={onAddToCart}
             onQuickView={onQuickView}
+            onOrderPlaced={handleOrderFormCompleted}
           />
 
           <ChatInput
