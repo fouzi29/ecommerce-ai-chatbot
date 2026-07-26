@@ -1,120 +1,145 @@
-import { getStoredOrders, saveStoredOrders, getStoredLeads, saveStoredLeads } from "../data/mockDatabase";
+import { mockOrders, mockLeads } from "../data/mockDatabase";
 import { sendOrderNotification, sendLeadNotification } from "./notificationService";
+import { syncOrderToBackend, syncLeadToBackend } from "./databaseService";
 
-/**
- * Service handler for Direct AI Order Placement & Customer Lead Collection
- */
+// Helper to retrieve saved orders from localStorage
+export function getSavedOrders() {
+  const saved = localStorage.getItem("aura_db_orders");
+  return saved ? JSON.parse(saved) : mockOrders;
+}
 
-// Place a new Direct Order via AI Chatbot
-export function placeAiDirectOrder({
-  customerName = "Shopper User",
-  customerEmail = "customer@example.com",
-  customerPhone = "+1 (555) 000-0000",
-  shippingAddress = "742 Evergreen Terrace, Springfield",
-  items = [],
-  totalAmount = 0
-}) {
-  const currentOrders = getStoredOrders();
-  const orderId = `AU-${Math.floor(1000 + Math.random() * 9000)}`;
+// Helper to retrieve saved leads from localStorage
+export function getSavedLeads() {
+  const saved = localStorage.getItem("aura_db_leads");
+  return saved ? JSON.parse(saved) : mockLeads;
+}
+
+// ----------------------------------------------------
+// 1. PLACE DIRECT AI ORDER & SYNC TO CLIENT DB & ALERTS
+// ----------------------------------------------------
+export function placeAiDirectOrder(orderDetails) {
+  const currentOrders = getSavedOrders();
 
   const newOrder = {
-    id: orderId,
-    customerName,
-    customerEmail,
-    customerPhone,
-    shippingAddress,
-    items: items.length > 0 ? items : [{ id: "prod-1", name: "Aura Pro Headphones", price: 249.99, quantity: 1 }],
-    totalAmount: totalAmount > 0 ? totalAmount : 249.99,
+    id: `AU-${Math.floor(1000 + Math.random() * 9000)}`,
+    customerName: orderDetails.customerName || "Valued Customer",
+    customerEmail: orderDetails.customerEmail || "customer@example.com",
+    customerPhone: orderDetails.customerPhone || "+15550192831",
+    shippingAddress: orderDetails.shippingAddress || "742 Evergreen Terrace, Springfield",
+    items: orderDetails.items || [
+      { id: "prod-1", name: "Aura Pro Wireless ANC Headphones", price: 249.99, quantity: 1 }
+    ],
+    totalAmount: orderDetails.totalAmount || 249.99,
     status: "Processing",
     paymentMethod: "AI Instant Direct Checkout",
     createdAt: new Date().toISOString()
   };
 
   const updatedOrders = [newOrder, ...currentOrders];
-  saveStoredOrders(updatedOrders);
+  localStorage.setItem("aura_db_orders", JSON.stringify(updatedOrders));
 
-  // Trigger Instant WhatsApp & SMS Client Alert
-  const savedSettings = JSON.parse(localStorage.getItem("aura_ai_settings") || "{}");
-  sendOrderNotification(newOrder, savedSettings);
+  // Get active SaaS settings
+  const settings = JSON.parse(localStorage.getItem("aura_ai_settings") || "{}");
+
+  // Dispatch multi-channel notifications (WhatsApp, Telegram, Discord)
+  sendOrderNotification(newOrder, settings);
+
+  // Dispatch API Sync to client custom database / webhooks (POST /api/orders)
+  syncOrderToBackend(newOrder, settings);
 
   return newOrder;
 }
 
-// Capture a new Customer Lead via AI Chatbot
-export function captureCustomerLead({
-  name = "New Prospect",
-  email = "",
-  phone = "",
-  interestCategory = "General Tech",
-  note = "Captured via AI Assistant Chatbot"
-}) {
-  const currentLeads = getStoredLeads();
-  const leadId = `LEAD-${Math.floor(100 + Math.random() * 900)}`;
+// ----------------------------------------------------
+// 2. CAPTURE PROSPECT LEAD & SYNC TO CLIENT DB & ALERTS
+// ----------------------------------------------------
+export function captureCustomerLead(leadDetails) {
+  const currentLeads = getSavedLeads();
 
   const newLead = {
-    id: leadId,
-    name,
-    email,
-    phone,
-    interestCategory,
-    note,
-    source: "AI Shopping Assistant",
-    status: "New Lead",
+    id: `LEAD-${Math.floor(100 + Math.random() * 900)}`,
+    name: leadDetails.name || "Anonymous Prospect",
+    email: leadDetails.email || "prospect@example.com",
+    phone: leadDetails.phone || "N/A",
+    interestCategory: leadDetails.interestCategory || "General Inquiry",
+    note: leadDetails.note || "Interested in custom quote / bulk discount",
+    source: "AI Chatbot Assistant",
     createdAt: new Date().toISOString()
   };
 
   const updatedLeads = [newLead, ...currentLeads];
-  saveStoredLeads(updatedLeads);
+  localStorage.setItem("aura_db_leads", JSON.stringify(updatedLeads));
 
-  // Trigger Instant WhatsApp & SMS Client Alert
-  const savedSettings = JSON.parse(localStorage.getItem("aura_ai_settings") || "{}");
-  sendLeadNotification(newLead, savedSettings);
+  // Get active SaaS settings
+  const settings = JSON.parse(localStorage.getItem("aura_ai_settings") || "{}");
+
+  // Dispatch multi-channel notifications
+  sendLeadNotification(newLead, settings);
+
+  // Dispatch API Sync to client custom database / webhooks (POST /api/leads)
+  syncLeadToBackend(newLead, settings);
 
   return newLead;
 }
 
+// Search Orders
+export function searchOrders(query) {
+  const orders = getSavedOrders();
+  if (!query) return orders;
+  const q = query.toLowerCase();
+  return orders.filter(
+    o =>
+      o.id.toLowerCase().includes(q) ||
+      o.customerName.toLowerCase().includes(q) ||
+      o.customerEmail.toLowerCase().includes(q) ||
+      o.status.toLowerCase().includes(q)
+  );
+}
+
 // Export Orders to CSV
-export function exportOrdersToCsv(orders = []) {
-  if (!orders.length) return;
-  const headers = ["Order ID", "Customer Name", "Email", "Items Count", "Total ($)", "Status", "Date"];
+export function exportOrdersToCsv() {
+  const orders = getSavedOrders();
+  const headers = ["Order ID", "Customer Name", "Email", "Phone", "Total Amount", "Status", "Date", "Address"];
   const rows = orders.map(o => [
     o.id,
     `"${o.customerName}"`,
     o.customerEmail,
-    o.items?.length || 1,
-    o.totalAmount.toFixed(2),
+    o.customerPhone || "N/A",
+    `$${o.totalAmount.toFixed(2)}`,
     o.status,
-    new Date(o.createdAt).toLocaleDateString()
+    new Date(o.createdAt).toLocaleDateString(),
+    `"${o.shippingAddress}"`
   ]);
 
   const csvContent = [headers.join(","), ...rows.map(e => e.join(","))].join("\n");
-  downloadFile(csvContent, `aura-orders-export-${Date.now()}.csv`, "text/csv");
+  const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.setAttribute("href", url);
+  link.setAttribute("download", `aura-orders-export-${Date.now()}.csv`);
+  link.click();
 }
 
 // Export Leads to CSV
-export function exportLeadsToCsv(leads = []) {
-  if (!leads.length) return;
-  const headers = ["Lead ID", "Name", "Email", "Phone", "Interest Category", "Status", "Date"];
+export function exportLeadsToCsv() {
+  const leads = getSavedLeads();
+  const headers = ["Lead ID", "Name", "Email", "Phone", "Product Interest", "Note", "Source", "Date"];
   const rows = leads.map(l => [
     l.id,
     `"${l.name}"`,
     l.email,
     l.phone || "N/A",
     `"${l.interestCategory}"`,
-    l.status,
+    `"${l.note}"`,
+    l.source,
     new Date(l.createdAt).toLocaleDateString()
   ]);
 
   const csvContent = [headers.join(","), ...rows.map(e => e.join(","))].join("\n");
-  downloadFile(csvContent, `aura-leads-export-${Date.now()}.csv`, "text/csv");
-}
-
-function downloadFile(content, fileName, contentType) {
-  const blob = new Blob([content], { type: contentType });
+  const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
   const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = fileName;
-  a.click();
-  URL.revokeObjectURL(url);
+  const link = document.createElement("a");
+  link.setAttribute("href", url);
+  link.setAttribute("download", `aura-leads-export-${Date.now()}.csv`);
+  link.click();
 }
