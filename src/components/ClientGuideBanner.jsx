@@ -1,17 +1,20 @@
 import React, { useState } from "react";
-import { Sparkles, Bot, ShoppingCart, Database, ChevronDown, ChevronUp, Code2, CheckCircle2, User, Zap } from "lucide-react";
+import { Sparkles, Bot, ShoppingCart, Database, ChevronDown, ChevronUp, Code2, CheckCircle2, Zap, ExternalLink } from "lucide-react";
 
 export function ClientGuideBanner({ onOpenChat, onOpenSettings }) {
   const [isExpanded, setIsExpanded] = useState(true);
 
+  const FIVERR_PROFILE_URL = "https://www.fiverr.com/s/e6BNbv3";
+  const FIVERR_GIG_URL = "https://www.fiverr.com/s/GzVdLez";
+
   return (
-    <div className="mb-8 rounded-2xl bg-gradient-to-r from-slate-900/90 via-purple-950/40 to-slate-900/90 border border-purple-500/30 p-5 sm:p-6 shadow-2xl backdrop-blur-xl transition-all">
+    <div className="mb-8 rounded-2xl bg-gradient-to-r from-slate-900/95 via-purple-950/50 to-slate-900/95 border border-purple-500/40 p-5 sm:p-6 shadow-2xl backdrop-blur-xl transition-all">
       
       {/* Header Bar */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-purple-600 to-cyan-500 flex items-center justify-center text-white shadow-lg shadow-purple-500/30">
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-purple-600 via-violet-600 to-cyan-500 flex items-center justify-center text-white shadow-lg shadow-purple-500/30">
             <Zap className="w-5 h-5" />
           </div>
           <div>
@@ -27,8 +30,18 @@ export function ClientGuideBanner({ onOpenChat, onOpenSettings }) {
           </div>
         </div>
 
-        {/* Toggle Button & Actions */}
-        <div className="flex items-center gap-2">
+        {/* Action Controls & Hire Me Button */}
+        <div className="flex items-center gap-2 flex-wrap sm:flex-nowrap">
+          <a
+            href={FIVERR_GIG_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-500 text-white font-bold text-xs shadow-md shadow-emerald-600/20 hover:scale-105 transition-all"
+          >
+            <span>Hire Fouzi on Fiverr</span>
+            <ExternalLink className="w-3.5 h-3.5" />
+          </a>
+
           <button
             onClick={() => setIsExpanded(!isExpanded)}
             className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-slate-300 font-semibold text-xs border border-slate-700 transition-all"
@@ -68,7 +81,7 @@ export function ClientGuideBanner({ onOpenChat, onOpenSettings }) {
               <span>2. Interactive Shopping Assistant</span>
             </div>
             <p className="text-slate-300 text-xs leading-relaxed mb-3">
-              Try voice input 🎙️, text-to-speech 🔊, inline product recommendations, promo codes (<code className="text-cyan-300 bg-slate-900 px-1 rounded">AURA20</code>), and order tracking (<code className="text-cyan-300 bg-slate-900 px-1 rounded">#AU-8821</code>).
+              Try direct AI orders 🛍️, lead generation form 👥, voice input 🎙️, text-to-speech 🔊, discount codes (<code className="text-cyan-300 bg-slate-900 px-1 rounded">AURA20</code>), and order tracking.
             </p>
             <button
               onClick={onOpenChat}
@@ -85,7 +98,7 @@ export function ClientGuideBanner({ onOpenChat, onOpenSettings }) {
               <span>3. Database & Platform Sync</span>
             </div>
             <p className="text-slate-300 text-xs leading-relaxed mb-3">
-              Connect to your live database! Supports custom REST APIs (MySQL/Node/PHP), **Shopify Storefront**, **WooCommerce**, or **Supabase PostgreSQL**.
+              Connect to live databases! Supports custom REST APIs (MySQL/Node/PHP), **Shopify Storefront**, **WooCommerce**, or **Supabase PostgreSQL**.
             </p>
             <button
               onClick={onOpenSettings}
@@ -99,14 +112,32 @@ export function ClientGuideBanner({ onOpenChat, onOpenSettings }) {
       )}
 
       {/* Developer Credit Footer Bar */}
-      <div className="mt-4 pt-3 border-t border-slate-800/60 flex items-center justify-between text-[11px] text-slate-400">
+      <div className="mt-4 pt-3 border-t border-slate-800/60 flex flex-col sm:flex-row items-center justify-between gap-2 text-[11px] text-slate-400">
         <div className="flex items-center gap-2">
           <Code2 className="w-3.5 h-3.5 text-purple-400" />
           <span>Application Creator: <strong className="text-slate-200">Fouzi</strong></span>
         </div>
-        <div className="flex items-center gap-1 text-emerald-400 font-semibold">
-          <CheckCircle2 className="w-3.5 h-3.5" />
-          <span>Fiverr Portfolio Client Demo</span>
+
+        <div className="flex items-center gap-3">
+          <a
+            href={FIVERR_PROFILE_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-emerald-400 hover:text-emerald-300 font-bold flex items-center gap-1"
+          >
+            <span>Fiverr Profile</span>
+            <ExternalLink className="w-3 h-3" />
+          </a>
+          <span>•</span>
+          <a
+            href={FIVERR_GIG_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-cyan-400 hover:text-cyan-300 font-bold flex items-center gap-1"
+          >
+            <span>Custom AI Chatbot Gig</span>
+            <ExternalLink className="w-3 h-3" />
+          </a>
         </div>
       </div>
 

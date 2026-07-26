@@ -119,6 +119,9 @@ export function App() {
 
   const cartTotalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
 
+  const FIVERR_PROFILE_URL = "https://www.fiverr.com/s/e6BNbv3";
+  const FIVERR_GIG_URL = "https://www.fiverr.com/s/GzVdLez";
+
   return (
     <div className="app-container">
       
@@ -204,15 +207,35 @@ export function App() {
         showSettingsButton={settings.showAdminControls || isAdminMode}
       />
 
-      {/* Footer with Creator Attribution */}
+      {/* Footer with Fiverr Creator Attribution */}
       <footer className="border-t border-slate-900 bg-slate-950/90 py-8 text-center text-xs text-slate-400">
         <p className="font-semibold text-slate-200">
           AURA E-Commerce AI Chatbot Web App
         </p>
-        <p className="mt-1 text-purple-400 font-bold">
-          Designed & Developed by Fouzi
-        </p>
-        <p className="mt-1 text-[11px] text-slate-500">
+        
+        <div className="mt-2 flex items-center justify-center gap-4 text-xs">
+          <span>Engineered & Developed by <strong className="text-purple-400">Fouzi</strong></span>
+          <span>•</span>
+          <a
+            href={FIVERR_PROFILE_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-emerald-400 hover:text-emerald-300 font-bold underline"
+          >
+            Fiverr Profile
+          </a>
+          <span>•</span>
+          <a
+            href={FIVERR_GIG_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-cyan-400 hover:text-cyan-300 font-bold underline"
+          >
+            Hire on Fiverr (Order Gig)
+          </a>
+        </div>
+
+        <p className="mt-2 text-[11px] text-slate-500">
           Powered by OpenAI (GPT-4o) • Google Gemini (2.0 Flash) • Direct AI Orders • Lead Generation Engine
         </p>
       </footer>
