@@ -1,4 +1,5 @@
 import { getStoredOrders, saveStoredOrders, getStoredLeads, saveStoredLeads } from "../data/mockDatabase";
+import { sendOrderNotification, sendLeadNotification } from "./notificationService";
 
 /**
  * Service handler for Direct AI Order Placement & Customer Lead Collection
@@ -32,6 +33,10 @@ export function placeAiDirectOrder({
   const updatedOrders = [newOrder, ...currentOrders];
   saveStoredOrders(updatedOrders);
 
+  // Trigger Instant WhatsApp & SMS Client Alert
+  const savedSettings = JSON.parse(localStorage.getItem("aura_ai_settings") || "{}");
+  sendOrderNotification(newOrder, savedSettings);
+
   return newOrder;
 }
 
@@ -60,6 +65,10 @@ export function captureCustomerLead({
 
   const updatedLeads = [newLead, ...currentLeads];
   saveStoredLeads(updatedLeads);
+
+  // Trigger Instant WhatsApp & SMS Client Alert
+  const savedSettings = JSON.parse(localStorage.getItem("aura_ai_settings") || "{}");
+  sendLeadNotification(newLead, savedSettings);
 
   return newLead;
 }

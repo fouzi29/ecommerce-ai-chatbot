@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Sparkles, Bot, ShoppingCart, Database, ChevronDown, ChevronUp, Code2, CheckCircle2, Zap, ExternalLink } from "lucide-react";
+import { Sparkles, Bot, ShoppingCart, Database, ChevronDown, ChevronUp, Code2, Zap, ExternalLink, Bell } from "lucide-react";
 
 export function ClientGuideBanner({ onOpenChat, onOpenSettings }) {
   const [isExpanded, setIsExpanded] = useState(true);
@@ -55,39 +55,39 @@ export function ClientGuideBanner({ onOpenChat, onOpenSettings }) {
 
       {/* Expanded User Guide Cards */}
       {isExpanded && (
-        <div className="mt-6 pt-5 border-t border-purple-500/20 grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="mt-6 pt-5 border-t border-purple-500/20 grid grid-cols-1 md:grid-cols-4 gap-4">
           
           {/* Card 1: AI Engine Controls */}
           <div className="bg-slate-950/70 p-4 rounded-xl border border-purple-500/20 hover:border-purple-500/40 transition-all">
             <div className="flex items-center gap-2 text-purple-400 font-bold text-xs uppercase tracking-wider mb-2">
               <Bot className="w-4 h-4" />
-              <span>1. AI Engines & Provider Switcher</span>
+              <span>1. AI Engines & Provider</span>
             </div>
             <p className="text-slate-300 text-xs leading-relaxed mb-3">
-              Test AI models seamlessly. Choose **Smart Demo Mode** for zero-cost instant testing, or switch to **OpenAI (GPT-4o)** or **Google Gemini (2.0 Flash)** using API keys.
+              Test AI models seamlessly. Choose **Smart Demo Mode** for zero-cost testing, or switch to **OpenAI (GPT-4o)** or **Google Gemini (2.0 Flash)**.
             </p>
             <button
               onClick={onOpenSettings}
               className="text-[11px] font-bold text-purple-400 hover:text-purple-300 flex items-center gap-1 underline"
             >
-              <span>Open AI Settings Modal →</span>
+              <span>AI Settings →</span>
             </button>
           </div>
 
-          {/* Card 2: Interactive Shopping Assistant */}
+          {/* Card 2: Interactive Assistant & AI Orders */}
           <div className="bg-slate-950/70 p-4 rounded-xl border border-cyan-500/20 hover:border-cyan-500/40 transition-all">
             <div className="flex items-center gap-2 text-cyan-400 font-bold text-xs uppercase tracking-wider mb-2">
               <ShoppingCart className="w-4 h-4" />
-              <span>2. Interactive Shopping Assistant</span>
+              <span>2. Direct Orders & Leads</span>
             </div>
             <p className="text-slate-300 text-xs leading-relaxed mb-3">
-              Try direct AI orders 🛍️, lead generation form 👥, voice input 🎙️, text-to-speech 🔊, discount codes (<code className="text-cyan-300 bg-slate-900 px-1 rounded">AURA20</code>), and order tracking.
+              Try direct AI order placement 🛍️ (*"Order Aura Headphones"*), lead capture form 👥, voice input 🎙️, and promo codes (<code className="text-cyan-300 bg-slate-900 px-1 rounded">AURA20</code>).
             </p>
             <button
               onClick={onOpenChat}
               className="text-[11px] font-bold text-cyan-400 hover:text-cyan-300 flex items-center gap-1 underline"
             >
-              <span>Open AI Assistant Widget →</span>
+              <span>AI Widget →</span>
             </button>
           </div>
 
@@ -98,13 +98,30 @@ export function ClientGuideBanner({ onOpenChat, onOpenSettings }) {
               <span>3. Database & Platform Sync</span>
             </div>
             <p className="text-slate-300 text-xs leading-relaxed mb-3">
-              Connect to live databases! Supports custom REST APIs (MySQL/Node/PHP), **Shopify Storefront**, **WooCommerce**, or **Supabase PostgreSQL**.
+              Connect to live databases! Supports custom REST APIs (MySQL/Node/PHP), **Shopify**, **WooCommerce**, or **Supabase PostgreSQL**.
             </p>
             <button
               onClick={onOpenSettings}
               className="text-[11px] font-bold text-emerald-400 hover:text-emerald-300 flex items-center gap-1 underline"
             >
-              <span>Configure Database Sync →</span>
+              <span>Database Sync →</span>
+            </button>
+          </div>
+
+          {/* Card 4: WhatsApp & SMS Instant Alerts */}
+          <div className="bg-slate-950/70 p-4 rounded-xl border border-amber-500/20 hover:border-amber-500/40 transition-all">
+            <div className="flex items-center gap-2 text-amber-400 font-bold text-xs uppercase tracking-wider mb-2">
+              <Bell className="w-4 h-4" />
+              <span>4. WhatsApp & SMS Alerts</span>
+            </div>
+            <p className="text-slate-300 text-xs leading-relaxed mb-3">
+              Instant store owner notifications! Automatically sends WhatsApp or SMS alerts whenever an order or customer lead is captured.
+            </p>
+            <button
+              onClick={onOpenSettings}
+              className="text-[11px] font-bold text-amber-400 hover:text-amber-300 flex items-center gap-1 underline"
+            >
+              <span>Setup Alerts →</span>
             </button>
           </div>
 
