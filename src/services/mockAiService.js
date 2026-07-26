@@ -1,11 +1,11 @@
 import { placeAiDirectOrder } from "./orderService";
 
 /**
- * Smart Offline Mock AI Generator for Demo Mode
- * Handles Pre-Order Details Collection (Name, Email, Phone, Address), Lead Capture, and Catalog Recommendations
+ * Smart Sales Conversion AI Generator for Demo Mode
+ * Persuades shoppers to place direct orders or collects minimum lead contact info
  */
 export async function sendMockAiRequest({ userQuery, storeContext }) {
-  await new Promise(resolve => setTimeout(resolve, 600));
+  await new Promise(resolve => setTimeout(resolve, 500));
 
   const query = userQuery.toLowerCase();
   const products = storeContext.products || [];
@@ -16,28 +16,27 @@ export async function sendMockAiRequest({ userQuery, storeContext }) {
   let itemToOrder = null;
   let showLeadForm = false;
 
-  // 1. Order Intent Trigger -> Shows Interactive Form to collect Name, Email, Phone, & Address!
-  if (query.includes("order") || query.includes("buy") || query.includes("checkout")) {
-    // Identify item
+  // 1. DIRECT ORDER INTENT -> Opens Order Checkout Form
+  if (query.includes("order") || query.includes("buy") || query.includes("checkout") || query.includes("purchase") || query.includes("reserve")) {
     itemToOrder = products.find(p => query.includes(p.category.toLowerCase()) || p.name.toLowerCase().includes("headphone") || query.includes(p.tags[0])) || products[0];
 
     showCheckoutForm = true;
-    text = `🛒 **AI Instant Checkout Details Required**:
+    text = `🔥 **Excellent Choice! Let's reserve your order**:
 
-Great choice! You selected **${itemToOrder.name}** ($${itemToOrder.price.toFixed(2)}).
+Selected Item: **${itemToOrder.name}** ($${itemToOrder.price.toFixed(2)}).
 
-Before I place your order, please fill out your contact details & shipping address below:`;
+🎁 **Bonus**: Apply promo code \`AURA20\` for 20% OFF! Please fill out your details below to confirm express delivery:`;
   }
-  // 2. Lead Capture Trigger
-  else if (query.includes("quote") || query.includes("contact") || query.includes("lead") || query.includes("vip") || query.includes("custom discount") || query.includes("bulk")) {
+  // 2. LEAD CAPTURE INTENT / QUOTE / BULK / VIP
+  else if (query.includes("quote") || query.includes("contact") || query.includes("lead") || query.includes("vip") || query.includes("bulk") || query.includes("discount") || query.includes("promo")) {
     showLeadForm = true;
-    text = `📋 **VIP Lead & Custom Quote Request**:
+    text = `🎉 **Exclusive 20% VIP Discount & Custom Quote Request**:
 
-I would be happy to prepare a customized quote and exclusive VIP discount code for you! 
+I would love to lock in an exclusive **20% VIP discount code (\`AURA20\`)** and prepare a custom spec sheet for you!
 
-Please fill out your contact details below, and our lead collector will save your inquiry directly to the Admin Database:`;
+Please enter your contact details below so our team can send your custom VIP quote:`;
   }
-  // 3. Order status lookup
+  // 3. ORDER TRACKING
   else if (query.includes("track") || query.includes("status") || query.includes("#au-")) {
     text = `📦 **Order Status Lookup**:
 Your order **#AU-8821** is currently **In Transit** via Express Courier!
@@ -48,45 +47,44 @@ Your order **#AU-8821** is currently **In Transit** via Express Courier!
 
 Tracking Number: \`TRK-99401827\`.`;
   }
-  // 4. Discount & Promos
-  else if (query.includes("discount") || query.includes("promo") || query.includes("code") || query.includes("coupon") || query.includes("sale")) {
-    text = `🎉 **Current Active Store Promotions**:
-
-1. **\`AURA20\`** — Save **20% OFF** on any order over $100.
-2. **\`FREESHIP\`** — Get **Free Express Shipping** on orders over $75.
-
-Enter the promo code in your Shopping Cart drawer during checkout to claim your discount!`;
-  }
-  // 5. Audio / Headphones
-  else if (query.includes("headphone") || query.includes("audio") || query.includes("earbud") || query.includes("anc")) {
+  // 4. AUDIO / HEADPHONES INQUIRY -> High Conversion Pitch & Lead Capture Prompt
+  else if (query.includes("headphone") || query.includes("audio") || query.includes("earbud") || query.includes("anc") || query.includes("sound")) {
     const audioItems = products.filter(p => p.category === "Audio");
     recommendedProductIds = audioItems.map(p => p.id);
-    text = `🎵 **Top Audio Gear Recommendations**:
+    showLeadForm = true;
 
-- **Aura Pro Wireless ANC Headphones** ($249.99) — 40hr battery life & ANC.
-- **Aura Pods Pro True Wireless Earbuds** ($159.99) — IPX7 sweatproof.
+    text = `🎵 **Top Wireless Audio Gear (Limited Stock Alert!)**:
 
-Say *"Order headphones"* to fill out shipping details and order directly in chat!`;
+1. **Aura Pro Wireless ANC Headphones** ($249.99) — 40hr battery life, spatial audio & active noise cancellation.
+2. **Aura Pods Pro Wireless Earbuds** ($159.99) — IPX7 sweatproof & wireless charging.
+
+💡 **Limited Offer**: Use promo code **\`AURA20\`** for **20% OFF** today!
+
+Say *"Order headphones"* to buy right now, or fill out the quick VIP lead form below so I can reserve your discount!`;
   }
-  // 6. Tech / Keyboards
-  else if (query.includes("keyboard") || query.includes("mouse") || query.includes("tech") || query.includes("webcam")) {
-    const techItems = products.filter(p => p.category === "Tech");
-    recommendedProductIds = techItems.map(p => p.id);
-    text = `⚡ **Essential Tech Workstation Gear**:
+  // 5. TECH / KEYBOARD / WATCH INQUIRY -> High Conversion Pitch & Lead Capture Prompt
+  else if (query.includes("keyboard") || query.includes("watch") || query.includes("mouse") || query.includes("tech") || query.includes("gear")) {
+    const techItems = products.filter(p => p.category === "Tech" || p.category === "Wearables");
+    recommendedProductIds = techItems.slice(0, 2).map(p => p.id);
+    showLeadForm = true;
 
-- **Luminary Mechanical RGB Keyboard** ($129.99)
-- **Vortex Precision Gaming Mouse** ($69.99)
-- **Horizon 4K HDR Web Camera** ($89.99)`;
+    text = `⚡ **Recommended High-Performance Workstation Gear**:
+
+1. **Nexus Ultra Smartwatch Gen 5** ($199.50) — AMOLED display & 7-day battery.
+2. **Luminary Mechanical RGB Keyboard** ($129.99) — Hot-swappable tactile switches.
+
+🎁 Claim **20% OFF** with code **\`AURA20\`**! Say *"Order smartwatch"* to buy directly, or fill out your contact info below to receive a custom quote:`;
   }
-  // 7. General Fallback
+  // 6. GENERAL INQUIRY / PERSUASIVE CONVERSION & MINIMUM LEAD COLLECTION
   else {
-    text = `Hello! I'm **AURA AI**, your personalized shopping assistant.
+    showLeadForm = true;
+    text = `👋 Hi there! I'm **AURA AI**, your personal shopping assistant.
 
 I can help you:
-• **Place Direct Orders**: Say *"Order Aura Headphones"*.
-• **Request Custom Quotes**: Say *"Request custom quote"*.
-• **Recommend Products**: Ask for headphones, keyboards, or smartwatches.
-• **Track Packages**: Ask about order \`#AU-8821\`.`;
+• **Order Gear Instantly**: Say *"Order Aura Headphones"*.
+• **Get 20% OFF Promo Code**: Use code \`AURA20\` at checkout!
+
+Not ready to buy yet? Enter your contact info below to lock in a minimum 20% VIP discount code for your next visit!`;
   }
 
   return {
