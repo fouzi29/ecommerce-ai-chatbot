@@ -1,5 +1,5 @@
 import React from "react";
-import { ShoppingBag, Bot, Settings, Search, Sparkles, UserCheck } from "lucide-react";
+import { ShoppingBag, Bot, Settings, Search, Sparkles, Database } from "lucide-react";
 
 export function Navbar({
   searchQuery,
@@ -7,6 +7,7 @@ export function Navbar({
   cartCount,
   onOpenCart,
   onOpenSettings,
+  onOpenAdmin,
   onOpenChat,
   currentProvider,
   showSettingsButton = true
@@ -52,20 +53,30 @@ export function Navbar({
         {/* Action Controls */}
         <div className="flex items-center gap-3">
           
-          {/* Admin API Provider Badge & Settings Trigger */}
+          {/* Admin Dashboard Trigger */}
+          <button
+            onClick={onOpenAdmin}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-purple-600/20 hover:bg-purple-600 border border-purple-500/30 text-xs font-bold text-purple-300 hover:text-white transition-all shadow-md"
+            title="Open Admin Orders & Leads Dashboard"
+          >
+            <Database className="w-3.5 h-3.5" />
+            <span className="hidden sm:inline">Admin DB</span>
+          </button>
+
+          {/* AI Settings Trigger */}
           {showSettingsButton && (
             <button
               onClick={onOpenSettings}
-              className="hidden sm:flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-slate-900/90 border border-purple-500/30 hover:border-purple-500/60 text-xs font-semibold text-slate-200 transition-all shadow-md"
+              className="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-900/90 border border-purple-500/30 hover:border-purple-500/60 text-xs font-semibold text-slate-200 transition-all shadow-md"
               title="Configure AI Provider & Keys"
             >
               <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-              <span className="capitalize">{currentProvider === 'demo' ? 'Smart Demo AI' : `${currentProvider} API`}</span>
+              <span className="capitalize">{currentProvider === 'demo' ? 'Smart Demo' : `${currentProvider}`}</span>
               <Settings className="w-3.5 h-3.5 text-purple-400" />
             </button>
           )}
 
-          {/* Ask AI Assistant Quick Trigger */}
+          {/* Ask AI Assistant Trigger */}
           <button
             onClick={onOpenChat}
             className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-purple-600 via-violet-600 to-cyan-500 text-white font-bold text-xs shadow-lg shadow-purple-600/30 hover:scale-[1.02] active:scale-[0.98] transition-all"
@@ -74,7 +85,7 @@ export function Navbar({
             <span className="hidden sm:inline">Ask AI Assistant</span>
           </button>
 
-          {/* Shopping Cart Button */}
+          {/* Cart Button */}
           <button
             onClick={onOpenCart}
             className="relative p-2.5 rounded-xl bg-slate-900/90 border border-slate-800 hover:border-purple-500/40 text-slate-200 transition-all shadow-md"

@@ -6,6 +6,7 @@ import { ProductGrid } from "./components/ProductGrid";
 import { ProductModal } from "./components/ProductModal";
 import { CartDrawer } from "./components/CartDrawer";
 import { ApiSettingsModal } from "./components/ApiSettingsModal";
+import { AdminDashboardModal } from "./components/AdminDashboardModal";
 import { ChatWidget } from "./components/Chatbot/ChatWidget";
 import { PRODUCTS } from "./data/products";
 import { DEFAULT_SYSTEM_PROMPT } from "./data/defaultPrompts";
@@ -25,6 +26,7 @@ export function App() {
 
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [isAdminOpen, setIsAdminOpen] = useState(false);
   const [isChatOpen, setIsChatOpen] = useState(true);
 
   const urlParams = new URLSearchParams(window.location.search);
@@ -127,6 +129,7 @@ export function App() {
         cartCount={cartTotalItems}
         onOpenCart={() => setIsCartOpen(true)}
         onOpenSettings={() => setIsSettingsOpen(true)}
+        onOpenAdmin={() => setIsAdminOpen(true)}
         onOpenChat={() => setIsChatOpen(true)}
         currentProvider={settings.provider}
         showSettingsButton={settings.showAdminControls || isAdminMode}
@@ -181,6 +184,13 @@ export function App() {
         onSaveSettings={handleSaveSettings}
       />
 
+      {/* Admin Dashboard Modal */}
+      <AdminDashboardModal
+        isOpen={isAdminOpen}
+        onClose={() => setIsAdminOpen(false)}
+        settings={settings}
+      />
+
       {/* Floating AI Chatbot Widget */}
       <ChatWidget
         isOpen={isChatOpen}
@@ -203,7 +213,7 @@ export function App() {
           Designed & Developed by Fouzi
         </p>
         <p className="mt-1 text-[11px] text-slate-500">
-          Powered by OpenAI (GPT-4o) • Google Gemini (2.0 Flash) • Shopify • WooCommerce • Supabase Sync
+          Powered by OpenAI (GPT-4o) • Google Gemini (2.0 Flash) • Direct AI Orders • Lead Generation Engine
         </p>
       </footer>
 

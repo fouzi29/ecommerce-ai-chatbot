@@ -1,6 +1,8 @@
 import React, { useEffect, useRef } from "react";
 import { Bot, User, Volume2, Sparkles } from "lucide-react";
 import { ProductRecommendationCard } from "./ProductRecommendationCard";
+import { AiOrderPlacementCard } from "./AiOrderPlacementCard";
+import { LeadCaptureCard } from "./LeadCaptureCard";
 
 export function ChatMessages({
   messages,
@@ -31,7 +33,6 @@ export function ChatMessages({
     const lines = text.split("\n");
 
     return lines.map((line, idx) => {
-      // Simple Markdown Parsing
       let formattedLine = line
         .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
         .replace(/`(.*?)`/g, '<code>$1</code>');
@@ -53,11 +54,11 @@ export function ChatMessages({
       
       {/* Welcome Card */}
       <div className="chat-welcome-banner">
-        <div className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-violet-600/20 text-violet-400 mb-2">
+        <div className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-purple-600/20 text-purple-400 mb-2">
           <Sparkles className="w-4 h-4" />
         </div>
         <h4>Welcome to AURA AI Shopping Assistant</h4>
-        <p>Ask for product recommendations, discount codes, track orders (#AU-8821), or store policies!</p>
+        <p>Order products directly, ask for discount quotes, track orders (#AU-8821), or get recommended gear!</p>
       </div>
 
       {/* Message List */}
@@ -69,6 +70,16 @@ export function ChatMessages({
 
           <div className="chat-bubble">
             <div>{renderFormattedText(msg.text)}</div>
+
+            {/* Render AI Direct Order Placement Confirmation Card */}
+            {msg.placedOrder && (
+              <AiOrderPlacementCard order={msg.placedOrder} />
+            )}
+
+            {/* Render In-Chat Lead Collector Form */}
+            {msg.showLeadForm && (
+              <LeadCaptureCard />
+            )}
 
             {/* Render Recommended Product Cards */}
             {msg.recommendedProductIds && msg.recommendedProductIds.length > 0 && (
@@ -92,7 +103,7 @@ export function ChatMessages({
               <div className="flex items-center justify-between mt-2 pt-2 border-t border-slate-700/50">
                 <button
                   onClick={() => speakText(msg.text)}
-                  className="text-[10px] text-slate-400 hover:text-violet-400 flex items-center gap-1 transition-colors"
+                  className="text-[10px] text-slate-400 hover:text-purple-400 flex items-center gap-1 transition-colors"
                   title="Read message aloud"
                 >
                   <Volume2 className="w-3 h-3" />
