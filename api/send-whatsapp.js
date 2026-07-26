@@ -1,6 +1,6 @@
 /**
- * Vercel Serverless Function for 100% Automatic Backend WhatsApp Dispatch
- * Dispatches automated messages directly from server side with ZERO user interaction.
+ * Vercel Serverless Function for 100% Automatic Backend WhatsApp & SMS Dispatch
+ * Supports: TextMeBot (Token format: Lgy1D7Prsd5u) & CallMeBot (Numeric key format)
  */
 
 export default async function handler(req, res) {
@@ -18,31 +18,43 @@ export default async function handler(req, res) {
     return;
   }
 
-  const { phone = "+8801755690467", message, apiKey } = req.body || {};
+  const { phone = "8801755690467", message, apiKey } = req.body || {};
 
   if (!message) {
     return res.status(400).json({ error: 'Message payload is required' });
   }
 
-  // CallMeBot requires digits ONLY (no + sign, no spaces)
-  const digitsOnlyPhone = phone.replace(/[^\d]/g, '');
+  const cleanPhone = phone.replace(/[^\d]/g, '');
+  const key = (apiKey || "").trim();
 
   try {
-    // CallMeBot Automated Backend WhatsApp Dispatch
-    const callMeBotUrl = `https://api.callmebot.com/whatsapp.php?phone=${digitsOnlyPhone}&text=${encodeURIComponent(message)}&apikey=${encodeURIComponent(apiKey || '123456')}`;
-    
-    const response = await fetch(callMeBotUrl);
+    let gatewayUrl = "";
+    let providerName = "";
+
+    // 1. TextMeBot Gateway (Alphanumeric Token e.g. Lgy1D7Prsd5u)
+    if (key.length >= 8 && /[a-zA-Z]/.test(key)) {
+      providerName = "TextMeBot";
+      gatewayUrl = `https://api.textmebot.com/send.php?recipient=${cleanPhone}&apikey=${encodeURIComponent(key)}&text=${encodeURIComponent(message)}`;
+    } 
+    // 2. CallMeBot Gateway (Numeric API Key e.g. 123456)
+    else {
+      providerName = "CallMeBot";
+      gatewayUrl = `https://api.callmebot.com/whatsapp.php?phone=${cleanPhone}&text=${encodeURIComponent(message)}&apikey=${encodeURIComponent(key || '123456')}`;
+    }
+
+    const response = await fetch(gatewayUrl);
     const responseText = await response.text();
-    
+
     return res.status(200).json({
       success: response.ok,
-      message: 'Automated WhatsApp request processed by server.',
-      phone: digitsOnlyPhone,
+      provider: providerName,
+      message: `Automated ${providerName} request processed by server.`,
+      phone: cleanPhone,
       status: response.status,
-      callMeBotResponse: responseText
+      gatewayResponse: responseText
     });
   } catch (err) {
-    console.error("Backend WhatsApp Dispatch Error:", err);
+    console.error("Backend WhatsApp/SMS Dispatch Error:", err);
     return res.status(500).json({ error: err.message });
   }
 }
