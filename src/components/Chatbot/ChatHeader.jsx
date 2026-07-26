@@ -9,7 +9,8 @@ export function ChatHeader({
   onClearChat,
   onDownloadChat,
   onCloseChat,
-  onOpenSettings
+  onOpenSettings,
+  showSettingsButton = true
 }) {
   return (
     <div className="chat-header">
@@ -34,13 +35,15 @@ export function ChatHeader({
 
       {/* Header Actions */}
       <div className="chat-header-actions">
-        <button
-          onClick={onOpenSettings}
-          className="btn-icon"
-          title="Configure API Provider & Models"
-        >
-          <Settings className="w-4 h-4" />
-        </button>
+        {showSettingsButton && (
+          <button
+            onClick={onOpenSettings}
+            className="btn-icon"
+            title="Configure API Provider & Models"
+          >
+            <Settings className="w-4 h-4" />
+          </button>
+        )}
 
         <button
           onClick={onDownloadChat}

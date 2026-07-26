@@ -13,7 +13,8 @@ export function ChatWidget({
   products = [],
   cart = [],
   onAddToCart,
-  onQuickView
+  onQuickView,
+  showSettingsButton = true
 }) {
   const [messages, setMessages] = useState([
     {
@@ -156,6 +157,7 @@ export function ChatWidget({
             onDownloadChat={handleDownloadChat}
             onCloseChat={onToggleOpen}
             onOpenSettings={onOpenSettings}
+            showSettingsButton={showSettingsButton}
           />
 
           <ChatMessages

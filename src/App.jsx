@@ -22,19 +22,35 @@ export function App() {
 
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
-  const [isChatOpen, setIsChatOpen] = useState(true); // Open by default for demo visibility!
+  const [isChatOpen, setIsChatOpen] = useState(true);
 
-  // API Settings state (saved in localStorage)
+  // Check URL params for admin mode (e.g. ?admin=true or ?settings=1)
+  const urlParams = new URLSearchParams(window.location.search);
+  const isAdminMode = urlParams.get("admin") === "true" || urlParams.get("settings") === "1";
+
+  // API Settings state (falls back to Environment Variables if set)
   const [settings, setSettings] = useState(() => {
     const saved = localStorage.getItem("aura_ai_settings");
-    return saved ? JSON.parse(saved) : {
-      provider: "demo",
-      openAiKey: "",
-      geminiKey: "",
+    if (saved) return JSON.parse(saved);
+
+    // Read optional environment variables
+    const envOpenAiKey = import.meta.env.VITE_OPENAI_API_KEY || "";
+    const envGeminiKey = import.meta.env.VITE_GEMINI_API_KEY || "";
+
+    let defaultProvider = "demo";
+    if (envOpenAiKey) defaultProvider = "openai";
+    else if (envGeminiKey) defaultProvider = "gemini";
+
+    return {
+      provider: defaultProvider,
+      openAiKey: envOpenAiKey,
+      geminiKey: envGeminiKey,
       openAiModel: "gpt-4o-mini",
       geminiModel: "gemini-1.5-flash",
       systemPrompt: DEFAULT_SYSTEM_PROMPT,
-      temperature: 0.7
+      temperature: 0.7,
+      // Hide settings button for general store visitors unless admin mode is active
+      showAdminControls: true 
     };
   });
 
@@ -79,12 +95,10 @@ export function App() {
     setCart([]);
   };
 
-  // Ask AI about product trigger
   const handleAskAiAboutProduct = (product) => {
     setIsChatOpen(true);
   };
 
-  // Search filter
   const displayedProducts = PRODUCTS.filter(p => {
     const matchesSearch = p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       p.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -107,15 +121,13 @@ export function App() {
         onOpenSettings={() => setIsSettingsOpen(true)}
         onOpenChat={() => setIsChatOpen(true)}
         currentProvider={settings.provider}
+        showSettingsButton={settings.showAdminControls || isAdminMode}
       />
 
       {/* Main Content */}
       <main className="main-content">
-        
-        {/* Hero Promo Banner */}
         <HeroBanner onOpenChat={() => setIsChatOpen(true)} />
 
-        {/* Product Showcase */}
         <ProductGrid
           products={displayedProducts}
           activeCategory={activeCategory}
@@ -124,7 +136,6 @@ export function App() {
           onQuickView={(product) => setSelectedProduct(product)}
           onAskAi={handleAskAiAboutProduct}
         />
-
       </main>
 
       {/* Product Detail Modal */}
@@ -163,12 +174,13 @@ export function App() {
         cart={cart}
         onAddToCart={handleAddToCart}
         onQuickView={(product) => setSelectedProduct(product)}
+        showSettingsButton={settings.showAdminControls || isAdminMode}
       />
 
       {/* Footer */}
       <footer className="border-t border-slate-900 bg-slate-950/80 py-8 text-center text-xs text-slate-500">
-        <p>© 2026 AURA AI Store. Built with React, OpenAI API, and Google Gemini API.</p>
-        <p className="mt-1 text-slate-600">Created for Client Portfolio & Fiverr Demonstration</p>
+        <p>© 2026 AURA AI Store. Powered by AI E-Commerce Engine.</p>
+        <p className="mt-1 text-slate-600">Fiverr Demo Portfolio • OpenAI & Google Gemini Integration</p>
       </footer>
 
     </div>

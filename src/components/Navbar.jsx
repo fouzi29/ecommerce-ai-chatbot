@@ -8,7 +8,8 @@ export function Navbar({
   onOpenCart,
   onOpenSettings,
   onOpenChat,
-  currentProvider
+  currentProvider,
+  showSettingsButton = true
 }) {
   return (
     <header className="sticky top-0 z-40 bg-slate-950/80 backdrop-blur-md border-b border-slate-800">
@@ -46,16 +47,18 @@ export function Navbar({
         {/* Action Controls */}
         <div className="flex items-center gap-3">
           
-          {/* Active AI Provider Badge */}
-          <button
-            onClick={onOpenSettings}
-            className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 hover:border-violet-500/40 text-xs font-medium text-slate-300 transition-all"
-            title="Configure AI Provider & Keys"
-          >
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            <span className="capitalize">{currentProvider === 'demo' ? 'Smart Demo AI' : `${currentProvider} API`}</span>
-            <Settings className="w-3.5 h-3.5 text-slate-400" />
-          </button>
+          {/* Admin API Provider Badge & Settings Trigger (Visible if showSettingsButton is true) */}
+          {showSettingsButton && (
+            <button
+              onClick={onOpenSettings}
+              className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 hover:border-violet-500/40 text-xs font-medium text-slate-300 transition-all"
+              title="Configure AI Provider & Keys"
+            >
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+              <span className="capitalize">{currentProvider === 'demo' ? 'Smart Demo AI' : `${currentProvider} API`}</span>
+              <Settings className="w-3.5 h-3.5 text-slate-400" />
+            </button>
+          )}
 
           {/* Ask AI Assistant Quick Trigger */}
           <button
