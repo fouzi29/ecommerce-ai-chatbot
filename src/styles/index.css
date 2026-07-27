@@ -65,13 +65,24 @@ body {
   background-attachment: fixed;
 }
 
-/* Scrollbars */
+/* Hide native browser scrollbar arrow buttons completely across all browsers */
+::-webkit-scrollbar-button {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent !important;
+}
+
+/* Custom Sleek Scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
 }
 ::-webkit-scrollbar-track {
-  background: #f1f5f9;
+  background: transparent;
 }
 ::-webkit-scrollbar-thumb {
   background: rgba(124, 58, 237, 0.3);
@@ -79,6 +90,17 @@ body {
 }
 ::-webkit-scrollbar-thumb:hover {
   background: var(--accent-purple);
+}
+
+/* Hide Scrollbar Utility */
+.scrollbar-none::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 /* Layout */
@@ -254,7 +276,7 @@ body {
   line-height: 1.4;
 }
 
-/* Chat Row & Bubbles (High Contrast Crisp Styling) */
+/* Chat Row & Bubbles */
 .chat-row {
   display: flex;
   gap: 0.75rem;
@@ -294,7 +316,7 @@ body {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
-/* ASSISTANT BUBBLE: Clean White Card with Dark Crisp Text */
+/* ASSISTANT BUBBLE */
 .chat-row.assistant .chat-bubble {
   background: #ffffff !important;
   color: #0f172a !important;
@@ -310,7 +332,7 @@ body {
   color: #0f172a !important;
 }
 
-/* USER BUBBLE: Royal Violet Gradient with Pure White Text */
+/* USER BUBBLE */
 .chat-row.user .chat-bubble {
   background: linear-gradient(135deg, #7c3aed 0%, #4338ca 100%) !important;
   color: #ffffff !important;
