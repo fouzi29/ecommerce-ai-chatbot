@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { X, Key, Cpu, Database, RefreshCw, Check, Sparkles, Server, ShoppingBag, Layers, Bell, Smartphone, SendHorizontal, MessageCircle, Info, ExternalLink, Code2, Globe, Copy } from "lucide-react";
+import { X, Key, Cpu, Database, RefreshCw, Check, Sparkles, Server, ShoppingBag, Layers, Bell, Smartphone, SendHorizontal, MessageCircle, Info, ExternalLink, Code2, Globe, Copy, Download } from "lucide-react";
 import { DEFAULT_SYSTEM_PROMPT } from "../data/defaultPrompts";
 
 export function ApiSettingsModal({
@@ -325,7 +325,7 @@ export function ApiSettingsModal({
             </>
           )}
 
-          {/* TAB 2: CUSTOM WEBSITE EMBED GENERATOR (FULL PROFESSIONAL SCRIPT SNIPPET) */}
+          {/* TAB 2: CUSTOM WEBSITE EMBED GENERATOR & DOWNLOADABLE DEMO API FILES */}
           {activeTab === "embed" && (
             <div className="space-y-4">
               <div className="p-4 rounded-2xl bg-blue-50 border border-blue-200 text-blue-900 text-xs space-y-3">
@@ -398,6 +398,61 @@ export function ApiSettingsModal({
                     <Code2 className="w-3.5 h-3.5 text-white" />
                     <span>Download aura-config.json</span>
                   </button>
+                </div>
+              </div>
+
+              {/* Download Starter API Code Files Box */}
+              <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 text-slate-900 text-xs space-y-2.5">
+                <div className="flex items-center justify-between font-black text-slate-900">
+                  <span className="flex items-center gap-1.5">
+                    <Download className="w-4 h-4 text-purple-600 shrink-0" />
+                    <span>Download Live Backend Starter API Demo Files</span>
+                  </span>
+                </div>
+                <p className="text-[11px] text-slate-600 font-medium">
+                  Copy or download pre-built database connection starter scripts for your client's server:
+                </p>
+
+                <div className="grid grid-cols-2 gap-2 pt-1">
+                  <a
+                    href="https://ecommerce-ai-chatbot-ochre.vercel.app/demo-api/php-demo.php"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="p-2.5 rounded-xl bg-white border border-slate-200 hover:border-purple-400 font-extrabold text-[11px] text-purple-800 flex items-center justify-between shadow-sm transition-all"
+                  >
+                    <span>🐘 PHP & MySQL Starter</span>
+                    <ExternalLink className="w-3 h-3 text-purple-600" />
+                  </a>
+
+                  <a
+                    href="https://ecommerce-ai-chatbot-ochre.vercel.app/demo-api/node-demo.js"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="p-2.5 rounded-xl bg-white border border-slate-200 hover:border-emerald-400 font-extrabold text-[11px] text-emerald-800 flex items-center justify-between shadow-sm transition-all"
+                  >
+                    <span>🟢 Node.js / Express</span>
+                    <ExternalLink className="w-3 h-3 text-emerald-600" />
+                  </a>
+
+                  <a
+                    href="https://ecommerce-ai-chatbot-ochre.vercel.app/demo-api/python-demo.py"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="p-2.5 rounded-xl bg-white border border-slate-200 hover:border-cyan-400 font-extrabold text-[11px] text-cyan-800 flex items-center justify-between shadow-sm transition-all"
+                  >
+                    <span>🐍 Python / Flask</span>
+                    <ExternalLink className="w-3 h-3 text-cyan-600" />
+                  </a>
+
+                  <a
+                    href="https://ecommerce-ai-chatbot-ochre.vercel.app/demo-api/products-demo.json"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="p-2.5 rounded-xl bg-white border border-slate-200 hover:border-indigo-400 font-extrabold text-[11px] text-indigo-800 flex items-center justify-between shadow-sm transition-all"
+                  >
+                    <span>📦 Products JSON Payload</span>
+                    <ExternalLink className="w-3 h-3 text-indigo-600" />
+                  </a>
                 </div>
               </div>
             </div>
