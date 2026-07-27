@@ -1,5 +1,5 @@
 import React from "react";
-import { Sparkles, CheckCircle2, XCircle, Bot, ShoppingBag, Scale, Truck, RefreshCw, Smartphone, Camera, Mic, BarChart3, Database, ShieldCheck, Zap } from "lucide-react";
+import { Sparkles, CheckCircle2, XCircle, Bot, ShoppingCart, Scale, Truck, RefreshCw, Smartphone, Camera, Mic, BarChart3, Database, Zap } from "lucide-react";
 
 export function FeaturesComparisonSection() {
   const comparisonData = [
@@ -7,73 +7,55 @@ export function FeaturesComparisonSection() {
       feature: "In-Chat Direct Order Checkout",
       aura: "Instant in-chat checkout with address & phone validation (#AU-9942)",
       traditional: "Redirects customer away to separate checkout pages",
-      icon: ShoppingBag,
-      auraCheck: true,
-      tradCheck: false
+      icon: ShoppingBag
     },
     {
       feature: "Side-by-Side Spec Comparison",
       aura: "Interactive visual comparison tables for 2-3 products",
       traditional: "Plain text answers with missing technical specs",
-      icon: Scale,
-      auraCheck: true,
-      tradCheck: false
+      icon: Scale
     },
     {
       feature: "Live Shipment Tracking & PDF Invoices",
       aura: "Real-time timeline progress bar + 1-click PDF invoice download",
       traditional: "Static tracking links requiring external logins",
-      icon: Truck,
-      auraCheck: true,
-      tradCheck: false
+      icon: Truck
     },
     {
       feature: "In-Chat Returns & Exchange Requests",
       aura: "In-chat RMA return request form + automated pickup scheduling",
       traditional: "Manual email support tickets with slow response times",
-      icon: RefreshCw,
-      auraCheck: true,
-      tradCheck: false
+      icon: RefreshCw
     },
     {
       feature: "Automated WhatsApp, Telegram & Discord Alerts",
       aura: "Instant background alerts sent to store owner's mobile phone",
       traditional: "No mobile alerts or slow email-only notifications",
-      icon: Smartphone,
-      auraCheck: true,
-      tradCheck: false
+      icon: Smartphone
     },
     {
       feature: "Camera Photo & Barcode Search",
-      aura: "Snap photo on smartphone to search visual catalog matches",
+      aura: "Snap photo on smartphone camera to search visual catalog matches",
       traditional: "Text query search only",
-      icon: Camera,
-      auraCheck: true,
-      tradCheck: false
+      icon: Camera
     },
     {
       feature: "Voice Input & Audio TTS Responses",
       aura: "Web Speech API voice input + audio read-aloud playback",
       traditional: "Keyboard typing only",
-      icon: Mic,
-      auraCheck: true,
-      tradCheck: false
+      icon: Mic
     },
     {
       feature: "Multi-Store & Database Sync (5 Connectors)",
       aura: "Shopify, WooCommerce, Supabase, MySQL/PHP, & Custom REST APIs",
       traditional: "Locked into single proprietary platform",
-      icon: Database,
-      auraCheck: true,
-      tradCheck: false
+      icon: Database
     },
     {
       feature: "Real-Time BI Analytics & Human Takeover",
       aura: "CSAT metrics, conversion rates, & live chat human handoff",
       traditional: "Basic conversation logs without analytics",
-      icon: BarChart3,
-      auraCheck: true,
-      tradCheck: false
+      icon: BarChart3
     }
   ];
 
@@ -180,6 +162,6 @@ export function FeaturesComparisonSection() {
 
       </div>
 
-    </div>
+    </section>
   );
 }
