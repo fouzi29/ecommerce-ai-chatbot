@@ -18,6 +18,13 @@ function getApiEndpointUrl() {
   return "/api/send-whatsapp";
 }
 
+function getAppOriginUrl() {
+  if (typeof window !== "undefined" && window.location?.origin) {
+    return window.location.origin;
+  }
+  return "https://ecommerce-ai-chatbot-r6ol4hktf-fouzicse-1722s-projects.vercel.app";
+}
+
 // ----------------------------------------------------
 // 1. AUTOMATED ORDER NOTIFICATION (BACKEND DISPATCH)
 // ----------------------------------------------------
@@ -30,6 +37,7 @@ export async function sendOrderNotification(order, settings = {}) {
     discordWebhookUrl
   } = settings;
 
+  const appUrl = getAppOriginUrl();
   const formattedItems = order.items?.map(i => `• ${i.name} (Qty: ${i.quantity}) - $${i.price.toFixed(2)}`).join("\n") || `• Aura Headphones - $${order.totalAmount.toFixed(2)}`;
 
   const orderSummaryText = 
@@ -48,7 +56,7 @@ ${formattedItems}
 ⚡ *Status*: ${order.status}
 ⏰ *Timestamp*: ${new Date(order.createdAt).toLocaleString()}
 ----------------------------------------
-👉 Admin Dashboard: https://ecommerce-ai-chatbot-fouzi29.vercel.app/?admin=true`;
+👉 Admin Dashboard: ${appUrl}/?admin=true`;
 
   const waLink = generateWhatsAppLink(clientPhone, orderSummaryText);
   const results = { whatsappLink: waLink, channelsTriggered: [] };
@@ -134,6 +142,7 @@ export async function sendLeadNotification(lead, settings = {}) {
     discordWebhookUrl
   } = settings;
 
+  const appUrl = getAppOriginUrl();
   const leadSummaryText = 
 `🔥 *NEW AUTOMATED PROSPECT LEAD CAPTURED!*
 ----------------------------------------
@@ -145,7 +154,7 @@ export async function sendLeadNotification(lead, settings = {}) {
 📝 *Note*: ${lead.note}
 ⏰ *Time*: ${new Date(lead.createdAt).toLocaleString()}
 ----------------------------------------
-👉 View Lead in Admin DB: https://ecommerce-ai-chatbot-fouzi29.vercel.app/?admin=true`;
+👉 View Lead in Admin DB: ${appUrl}/?admin=true`;
 
   const waLink = generateWhatsAppLink(clientPhone, leadSummaryText);
   const results = { whatsappLink: waLink, channelsTriggered: [] };
