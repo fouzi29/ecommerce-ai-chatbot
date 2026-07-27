@@ -16,6 +16,19 @@ import { PRODUCTS as DEFAULT_PRODUCTS } from "./data/products";
 import { DEFAULT_SYSTEM_PROMPT } from "./data/defaultPrompts";
 import { fetchLiveProducts } from "./services/databaseService";
 
+const DEFAULT_SETTINGS = {
+  provider: "demo",
+  openAiKey: "",
+  geminiKey: "",
+  openAiModel: "gpt-4o-mini",
+  geminiModel: "gemini-1.5-flash",
+  systemPrompt: DEFAULT_SYSTEM_PROMPT,
+  temperature: 0.7,
+  showAdminControls: true,
+  dbMode: "demo",
+  clientPhone: "+8801795657378"
+};
+
 export function App() {
   // Modal states
   const [isChatOpen, setIsChatOpen] = useState(false);
@@ -29,70 +42,81 @@ export function App() {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState("All");
 
-  // Dynamic Catalog State (Default, Custom API, Shopify, WooCommerce, Supabase)
+  // Dynamic Catalog State
   const [productsList, setProductsList] = useState(DEFAULT_PRODUCTS);
 
-  // Cart
+  // Cart with Safe Try/Catch Parser
   const [cart, setCart] = useState(() => {
-    const saved = localStorage.getItem("aura_cart");
-    return saved ? JSON.parse(saved) : [];
+    try {
+      const saved = localStorage.getItem("aura_cart");
+      return saved ? JSON.parse(saved) : [];
+    } catch (e) {
+      console.warn("Failed to parse cart from localStorage:", e);
+      return [];
+    }
   });
 
-  // Saved AI & System Settings
+  // Saved AI & System Settings with Safe Try/Catch Parser
   const [settings, setSettings] = useState(() => {
-    const saved = localStorage.getItem("aura_ai_settings");
-    return saved
-      ? JSON.parse(saved)
-      : {
-          provider: "demo",
-          openAiKey: "",
-          geminiKey: "",
-          openAiModel: "gpt-4o-mini",
-          geminiModel: "gemini-1.5-flash",
-          systemPrompt: DEFAULT_SYSTEM_PROMPT,
-          temperature: 0.7,
-          showAdminControls: true,
-          dbMode: "demo",
-          clientPhone: "+8801795657378"
-        };
+    try {
+      const saved = localStorage.getItem("aura_ai_settings");
+      if (saved) {
+        return { ...DEFAULT_SETTINGS, ...JSON.parse(saved) };
+      }
+    } catch (e) {
+      console.warn("Failed to parse settings from localStorage:", e);
+    }
+    return DEFAULT_SETTINGS;
   });
 
   // Automatically Pop Up User Guide for First Time Visitors!
   useEffect(() => {
-    const hasSeenGuide = localStorage.getItem("aura_has_seen_guide");
-    if (!hasSeenGuide) {
-      setIsGuideOpen(true);
-      localStorage.setItem("aura_has_seen_guide", "true");
+    try {
+      const hasSeenGuide = localStorage.getItem("aura_has_seen_guide");
+      if (!hasSeenGuide) {
+        setIsGuideOpen(true);
+        localStorage.setItem("aura_has_seen_guide", "true");
+      }
+    } catch (e) {
+      console.warn("LocalStorage access warning:", e);
     }
   }, []);
 
-  // Fetch Live Products whenever DB Settings (Shopify, WooCommerce, Custom API, Supabase) Change!
+  // Fetch Live Products whenever DB Settings Change!
   useEffect(() => {
     let isMounted = true;
     fetchLiveProducts(settings).then((liveItems) => {
       if (isMounted && liveItems && liveItems.length > 0) {
         setProductsList(liveItems);
       }
+    }).catch(err => {
+      console.warn("Fetch live products warning:", err);
     });
     return () => { isMounted = false; };
   }, [settings]);
 
   // Sync Settings to localStorage
   useEffect(() => {
-    localStorage.setItem("aura_ai_settings", JSON.stringify(settings));
+    try {
+      localStorage.setItem("aura_ai_settings", JSON.stringify(settings));
+    } catch (e) {}
   }, [settings]);
 
   // Sync Cart to localStorage
   useEffect(() => {
-    localStorage.setItem("aura_cart", JSON.stringify(cart));
+    try {
+      localStorage.setItem("aura_cart", JSON.stringify(cart));
+    } catch (e) {}
   }, [cart]);
 
   // Handle URL Admin Query Parameter (e.g. ?admin=true)
   useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get("admin") === "true") {
-      setIsAdminOpen(true);
-    }
+    try {
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get("admin") === "true") {
+        setIsAdminOpen(true);
+      }
+    } catch (e) {}
   }, []);
 
   // Cart actions
@@ -150,7 +174,7 @@ export function App() {
       <Navbar
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
-        cartCount={cart.reduce((sum, item) => sum + item.quantity, 0)}
+        cartCount={cart.reduce((sum, item) => sum + (item.quantity || 1), 0)}
         onOpenCart={() => setIsCartOpen(true)}
         onOpenSettings={() => setIsSettingsOpen(true)}
         onOpenAdmin={() => setIsAdminOpen(true)}
@@ -176,7 +200,7 @@ export function App() {
         {/* Features Graphical Comparison Matrix Section */}
         <FeaturesComparisonSection />
 
-        {/* Product Catalog Grid (Live Sync with Shopify, WooCommerce, Supabase, Custom API) */}
+        {/* Product Catalog Grid */}
         <ProductGrid
           products={filteredProducts}
           activeCategory={activeCategory}
@@ -194,7 +218,7 @@ export function App() {
         onOpenGuide={() => setIsGuideOpen(true)}
       />
 
-      {/* AI Floating Chatbot Widget (Enterprise 25-Module Version) */}
+      {/* AI Floating Chatbot Widget */}
       <ChatWidget
         isOpen={isChatOpen}
         onToggleOpen={() => setIsChatOpen(!isChatOpen)}
@@ -245,7 +269,7 @@ export function App() {
         onClose={() => setIsAdminOpen(false)}
       />
 
-      {/* Interactive Client User Guide Modal (Auto Pops Up for First-Time Visitors) */}
+      {/* Interactive Client User Guide Modal */}
       <UserGuideModal
         isOpen={isGuideOpen}
         onClose={() => setIsGuideOpen(false)}
