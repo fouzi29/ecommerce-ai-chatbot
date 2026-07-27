@@ -1,80 +1,158 @@
-# 🚀 AURA AI Chatbot — Client Website Integration & Transfer Guide
+# 🚀 Master Client Integration & Multi-Language Backend Guide
 
 > **Prepared by Fouzi**  
-> *Complete step-by-step instructions for embedding and transferring the AI Chatbot to any client website (Shopify, WooCommerce, WordPress, Custom HTML/PHP, React, Next.js).*
+> *Centralized Multi-Tenant Setup Blueprint for embedding the AI Chatbot on any client website (PHP, Node.js, Python, Laravel, Shopify, WooCommerce, WordPress).*
 
 ---
 
-## 📌 4 Seamless Integration Methods
+## ⚡ Option 1: Centralized Multi-Tenant Embed (RECOMMENDED)
+
+You control everything from 1 central Vercel deployment:  
+👉 **`https://ecommerce-ai-chatbot-ochre.vercel.app/embed.js`**
+
+When onboarding a new client (**Client 1: `njwade.net`**, **Client 2: `store2.com`**), pass their domain, WhatsApp API Key, and Database URLs directly inside their `<script>` embed tag:
 
 ---
 
-### Method A: 1-Line Widget Embed (Any Website — WordPress, Custom HTML, PHP, Shopify, Wix, Webflow)
-
-To embed this AI Assistant on any client website without modifying their core codebase, copy and paste this single script tag right before the closing `</body>` tag:
+### 📋 Copy-Paste Embed Tag for Client 1 (`njwade.net`)
 
 ```html
-<!-- AURA AI E-Commerce Shopping Assistant Widget -->
+<!-- AURA AI Shopping Assistant for njwade.net -->
 <script 
   src="https://ecommerce-ai-chatbot-ochre.vercel.app/embed.js" 
-  data-store-id="client-store-001" 
-  data-api-provider="demo" 
+  data-site-domain="njwade.net"
+  data-store-id="njwade-net-store"
+  data-whatsapp-key="Lgy1D7Prsd5u"
+  data-client-phone="+8801795657378"
+  data-products-api="https://njwade.net/api/products.php"
+  data-orders-api="https://njwade.net/api/orders.php"
   async>
 </script>
 ```
 
 ---
 
-### Method B: Shopify & WooCommerce Live Catalog Connection
+### 📋 Copy-Paste Embed Tag for Client 2 (`store2.com`)
 
-If your client runs a **Shopify** or **WooCommerce** store:
-
-1. Open the **SaaS AI Settings Modal** (Click the `Smart Demo` / `Settings` button in the top navbar).
-2. Under **Database Sync Mode**, select:
-   - **Shopify Storefront API**: Enter the Client's Shopify Store Domain (`mystore.myshopify.com`) and Storefront Access Token.
-   - **WooCommerce REST API**: Enter Store Domain, Consumer Key (`ck_...`), and Consumer Secret (`cs_...`).
-3. Click **Save Settings**. The chatbot will automatically query the client's live inventory, prices, images, and product specs!
-
----
-
-### Method C: Custom Backend & REST Database Connection (PHP / MySQL / Node.js / Supabase)
-
-For clients with custom backends:
-
-1. In the **SaaS AI Settings Modal**, select **Custom REST API** or **Supabase**.
-2. Enter the client's API Base URL (e.g., `https://clientstore.com/api/products`).
-3. The chatbot accepts standard JSON product arrays and dispatches orders to `POST https://clientstore.com/api/orders`.
+```html
+<!-- AURA AI Shopping Assistant for store2.com -->
+<script 
+  src="https://ecommerce-ai-chatbot-ochre.vercel.app/embed.js" 
+  data-site-domain="store2.com"
+  data-store-id="store2-com-store"
+  data-whatsapp-key="CLIENT2_WHATSAPP_KEY"
+  data-client-phone="+15550192831"
+  data-products-api="https://store2.com/api/products"
+  data-orders-api="https://store2.com/api/orders"
+  async>
+</script>
+```
 
 ---
 
-### Method D: Complete Repository & Vercel Project Transfer to Client
+## 🐘 Multi-Language Backend Demo Files & Code Templates
 
-If the client wants full ownership of the project code and Vercel hosting:
-
-#### 1. Transfer GitHub Repository
-1. On GitHub, go to your repository: `https://github.com/fouzi29/ecommerce-ai-chatbot`.
-2. Click **Settings** ➔ Scroll to **Danger Zone** ➔ Click **Transfer Ownership**.
-3. Enter the client's GitHub username or organization name.
-
-#### 2. Transfer Vercel Project
-1. Log in to [Vercel](https://vercel.com).
-2. Go to `ecommerce-ai-chatbot-ochre` project settings.
-3. Click **Transfer Project** and enter the client's Vercel Account or Team Name.
+To connect a client's custom database, download or copy the starter backend endpoint files from your server:
 
 ---
 
-## 💬 Instant Automated Alerts Setup for Client
+### 1️⃣ PHP & MySQL Starter (`api/products.php` & `api/orders.php`)
+📁 **Download File**: `https://ecommerce-ai-chatbot-ochre.vercel.app/demo-api/php-demo.php`
 
-To ensure the client receives mobile alerts on their phone whenever a customer orders or submits a lead:
-- **TextMeBot WhatsApp**: Go to [https://textmebot.com/](https://textmebot.com/), generate an API Key, and paste it into Settings.
-- **Telegram Bot**: Enter Bot Token & Chat ID in Settings.
-- **Discord Webhook**: Enter Webhook URL in Settings.
+```php
+<?php
+// njwade.net/api/products.php
+header("Access-Control-Allow-Origin: *");
+header("Content-Type: application/json; charset=UTF-8");
+
+$host = "localhost";
+$db   = "your_mysql_db";
+$user = "your_mysql_user";
+$pass = "your_mysql_password";
+
+$pdo = new PDO("mysql:host=$host;dbname=$db;charset=utf8mb4", $user, $pass);
+
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    $stmt = $pdo->query("SELECT id, name, price, original_price as originalPrice, category, description, image_url as image, rating, reviews_count as reviewsCount FROM products WHERE stock > 0");
+    echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
+    exit;
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $data = json_decode(file_get_contents("php://input"), true);
+    $stmt = $pdo->prepare("INSERT INTO orders (order_id, customer_name, customer_email, customer_phone, shipping_address, total_amount, status, created_at) VALUES (?, ?, ?, ?, ?, ?, 'Pending', NOW())");
+    $stmt->execute([
+        $data['orderId'] ?? ('AU-' . rand(1000, 9999)),
+        $data['customerName'],
+        $data['customerEmail'],
+        $data['customerPhone'] ?? '',
+        $data['shippingAddress'],
+        $data['totalAmount'] ?? 0
+    ]);
+    echo json_encode(["success" => true, "orderId" => $data['orderId']]);
+    exit;
+}
+?>
+```
 
 ---
 
-## 👨‍💻 Support & Custom Integration Services
+### 2️⃣ Node.js / Express Starter (`node-demo.js`)
+📁 **Download File**: `https://ecommerce-ai-chatbot-ochre.vercel.app/demo-api/node-demo.js`
 
-Need help customizing this chatbot for a client? Connect with Fouzi:
+```javascript
+const express = require('express');
+const cors = require('cors');
+const app = express();
+
+app.use(cors());
+app.use(express.json());
+
+app.get('/api/products', (req, res) => {
+  res.json([
+    { id: "prod-1", name: "Aura ANC Headphones", price: 249.99, category: "Audio" }
+  ]);
+});
+
+app.post('/api/orders', (req, res) => {
+  console.log("Order Received:", req.body);
+  res.json({ success: true, orderId: req.body.orderId || 'AU-9921' });
+});
+
+app.listen(4000, () => console.log('API Server running on 4000'));
+```
+
+---
+
+### 3️⃣ Python / Flask Starter (`python-demo.py`)
+📁 **Download File**: `https://ecommerce-ai-chatbot-ochre.vercel.app/demo-api/python-demo.py`
+
+```python
+from flask import Flask, jsonify, request
+from flask_cors import CORS
+
+app = Flask(__name__)
+CORS(app)
+
+@app.route('/api/products', methods=['GET'])
+def get_products():
+    return jsonify([
+        {"id": "py-1", "name": "Aura Smartwatch", "price": 199.50, "category": "Wearables"}
+    ])
+
+@app.route('/api/orders', methods=['POST'])
+def receive_order():
+    return jsonify({"success": True, "orderId": request.json.get("orderId", "AU-9921")})
+
+if __name__ == '__main__':
+    app.run(port=5000)
+```
+
+---
+
+## 👨‍💻 Support & Services
+
+Need Fouzi to set up your client's database?
 - 👔 **LinkedIn**: [https://www.linkedin.com/in/mdfouzi/](https://www.linkedin.com/in/mdfouzi/)
 - 📌 **Fiverr Profile**: [https://www.fiverr.com/s/e6BNbv3](https://www.fiverr.com/s/e6BNbv3)
 - 🚀 **Custom AI Chatbot Gig**: [https://www.fiverr.com/s/GzVdLez](https://www.fiverr.com/s/GzVdLez)
