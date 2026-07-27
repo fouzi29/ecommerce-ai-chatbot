@@ -1,9 +1,10 @@
 import React from "react";
-import { Sparkles, ExternalLink, Code2, Heart } from "lucide-react";
+import { Sparkles, ExternalLink, Code2, Heart, Linkedin } from "lucide-react";
 
 export function Footer({ onOpenSettings, onOpenAdmin, onOpenGuide }) {
   const FIVERR_PROFILE_URL = "https://www.fiverr.com/s/e6BNbv3";
   const FIVERR_GIG_URL = "https://www.fiverr.com/s/GzVdLez";
+  const LINKEDIN_PROFILE_URL = "https://www.linkedin.com/in/mdfouzi/";
 
   return (
     <footer className="mt-20 border-t border-purple-500/20 bg-slate-950/90 backdrop-blur-xl text-slate-300 text-xs">
@@ -51,28 +52,29 @@ export function Footer({ onOpenSettings, onOpenAdmin, onOpenGuide }) {
           <div className="space-y-3 bg-purple-950/40 p-4 rounded-xl border border-purple-500/30">
             <h4 className="font-extrabold text-white text-xs flex items-center gap-1.5">
               <Code2 className="w-4 h-4 text-cyan-400" />
-              <span>Connect on Fiverr</span>
+              <span>Connect with Fouzi</span>
             </h4>
             <p className="text-slate-300 text-[11px] leading-relaxed">
-              Explore custom AI Chatbot integrations for your e-commerce store or web platform with Fouzi!
+              Explore custom AI Chatbot integrations for your e-commerce store or web platform!
             </p>
             <div className="space-y-2 pt-1">
+              <a
+                href={LINKEDIN_PROFILE_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-1.5 w-full py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shadow-md transition-all"
+              >
+                <Linkedin className="w-3.5 h-3.5" />
+                <span>LinkedIn Profile</span>
+              </a>
               <a
                 href={FIVERR_GIG_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-center gap-1.5 w-full py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-md transition-all"
+                className="flex items-center justify-center gap-1.5 w-full py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-[11px] shadow-sm"
               >
-                <span>Explore AI Chatbot Gig</span>
+                <span>Connect on Fiverr</span>
                 <ExternalLink className="w-3 h-3" />
-              </a>
-              <a
-                href={FIVERR_PROFILE_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-center gap-1.5 w-full py-1.5 rounded-lg bg-slate-900 border border-slate-700 text-cyan-300 hover:text-white font-semibold text-[11px]"
-              >
-                <span>Fiverr Profile</span>
               </a>
             </div>
           </div>

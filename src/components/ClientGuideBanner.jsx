@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { Zap, ChevronDown, ChevronUp, Code2, ExternalLink, Bot, ShoppingCart, Database, Bell } from "lucide-react";
+import { Zap, ChevronDown, ChevronUp, Code2, ExternalLink, Bot, ShoppingCart, Database, Bell, Linkedin } from "lucide-react";
 
 export function ClientGuideBanner({ onOpenChat, onOpenSettings, onOpenGuide }) {
   const [isExpanded, setIsExpanded] = useState(true);
 
   const FIVERR_PROFILE_URL = "https://www.fiverr.com/s/e6BNbv3";
   const FIVERR_GIG_URL = "https://www.fiverr.com/s/GzVdLez";
+  const LINKEDIN_PROFILE_URL = "https://www.linkedin.com/in/mdfouzi/";
 
   return (
     <div className="mb-8 rounded-3xl bg-white border border-purple-200 p-5 sm:p-6 shadow-xl text-slate-900 transition-all">
@@ -30,13 +31,23 @@ export function ClientGuideBanner({ onOpenChat, onOpenSettings, onOpenGuide }) {
           </div>
         </div>
 
-        {/* Action Controls & Connect Button */}
+        {/* Action Controls & Social Links */}
         <div className="flex items-center gap-2 flex-wrap sm:flex-nowrap">
+          <a
+            href={LINKEDIN_PROFILE_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-xs shadow-md transition-all border border-blue-500"
+          >
+            <Linkedin className="w-3.5 h-3.5 text-white" />
+            <span className="text-white font-extrabold">LinkedIn Profile</span>
+          </a>
+
           <a
             href={FIVERR_GIG_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs shadow-md transition-all border border-emerald-500"
+            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs shadow-md transition-all border border-emerald-500"
           >
             <span className="text-white font-extrabold">Connect on Fiverr</span>
             <ExternalLink className="w-3.5 h-3.5 text-white" />
@@ -136,6 +147,16 @@ export function ClientGuideBanner({ onOpenChat, onOpenSettings, onOpenGuide }) {
         </div>
 
         <div className="flex items-center gap-3 font-bold">
+          <a
+            href={LINKEDIN_PROFILE_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-700 hover:text-blue-900 flex items-center gap-1"
+          >
+            <span>LinkedIn Profile</span>
+            <ExternalLink className="w-3 h-3" />
+          </a>
+          <span>•</span>
           <a
             href={FIVERR_PROFILE_URL}
             target="_blank"

@@ -1,11 +1,12 @@
 import React from "react";
-import { X, BookOpen, Bot, ShoppingCart, Database, Bell, ExternalLink, Code2, Server, Key } from "lucide-react";
+import { X, BookOpen, Bot, ShoppingCart, Database, Bell, ExternalLink, Code2, Server, Key, Linkedin } from "lucide-react";
 
 export function UserGuideModal({ isOpen, onClose, onOpenChat, onOpenSettings }) {
   if (!isOpen) return null;
 
   const FIVERR_PROFILE_URL = "https://www.fiverr.com/s/e6BNbv3";
   const FIVERR_GIG_URL = "https://www.fiverr.com/s/GzVdLez";
+  const LINKEDIN_PROFILE_URL = "https://www.linkedin.com/in/mdfouzi/";
 
   return (
     <div className="modal-backdrop" onClick={onClose}>
@@ -232,19 +233,29 @@ export function UserGuideModal({ isOpen, onClose, onOpenChat, onOpenSettings }) 
 
         </div>
 
-        {/* Footer & Connect CTA */}
+        {/* Footer & Social CTA */}
         <div className="pt-4 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
           <div className="flex items-center gap-2 text-slate-700">
             <Code2 className="w-4 h-4 text-purple-600" />
             <span>App Creator: <strong className="text-slate-900 font-extrabold">Fouzi</strong></span>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
+            <a
+              href={LINKEDIN_PROFILE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold flex items-center gap-1.5 shadow-md transition-all"
+            >
+              <Linkedin className="w-3.5 h-3.5" />
+              <span>LinkedIn Profile</span>
+            </a>
+
             <a
               href={FIVERR_GIG_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold flex items-center gap-1.5 shadow-md transition-all"
+              className="px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold flex items-center gap-1.5 shadow-md transition-all"
             >
               <span>Connect on Fiverr</span>
               <ExternalLink className="w-3.5 h-3.5 text-white" />
