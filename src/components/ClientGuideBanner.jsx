@@ -15,35 +15,35 @@ export function ClientGuideBanner({ onOpenChat, onOpenSettings, onOpenGuide }) {
   const LINKEDIN_PROFILE_URL = "https://www.linkedin.com/in/mdfouzi/";
 
   return (
-    <div className="mb-8 rounded-3xl bg-white border border-purple-200 p-5 sm:p-6 shadow-xl text-slate-900 transition-all">
+    <div className="mb-6 sm:mb-8 rounded-2xl sm:rounded-3xl bg-white border border-purple-200 p-4 sm:p-6 shadow-xl text-slate-900 transition-all overflow-x-hidden">
       
       {/* Header Bar */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-purple-600 via-violet-600 to-cyan-500 flex items-center justify-center text-white shadow-lg shadow-purple-500/20">
-            <Zap className="w-5 h-5" />
+          <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-tr from-purple-600 via-violet-600 to-cyan-500 flex items-center justify-center text-white shadow-lg shadow-purple-500/20 shrink-0">
+            <Zap className="w-4 h-4 sm:w-5 sm:h-5" />
           </div>
           <div>
-            <div className="flex items-center gap-2">
-              <h2 className="text-lg font-black text-slate-900 tracking-tight">Client Demonstration & User Guide</h2>
-              <span className="px-2.5 py-0.5 rounded-full bg-purple-100 border border-purple-300 text-purple-700 font-extrabold text-[11px]">
+            <div className="flex flex-wrap items-center gap-2">
+              <h2 className="text-base sm:text-lg font-black text-slate-900 tracking-tight">Client Demonstration & User Guide</h2>
+              <span className="px-2 py-0.5 rounded-full bg-purple-100 border border-purple-300 text-purple-700 font-extrabold text-[10px] sm:text-[11px]">
                 Portfolio Edition
               </span>
             </div>
-            <p className="text-slate-600 text-xs mt-0.5 font-semibold">
+            <p className="text-slate-600 text-[11px] sm:text-xs mt-0.5 font-semibold">
               Engineered & Designed by <span className="text-purple-600 font-extrabold">Fouzi</span> • Dual OpenAI & Gemini AI Architecture
             </p>
           </div>
         </div>
 
         {/* Action Controls & Social Links */}
-        <div className="flex items-center gap-2 flex-wrap sm:flex-nowrap">
+        <div className="flex items-center gap-2 flex-wrap">
           <a
             href={LINKEDIN_PROFILE_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-xs shadow-md transition-all border border-blue-500"
+            className="flex items-center gap-1.5 px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-xs shadow-md transition-all border border-blue-500"
           >
             <LinkedinIcon className="w-3.5 h-3.5 text-white" />
             <span className="text-white font-extrabold">LinkedIn Profile</span>
@@ -53,7 +53,7 @@ export function ClientGuideBanner({ onOpenChat, onOpenSettings, onOpenGuide }) {
             href={FIVERR_GIG_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs shadow-md transition-all border border-emerald-500"
+            className="flex items-center gap-1.5 px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs shadow-md transition-all border border-emerald-500"
           >
             <span className="text-white font-extrabold">Connect on Fiverr</span>
             <ExternalLink className="w-3.5 h-3.5 text-white" />
@@ -72,10 +72,10 @@ export function ClientGuideBanner({ onOpenChat, onOpenSettings, onOpenGuide }) {
 
       {/* Expanded User Guide Cards */}
       {isExpanded && (
-        <div className="mt-6 pt-5 border-t border-slate-200 grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div className="mt-5 pt-4 border-t border-slate-200 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
           
           {/* Card 1: AI Engine Controls */}
-          <div className="bg-slate-50 p-4 rounded-2xl border border-purple-200 hover:border-purple-400 transition-all">
+          <div className="bg-slate-50 p-3.5 sm:p-4 rounded-2xl border border-purple-200 hover:border-purple-400 transition-all">
             <div className="flex items-center gap-2 text-purple-700 font-extrabold text-xs uppercase tracking-wider mb-2">
               <Bot className="w-4 h-4 text-purple-600" />
               <span>1. AI Engines & Provider</span>
@@ -92,7 +92,7 @@ export function ClientGuideBanner({ onOpenChat, onOpenSettings, onOpenGuide }) {
           </div>
 
           {/* Card 2: Interactive Assistant & AI Orders */}
-          <div className="bg-slate-50 p-4 rounded-2xl border border-cyan-200 hover:border-cyan-400 transition-all">
+          <div className="bg-slate-50 p-3.5 sm:p-4 rounded-2xl border border-cyan-200 hover:border-cyan-400 transition-all">
             <div className="flex items-center gap-2 text-cyan-700 font-extrabold text-xs uppercase tracking-wider mb-2">
               <ShoppingCart className="w-4 h-4 text-cyan-600" />
               <span>2. Direct Orders & Leads</span>
@@ -109,7 +109,7 @@ export function ClientGuideBanner({ onOpenChat, onOpenSettings, onOpenGuide }) {
           </div>
 
           {/* Card 3: Database & Platform Integration */}
-          <div className="bg-slate-50 p-4 rounded-2xl border border-emerald-200 hover:border-emerald-400 transition-all">
+          <div className="bg-slate-50 p-3.5 sm:p-4 rounded-2xl border border-emerald-200 hover:border-emerald-400 transition-all">
             <div className="flex items-center gap-2 text-emerald-700 font-extrabold text-xs uppercase tracking-wider mb-2">
               <Database className="w-4 h-4 text-emerald-600" />
               <span>3. Database & Platform Sync</span>
@@ -126,7 +126,7 @@ export function ClientGuideBanner({ onOpenChat, onOpenSettings, onOpenGuide }) {
           </div>
 
           {/* Card 4: WhatsApp & SMS Instant Alerts */}
-          <div className="bg-slate-50 p-4 rounded-2xl border border-amber-200 hover:border-amber-400 transition-all">
+          <div className="bg-slate-50 p-3.5 sm:p-4 rounded-2xl border border-amber-200 hover:border-amber-400 transition-all">
             <div className="flex items-center gap-2 text-amber-700 font-extrabold text-xs uppercase tracking-wider mb-2">
               <Bell className="w-4 h-4 text-amber-600" />
               <span>4. WhatsApp & SMS Alerts</span>
@@ -152,7 +152,7 @@ export function ClientGuideBanner({ onOpenChat, onOpenSettings, onOpenGuide }) {
           <span>Application Creator: <strong className="text-slate-900 font-extrabold">Fouzi</strong></span>
         </div>
 
-        <div className="flex items-center gap-3 font-bold">
+        <div className="flex items-center gap-2.5 font-bold flex-wrap justify-center">
           <a
             href={LINKEDIN_PROFILE_URL}
             target="_blank"
