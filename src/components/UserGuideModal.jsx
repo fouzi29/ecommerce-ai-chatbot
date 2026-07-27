@@ -1,5 +1,5 @@
 import React from "react";
-import { X, BookOpen, Bot, ShoppingCart, Database, Bell, ExternalLink, Code2, Server, Key } from "lucide-react";
+import { X, BookOpen, Bot, ShoppingCart, Database, Bell, ExternalLink, Code2, Server, Key, Sparkles, Scale, RefreshCw, Heart, Camera, Mic, BarChart3 } from "lucide-react";
 
 const LinkedinIcon = ({ className = "w-3.5 h-3.5" }) => (
   <svg className={className} viewBox="0 0 24 24" fill="currentColor">
@@ -20,11 +20,11 @@ export function UserGuideModal({ isOpen, onClose, onOpenChat, onOpenSettings }) 
         className="bg-white border border-purple-200 rounded-3xl max-w-3xl w-full p-6 sm:p-8 relative shadow-2xl overflow-hidden animate-slideUp max-h-[85vh] flex flex-col text-slate-900"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Header */}
+        {/* Header Bar with Vibrant High-Contrast Icon */}
         <div className="flex items-center justify-between pb-4 border-b border-slate-200">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-purple-600 to-cyan-500 text-white flex items-center justify-center shadow-lg shadow-purple-500/20">
-              <BookOpen className="w-5 h-5" />
+            <div className="w-10 h-10 rounded-xl bg-purple-600 text-white flex items-center justify-center shadow-lg shadow-purple-500/30 shrink-0">
+              <BookOpen className="w-5 h-5 text-white" />
             </div>
             <div>
               <div className="flex items-center gap-2">
@@ -33,8 +33,8 @@ export function UserGuideModal({ isOpen, onClose, onOpenChat, onOpenSettings }) 
                   Fiverr Portfolio Edition
                 </span>
               </div>
-              <p className="text-slate-600 text-xs mt-0.5">
-                Engineered & Developed by <strong className="text-purple-600">Fouzi</strong> • Complete Technical Blueprint
+              <p className="text-slate-600 text-xs mt-0.5 font-semibold">
+                Engineered & Developed by <strong className="text-purple-600">Fouzi</strong> • Enterprise Blueprint
               </p>
             </div>
           </div>
@@ -47,6 +47,51 @@ export function UserGuideModal({ isOpen, onClose, onOpenChat, onOpenSettings }) 
         {/* Guide Content */}
         <div className="flex-1 overflow-y-auto my-4 space-y-4 pr-1 text-xs">
           
+          {/* NEW SECTION: Enterprise 25-Module Feature Suite Breakdown */}
+          <div className="bg-gradient-to-r from-purple-900 via-indigo-900 to-slate-900 text-white p-4.5 rounded-2xl space-y-3 shadow-lg border border-purple-700">
+            <div className="flex items-center justify-between">
+              <h4 className="text-xs font-black text-amber-300 flex items-center gap-2 uppercase tracking-wider">
+                <Sparkles className="w-4 h-4 text-amber-300" />
+                <span>Enterprise 25-Module AI E-Commerce Capabilities</span>
+              </h4>
+              <span className="px-2.5 py-0.5 bg-purple-600 text-white font-black text-[10px] rounded-full uppercase">
+                24/7 AI Sales Agent
+              </span>
+            </div>
+
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 text-[11px] font-medium pt-1">
+              <div className="flex items-center gap-1.5 bg-purple-950/60 p-2 rounded-xl border border-purple-700">
+                <ShoppingCart className="w-3.5 h-3.5 text-purple-300 shrink-0" />
+                <span>In-Chat Direct Checkout</span>
+              </div>
+
+              <div className="flex items-center gap-1.5 bg-purple-950/60 p-2 rounded-xl border border-purple-700">
+                <Scale className="w-3.5 h-3.5 text-cyan-300 shrink-0" />
+                <span>Side-by-Side Comparison</span>
+              </div>
+
+              <div className="flex items-center gap-1.5 bg-purple-950/60 p-2 rounded-xl border border-purple-700">
+                <BarChart3 className="w-3.5 h-3.5 text-emerald-300 shrink-0" />
+                <span>Order Tracking & Invoice</span>
+              </div>
+
+              <div className="flex items-center gap-1.5 bg-purple-950/60 p-2 rounded-xl border border-purple-700">
+                <RefreshCw className="w-3.5 h-3.5 text-amber-300 shrink-0" />
+                <span>In-Chat Returns & RMA</span>
+              </div>
+
+              <div className="flex items-center gap-1.5 bg-purple-950/60 p-2 rounded-xl border border-purple-700">
+                <Heart className="w-3.5 h-3.5 text-rose-300 shrink-0" />
+                <span>Wishlist & Loyalty Points</span>
+              </div>
+
+              <div className="flex items-center gap-1.5 bg-purple-950/60 p-2 rounded-xl border border-purple-700">
+                <Camera className="w-3.5 h-3.5 text-cyan-300 shrink-0" />
+                <span>Camera Photo & Barcode</span>
+              </div>
+            </div>
+          </div>
+
           {/* Section 1: AI Engines */}
           <div className="bg-slate-50 p-4 rounded-2xl border border-purple-200">
             <div className="flex items-center justify-between mb-2">
@@ -61,7 +106,7 @@ export function UserGuideModal({ isOpen, onClose, onOpenChat, onOpenSettings }) 
                 AI Settings
               </button>
             </div>
-            <p className="text-slate-600 leading-relaxed">
+            <p className="text-slate-600 leading-relaxed font-medium">
               • <strong>Smart Demo Mode</strong>: Works out-of-the-box with zero setup and zero cost!  
               • <strong>OpenAI (GPT-4o)</strong>: Enter your OpenAI API key (<code className="text-purple-700 font-bold bg-purple-100 px-1 rounded">sk-...</code>) in Settings.  
               • <strong>Google Gemini (2.0 Flash)</strong>: Enter your Gemini API key (<code className="text-cyan-700 font-bold bg-cyan-100 px-1 rounded">AIza...</code>) in Settings.
@@ -82,7 +127,7 @@ export function UserGuideModal({ isOpen, onClose, onOpenChat, onOpenSettings }) 
                 Open Chatbot
               </button>
             </div>
-            <p className="text-slate-600 leading-relaxed">
+            <p className="text-slate-600 leading-relaxed font-medium">
               • <strong>Direct AI Order Checkout</strong>: Say *"Order Aura Headphones"* in chat. An in-chat checkout form asks for Name, Email, Phone, & Address, then places the order (`#AU-9821`)!  
               • <strong>Lead Collector Form</strong>: Say *"Request custom quote"*. Renders a lead capture form and saves to database.  
               • <strong>Promo Codes & Tracking</strong>: Test active code <code className="text-cyan-700 font-bold bg-cyan-100 px-1 rounded">AURA20</code> or track package <code className="text-cyan-700 font-bold bg-cyan-100 px-1 rounded">#AU-8821</code>.
@@ -104,8 +149,8 @@ export function UserGuideModal({ isOpen, onClose, onOpenChat, onOpenSettings }) 
               </button>
             </div>
 
-            <p className="text-slate-700 leading-relaxed">
-              If your client wants to connect their custom backend (Laravel, PHP, Node.js, Express, Python, MySQL), set up the following 3 standard REST endpoints:
+            <p className="text-slate-700 leading-relaxed font-medium">
+              Connect custom store backends (Laravel, PHP, Node.js, Express, Python, MySQL) via 3 standard REST endpoints:
             </p>
 
             {/* Sub-schema A: GET /api/products */}
@@ -146,7 +191,7 @@ export function UserGuideModal({ isOpen, onClose, onOpenChat, onOpenSettings }) 
             <div className="flex items-center justify-between mb-2">
               <h4 className="text-xs font-extrabold text-amber-700 flex items-center gap-2 uppercase tracking-wider">
                 <Bell className="w-4 h-4 text-amber-600" />
-                <span>4. Automated WhatsApp, Telegram, & Discord Alerts</span>
+                <span>4. Direct TextMeBot WhatsApp, Telegram, & Discord Alerts</span>
               </h4>
               <button
                 onClick={() => { onClose(); onOpenSettings(); }}
@@ -155,9 +200,9 @@ export function UserGuideModal({ isOpen, onClose, onOpenChat, onOpenSettings }) 
                 Configure Alerts
               </button>
             </div>
-            <p className="text-slate-600 leading-relaxed">
+            <p className="text-slate-600 leading-relaxed font-medium">
               Receive instant alerts on your phone whenever an order or lead is placed via:  
-              • <strong>TextMeBot & CallMeBot WhatsApp Gateways</strong>  
+              • <strong>TextMeBot Direct WhatsApp Link Generator</strong> (Generate API Key on <a href="https://textmebot.com/" target="_blank" rel="noopener noreferrer" className="text-purple-700 font-bold underline">TextMeBot.com</a>)  
               • <strong>Telegram Bot Token & Chat ID</strong>  
               • <strong>Discord Webhook URL</strong>
             </p>
@@ -170,11 +215,21 @@ export function UserGuideModal({ isOpen, onClose, onOpenChat, onOpenSettings }) 
               <span>5. 1-Click API Keys & Connectors Directory</span>
             </h4>
             
-            <p className="text-slate-300 text-[11px] leading-relaxed">
+            <p className="text-slate-300 text-[11px] leading-relaxed font-medium">
               Click any link below to obtain your free API keys for instant integration:
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px]">
+              <a
+                href="https://textmebot.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-purple-300 flex items-center justify-between"
+              >
+                <span>💬 TextMeBot WhatsApp (TextMeBot.com)</span>
+                <ExternalLink className="w-3.5 h-3.5" />
+              </a>
+
               <a
                 href="https://platform.openai.com/api-keys"
                 target="_blank"
@@ -192,26 +247,6 @@ export function UserGuideModal({ isOpen, onClose, onOpenChat, onOpenSettings }) 
                 className="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-cyan-300 flex items-center justify-between"
               >
                 <span>🔑 Google Gemini API Keys</span>
-                <ExternalLink className="w-3.5 h-3.5" />
-              </a>
-
-              <a
-                href="https://api.textmebot.com/addphone.php"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-purple-300 flex items-center justify-between"
-              >
-                <span>🔑 TextMeBot WhatsApp Key</span>
-                <ExternalLink className="w-3.5 h-3.5" />
-              </a>
-
-              <a
-                href="https://wa.me/34644597190"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-amber-300 flex items-center justify-between"
-              >
-                <span>📲 CallMeBot WhatsApp (+34644597190)</span>
                 <ExternalLink className="w-3.5 h-3.5" />
               </a>
 
@@ -241,7 +276,7 @@ export function UserGuideModal({ isOpen, onClose, onOpenChat, onOpenSettings }) 
 
         {/* Footer & Social CTA */}
         <div className="pt-4 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
-          <div className="flex items-center gap-2 text-slate-700">
+          <div className="flex items-center gap-2 text-slate-700 font-bold">
             <Code2 className="w-4 h-4 text-purple-600" />
             <span>App Creator: <strong className="text-slate-900 font-extrabold">Fouzi</strong></span>
           </div>
@@ -253,7 +288,7 @@ export function UserGuideModal({ isOpen, onClose, onOpenChat, onOpenSettings }) 
               rel="noopener noreferrer"
               className="px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold flex items-center gap-1.5 shadow-md transition-all"
             >
-              <LinkedinIcon className="w-3.5 h-3.5" />
+              <LinkedinIcon className="w-3.5 h-3.5 text-white" />
               <span>LinkedIn Profile</span>
             </a>
 

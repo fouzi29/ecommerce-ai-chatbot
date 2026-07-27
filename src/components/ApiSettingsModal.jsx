@@ -34,12 +34,10 @@ export function ApiSettingsModal({
   const [supabaseUrl, setSupabaseUrl] = useState(settings.supabaseUrl || "");
   const [supabaseAnonKey, setSupabaseAnonKey] = useState(settings.supabaseAnonKey || "");
 
-  // Automated WhatsApp, Telegram & Discord State
+  // Automated WhatsApp (TextMeBot Direct API Key / Link Generator), Telegram & Discord State
   const [clientPhone, setClientPhone] = useState(settings.clientPhone || "+8801795657378");
-  const [whatsappGatewayProvider, setWhatsappGatewayProvider] = useState(settings.whatsappGatewayProvider || "callmebot");
-  const [callMeBotApiKey, setCallMeBotApiKey] = useState(settings.callMeBotApiKey || "");
-  const [ultraMsgInstanceId, setUltraMsgInstanceId] = useState(settings.ultraMsgInstanceId || "");
-  const [ultraMsgToken, setUltraMsgToken] = useState(settings.ultraMsgToken || "");
+  const [whatsappGatewayProvider, setWhatsappGatewayProvider] = useState(settings.whatsappGatewayProvider || "textmebot");
+  const [callMeBotApiKey, setCallMeBotApiKey] = useState(settings.callMeBotApiKey || "Lgy1D7Prsd5u");
   const [telegramBotToken, setTelegramBotToken] = useState(settings.telegramBotToken || "");
   const [telegramChatId, setTelegramChatId] = useState(settings.telegramChatId || "");
   const [discordWebhookUrl, setDiscordWebhookUrl] = useState(settings.discordWebhookUrl || "");
@@ -76,8 +74,6 @@ export function ApiSettingsModal({
       clientPhone,
       whatsappGatewayProvider,
       callMeBotApiKey,
-      ultraMsgInstanceId,
-      ultraMsgToken,
       telegramBotToken,
       telegramChatId,
       discordWebhookUrl
@@ -110,10 +106,8 @@ export function ApiSettingsModal({
     setSupabaseUrl("");
     setSupabaseAnonKey("");
     setClientPhone("+8801795657378");
-    setWhatsappGatewayProvider("callmebot");
-    setCallMeBotApiKey("");
-    setUltraMsgInstanceId("");
-    setUltraMsgToken("");
+    setWhatsappGatewayProvider("textmebot");
+    setCallMeBotApiKey("Lgy1D7Prsd5u");
     setTelegramBotToken("");
     setTelegramChatId("");
     setDiscordWebhookUrl("");
@@ -535,75 +529,59 @@ export function ApiSettingsModal({
             </div>
           )}
 
-          {/* TAB 3: AUTOMATED NOTIFICATIONS (WHATSAPP, TELEGRAM, DISCORD) */}
+          {/* TAB 3: AUTOMATED NOTIFICATIONS (TEXTMEBOT DIRECT WHATSAPP, TELEGRAM, DISCORD) */}
           {activeTab === "notifications" && (
             <div className="space-y-4">
               
-              {/* WhatsApp Gateway Direct Links & Guide */}
-              <div className="p-4 rounded-2xl bg-amber-50 border border-amber-200 text-amber-900 text-xs space-y-2 font-medium">
-                <div className="flex items-center justify-between font-extrabold text-amber-800">
+              {/* TextMeBot Direct 1-Click Setup Guide */}
+              <div className="p-4 rounded-2xl bg-purple-50 border border-purple-200 text-purple-900 text-xs space-y-2 font-medium">
+                <div className="flex items-center justify-between font-extrabold text-purple-800">
                   <span className="flex items-center gap-1.5">
-                    <Info className="w-4 h-4 text-amber-600 shrink-0" />
-                    <span>How to Get WhatsApp API Keys (TextMeBot & CallMeBot)</span>
+                    <Info className="w-4 h-4 text-purple-600 shrink-0" />
+                    <span>Direct TextMeBot WhatsApp Integration Generator</span>
                   </span>
                 </div>
+                <p className="text-slate-700 text-[11px] leading-relaxed">
+                  Generate your 1-click WhatsApp API Key directly from <strong>TextMeBot</strong>. When you paste your API Key or Link below, both your phone number and gateway connect automatically!
+                </p>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
+                <div className="pt-1">
                   <a
-                    href="https://api.textmebot.com/addphone.php"
+                    href="https://textmebot.com/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="p-2.5 bg-white border border-amber-300 rounded-xl text-slate-900 hover:border-amber-500 flex items-center justify-between"
+                    className="p-3 bg-purple-600 hover:bg-purple-700 text-white rounded-xl font-extrabold text-xs flex items-center justify-between shadow-md transition-all"
                   >
-                    <div>
-                      <span className="font-extrabold text-xs block text-purple-700">1. TextMeBot Gateway</span>
-                      <span className="text-[10px] text-slate-600">Alphanumeric Key (e.g. Lgy1D7Prsd5u)</span>
-                    </div>
-                    <ExternalLink className="w-3.5 h-3.5 text-purple-600" />
-                  </a>
-
-                  <a
-                    href="https://wa.me/34644597190"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="p-2.5 bg-white border border-amber-300 rounded-xl text-slate-900 hover:border-amber-500 flex items-center justify-between"
-                  >
-                    <div>
-                      <span className="font-extrabold text-xs block text-emerald-700">2. CallMeBot Gateway</span>
-                      <span className="text-[10px] text-slate-600">Send WhatsApp to +34 644 59 71 90</span>
-                    </div>
-                    <ExternalLink className="w-3.5 h-3.5 text-emerald-600" />
+                    <span className="flex items-center gap-2">
+                      <MessageCircle className="w-4 h-4 text-emerald-300" />
+                      <span>Generate API Key on TextMeBot.com</span>
+                    </span>
+                    <ExternalLink className="w-4 h-4 text-white" />
                   </a>
                 </div>
               </div>
 
-              {/* WhatsApp Gateway Setup */}
+              {/* TextMeBot Direct WhatsApp Setup */}
               <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-3">
                 <h4 className="text-xs font-extrabold text-emerald-700 flex items-center gap-1.5">
                   <Smartphone className="w-4 h-4 text-emerald-600" />
-                  <span>Automated WhatsApp Gateway Setup</span>
+                  <span>Direct TextMeBot WhatsApp API Key / Link</span>
                 </h4>
                 
                 <div>
-                  <label className="block text-[11px] text-slate-700 font-bold mb-1">Admin Phone Number (with Country Code)</label>
-                  <input
-                    type="tel"
-                    placeholder="+8801755690467"
-                    value={clientPhone}
-                    onChange={(e) => setClientPhone(e.target.value)}
-                    className="w-full bg-white border border-slate-200 rounded-xl px-3.5 py-2 text-xs text-slate-900 outline-none font-mono"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-[11px] text-slate-700 font-bold mb-1">WhatsApp API Key (TextMeBot e.g. Lgy1D7Prsd5u OR CallMeBot)</label>
+                  <label className="block text-[11px] text-slate-700 font-bold mb-1">
+                    Paste Your TextMeBot API Key or Link (e.g. Lgy1D7Prsd5u)
+                  </label>
                   <input
                     type="text"
-                    placeholder="Lgy1D7Prsd5u"
+                    placeholder="https://api.textmebot.com/addphone.php?apikey=Lgy1D7Prsd5u"
                     value={callMeBotApiKey}
                     onChange={(e) => setCallMeBotApiKey(e.target.value)}
-                    className="w-full bg-white border border-slate-200 rounded-xl px-3.5 py-2 text-xs text-slate-900 outline-none font-mono"
+                    className="w-full bg-white border border-slate-200 rounded-xl px-3.5 py-2 text-xs text-slate-900 outline-none font-mono font-bold"
                   />
+                  <p className="text-[10px] text-slate-500 mt-1 font-medium">
+                    *Phone number and gateway link are automatically linked from this key. No separate phone number required!
+                  </p>
                 </div>
               </div>
 
