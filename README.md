@@ -1,31 +1,36 @@
-# 🛍️ AURA E-Commerce AI Chatbot (OpenAI + Google Gemini Integration)
+# 🛍️ AURA E-Commerce AI Sales Agent & Support Suite (OpenAI + Gemini Integration)
 
-> **Engineered & Developed by Fouzi**  
-> 🌟 **Hire Me on Fiverr**: [https://www.fiverr.com/s/e6BNbv3](https://www.fiverr.com/s/e6BNbv3)  
-> 📌 **Custom AI Chatbot Gig**: [https://www.fiverr.com/s/GzVdLez](https://www.fiverr.com/s/GzVdLez)
+> **Engineered & Architected by Fouzi**  
+> 🌐 **Live Web Application**: [https://ecommerce-ai-chatbot-ochre.vercel.app/](https://ecommerce-ai-chatbot-ochre.vercel.app/)  
+> 👔 **LinkedIn Profile**: [https://www.linkedin.com/in/mdfouzi/](https://www.linkedin.com/in/mdfouzi/)  
+> 📌 **Connect on Fiverr**: [https://www.fiverr.com/s/GzVdLez](https://www.fiverr.com/s/GzVdLez)
 
-A modern, high-performance **E-Commerce Web Application** featuring an advanced **Dual-Engine AI Shopping Assistant Chatbot**. Built with React, Vite, Tailwind CSS, and direct REST integrations for **OpenAI (GPT-4o)** and **Google Gemini (Gemini 2.0 / 1.5 Flash)** APIs.
-
-Designed specifically as a **premium Fiverr portfolio demo** and production-ready starter template.
-
----
-
-## 🌟 Hire Me on Fiverr
-
-If you are looking to build a custom AI Chatbot, integrate OpenAI / Gemini APIs into your website, or connect AI assistants to your Database (Shopify, WooCommerce, MySQL, PostgreSQL, Supabase):
-
-- 👤 **Fiverr Profile**: [Fouzi's Fiverr Profile](https://www.fiverr.com/s/e6BNbv3)
-- 🚀 **Order Custom AI Gig**: [Build Custom AI Chatbot & OpenAI/Gemini API Integration Gig](https://www.fiverr.com/s/GzVdLez)
+A modern, high-performance **25-Module E-Commerce AI Sales Agent & Shopping Assistant**. Built with React, Vite, Tailwind CSS, and direct REST integrations for **OpenAI (GPT-4o)** and **Google Gemini (Gemini 2.0 / 1.5 Flash)** APIs.
 
 ---
 
-## ✨ Core Features
+## 📊 Graphical Feature Matrix: AURA AI Suite vs Traditional FAQ Chatbots
+
+| Feature / Capability | ⚡ AURA AI 25-Module Suite | ❌ Traditional FAQ Chatbot |
+| :--- | :--- | :--- |
+| **In-Chat Direct Checkout** | Instant in-chat checkout with name, email, phone & address validation (`#AU-9942`) | Redirects user away to separate checkout pages |
+| **Side-by-Side Spec Comparison** | Interactive visual comparison tables for 2-3 products (Specs, Battery, Price) | Plain text answers with missing technical specs |
+| **Live Order Tracking & Invoices** | Real-time timeline progress bar + 1-click official PDF invoice download | Static tracking links requiring external logins |
+| **In-Chat Returns & Exchange (RMA)** | In-chat return request form + automated courier pickup scheduling | Manual email support tickets with slow response times |
+| **Automated Mobile Alerts** | Instant background alerts sent to TextMeBot WhatsApp, Telegram & Discord | No mobile alerts or slow email-only notifications |
+| **Camera Photo & Barcode Search** | Snap photo on smartphone camera to search visual catalog matches | Text query search only |
+| **Voice Input & Audio Read-Aloud** | Web Speech API voice input + audio read-aloud TTS playback | Keyboard typing only |
+| **Multi-Store Connectors (5 DBs)** | Shopify Storefront, WooCommerce, Supabase, MySQL/PHP, & Custom REST APIs | Locked into single proprietary platform |
+| **Real-Time BI Analytics & Takeover** | Live CSAT metrics, conversion rates, & live human agent takeover toggle | Basic conversation logs without analytics |
+
+---
+
+## ✨ Core Feature Highlights
 
 ### 🤖 1. Dual AI Engine & Smart Demo Mode
-- **OpenAI API Integration**: Supports `gpt-4o`, `gpt-4o-mini`, `gpt-3.5-turbo`.
-- **Google Gemini API Integration**: Supports `gemini-2.0-flash`, `gemini-1.5-flash`, `gemini-1.5-pro`.
-- **Smart Demo Mode**: Intelligent offline fallback engine with catalog awareness. Evaluates product searches, promo codes, shipping policies, and order tracking out-of-the-box **without needing any API keys**!
-- **In-App API Settings Modal**: Easily enter, test, and save OpenAI & Gemini API keys securely in browser `localStorage`.
+- **OpenAI API Integration**: Supports `gpt-4o`, `gpt-4o-mini`.
+- **Google Gemini API Integration**: Supports `gemini-2.0-flash`, `gemini-1.5-flash`.
+- **Smart Demo Mode**: Intelligent offline fallback engine with catalog awareness. Evaluates product searches, promo codes (`AURA20`), shipping policies, and order tracking out-of-the-box **without needing any API keys**!
 
 ### 🛒 2. Direct AI Order Placement & Lead Collector Engine
 - **In-Chat Direct Order Placement**: Shoppers can order products directly inside the AI chatbot window (`#AU-9942`) with real-time database recording.
@@ -71,8 +76,9 @@ If you are looking to build a custom AI Chatbot, integrate OpenAI / Gemini APIs 
 
 ---
 
-## 👨‍💻 Created By
+## 👨‍💻 Connect with Fouzi
 
 **Fouzi** — Expert AI & Full-Stack Web Developer  
-- Fiverr Profile: [https://www.fiverr.com/s/e6BNbv3](https://www.fiverr.com/s/e6BNbv3)  
-- Custom AI Gig: [https://www.fiverr.com/s/GzVdLez](https://www.fiverr.com/s/GzVdLez)
+- 👔 LinkedIn Profile: [https://www.linkedin.com/in/mdfouzi/](https://www.linkedin.com/in/mdfouzi/)  
+- 📌 Fiverr Profile: [https://www.fiverr.com/s/e6BNbv3](https://www.fiverr.com/s/e6BNbv3)  
+- 🚀 Custom AI Gig: [https://www.fiverr.com/s/GzVdLez](https://www.fiverr.com/s/GzVdLez)

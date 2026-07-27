@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Navbar } from "./components/Navbar";
 import { ClientGuideBanner } from "./components/ClientGuideBanner";
 import { HeroBanner } from "./components/HeroBanner";
+import { FeaturesComparisonSection } from "./components/FeaturesComparisonSection";
 import { ProductGrid } from "./components/ProductGrid";
 import { Footer } from "./components/Footer";
 import { ChatWidget } from "./components/Chatbot/ChatWidget";
@@ -171,6 +172,9 @@ export function App() {
 
         {/* Hero Section */}
         <HeroBanner onOpenChat={() => setIsChatOpen(true)} />
+
+        {/* Features Graphical Comparison Matrix Section */}
+        <FeaturesComparisonSection />
 
         {/* Product Catalog Grid (Live Sync with Shopify, WooCommerce, Supabase, Custom API) */}
         <ProductGrid
