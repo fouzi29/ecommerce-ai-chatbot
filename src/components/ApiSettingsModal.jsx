@@ -8,7 +8,7 @@ export function ApiSettingsModal({
   settings,
   onSaveSettings
 }) {
-  const [activeTab, setActiveTab] = useState("ai"); // "ai", "database", "notifications", "embed"
+  const [activeTab, setActiveTab] = useState("ai"); // "ai", "embed", "database", "notifications"
 
   // AI State
   const [provider, setProvider] = useState(settings.provider || "demo");
@@ -16,8 +16,6 @@ export function ApiSettingsModal({
   const [geminiKey, setGeminiKey] = useState(settings.geminiKey || "");
   const [openAiModel, setOpenAiModel] = useState(settings.openAiModel || "gpt-4o-mini");
   const [geminiModel, setGeminiModel] = useState(settings.geminiModel || "gemini-1.5-flash");
-  const [systemPrompt, setSystemPrompt] = useState(settings.systemPrompt || DEFAULT_SYSTEM_PROMPT);
-  const [temperature, setTemperature] = useState(settings.temperature || 0.7);
 
   // Custom Website Embed Configuration State (e.g. njwade.net)
   const [targetDomain, setTargetDomain] = useState(settings.targetDomain || "njwade.net");
@@ -35,13 +33,10 @@ export function ApiSettingsModal({
   const [shopifyAccessToken, setShopifyAccessToken] = useState(settings.shopifyAccessToken || "");
   const [wooUrl, setWooUrl] = useState(settings.wooUrl || "");
   const [wooConsumerKey, setWooConsumerKey] = useState(settings.wooConsumerKey || "");
-  const [wooConsumerSecret, setWooConsumerSecret] = useState(settings.wooConsumerSecret || "");
   const [supabaseUrl, setSupabaseUrl] = useState(settings.supabaseUrl || "");
-  const [supabaseAnonKey, setSupabaseAnonKey] = useState(settings.supabaseAnonKey || "");
 
   // Automated WhatsApp (TextMeBot Direct API Key / Link Generator), Telegram & Discord State
   const [clientPhone, setClientPhone] = useState(settings.clientPhone || "+8801795657378");
-  const [whatsappGatewayProvider, setWhatsappGatewayProvider] = useState(settings.whatsappGatewayProvider || "textmebot");
   const [callMeBotApiKey, setCallMeBotApiKey] = useState(settings.callMeBotApiKey || "Lgy1D7Prsd5u");
   const [telegramBotToken, setTelegramBotToken] = useState(settings.telegramBotToken || "");
   const [telegramChatId, setTelegramChatId] = useState(settings.telegramChatId || "");
@@ -66,9 +61,9 @@ export function ApiSettingsModal({
       aiProvider: provider,
       whatsappAlertPhone: clientPhone,
       textmebotApiKey: callMeBotApiKey,
-      catalogEndpoint: customApiUrl || `https://${targetDomain || 'njwade.net'}/api/products`,
-      orderWebhookEndpoint: customOrderWebhookUrl || `https://${targetDomain || 'njwade.net'}/api/orders`,
-      leadWebhookEndpoint: customLeadWebhookUrl || `https://${targetDomain || 'njwade.net'}/api/leads`,
+      catalogEndpoint: customApiUrl || `https://${targetDomain || 'njwade.net'}/api/products.php`,
+      orderWebhookEndpoint: customOrderWebhookUrl || `https://${targetDomain || 'njwade.net'}/api/orders.php`,
+      demoApiSampleUrl: "https://ecommerce-ai-chatbot-ochre.vercel.app/demo-api/products-demo.json",
       createdAt: new Date().toISOString()
     };
 
@@ -89,13 +84,9 @@ export function ApiSettingsModal({
       geminiKey,
       openAiModel,
       geminiModel,
-      systemPrompt,
-      temperature,
       showAdminControls: settings.showAdminControls !== undefined ? settings.showAdminControls : true,
-      // Custom Site Target
       targetDomain,
       targetStoreName,
-      // DB & API Webhooks
       dbMode,
       customApiUrl,
       customOrderWebhookUrl,
@@ -105,12 +96,8 @@ export function ApiSettingsModal({
       shopifyAccessToken,
       wooUrl,
       wooConsumerKey,
-      wooConsumerSecret,
       supabaseUrl,
-      supabaseAnonKey,
-      // Automated WhatsApp, Telegram & Discord
       clientPhone,
-      whatsappGatewayProvider,
       callMeBotApiKey,
       telegramBotToken,
       telegramChatId,
@@ -129,8 +116,6 @@ export function ApiSettingsModal({
     setGeminiKey("");
     setOpenAiModel("gpt-4o-mini");
     setGeminiModel("gemini-1.5-flash");
-    setSystemPrompt(DEFAULT_SYSTEM_PROMPT);
-    setTemperature(0.7);
     setTargetDomain("njwade.net");
     setTargetStoreName("NJ Wade Store");
     setDbMode("demo");
@@ -142,11 +127,8 @@ export function ApiSettingsModal({
     setShopifyAccessToken("");
     setWooUrl("");
     setWooConsumerKey("");
-    setWooConsumerSecret("");
     setSupabaseUrl("");
-    setSupabaseAnonKey("");
     setClientPhone("+8801795657378");
-    setWhatsappGatewayProvider("textmebot");
     setCallMeBotApiKey("Lgy1D7Prsd5u");
     setTelegramBotToken("");
     setTelegramChatId("");
@@ -167,7 +149,7 @@ export function ApiSettingsModal({
             </div>
             <div>
               <h3 className="font-black text-slate-900 text-lg tracking-tight">SaaS Client Control Panel</h3>
-              <p className="text-slate-600 text-xs font-semibold">Configure AI Engines, Custom Site Embeds & API Gateways</p>
+              <p className="text-slate-600 text-xs font-semibold">Configure AI Engines, Custom Site Embeds & 5 Database Connectors</p>
             </div>
           </div>
           <button onClick={onClose} className="p-2 rounded-xl text-slate-400 hover:text-slate-900 hover:bg-slate-100 transition-colors">
@@ -303,7 +285,7 @@ export function ApiSettingsModal({
                     placeholder="sk-proj-..."
                     value={openAiKey}
                     onChange={(e) => setOpenAiKey(e.target.value)}
-                    className="w-full bg-white border border-slate-200 rounded-xl px-3.5 py-2 text-xs text-slate-900 outline-none"
+                    className="w-full bg-white border border-slate-200 rounded-xl px-3.5 py-2 text-xs text-slate-900 outline-none font-mono"
                   />
                 </div>
               )}
@@ -327,7 +309,7 @@ export function ApiSettingsModal({
                     placeholder="AIzaSy..."
                     value={geminiKey}
                     onChange={(e) => setGeminiKey(e.target.value)}
-                    className="w-full bg-white border border-slate-200 rounded-xl px-3.5 py-2 text-xs text-slate-900 outline-none"
+                    className="w-full bg-white border border-slate-200 rounded-xl px-3.5 py-2 text-xs text-slate-900 outline-none font-mono"
                   />
                 </div>
               )}
@@ -412,7 +394,7 @@ export function ApiSettingsModal({
             </div>
           )}
 
-          {/* TAB 3: DATABASE & PLATFORM CONNECTORS */}
+          {/* TAB 3: DATABASE & PLATFORM CONNECTORS (ALWAYS FULLY EXPANDED) */}
           {activeTab === "database" && (
             <div className="space-y-4">
               <div>
@@ -420,7 +402,7 @@ export function ApiSettingsModal({
                   Select Product Catalog & Database Sync Source (5 Connectors)
                 </label>
 
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5 mb-3">
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5 mb-4">
                   <button
                     type="button"
                     onClick={() => setDbMode("demo")}
@@ -456,33 +438,266 @@ export function ApiSettingsModal({
                     <span className="font-extrabold text-xs block">Shopify Store</span>
                     <span className="text-[10px] text-slate-500">Storefront API</span>
                   </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setDbMode("woocommerce")}
+                    className={`p-3 rounded-2xl border text-left transition-all ${
+                      dbMode === "woocommerce" ? "bg-indigo-50 border-indigo-500 text-indigo-900 shadow-sm" : "bg-slate-50 border-slate-200 text-slate-700"
+                    }`}
+                  >
+                    <ShoppingBag className="w-4 h-4 text-indigo-600 mb-1" />
+                    <span className="font-extrabold text-xs block">WooCommerce</span>
+                    <span className="text-[10px] text-slate-500">WordPress REST API</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setDbMode("supabase")}
+                    className={`p-3 rounded-2xl border text-left transition-all ${
+                      dbMode === "supabase" ? "bg-teal-50 border-teal-500 text-teal-900 shadow-sm" : "bg-slate-50 border-slate-200 text-slate-700"
+                    }`}
+                  >
+                    <Database className="w-4 h-4 text-teal-600 mb-1" />
+                    <span className="font-extrabold text-xs block">Supabase</span>
+                    <span className="text-[10px] text-slate-500">PostgreSQL DB</span>
+                  </button>
                 </div>
               </div>
+
+              {/* Custom REST API Endpoint Configuration Fields (Always Expandable) */}
+              {dbMode === "custom_api" && (
+                <div className="bg-slate-50 p-4 rounded-2xl border border-cyan-300 space-y-3.5 shadow-sm">
+                  <div className="flex items-center justify-between">
+                    <h4 className="text-xs font-black text-cyan-800 flex items-center gap-1.5 uppercase tracking-wider">
+                      <Server className="w-4 h-4 text-cyan-600" />
+                      <span>Custom PHP / MySQL API Setup (e.g. njwade.net)</span>
+                    </h4>
+                    <a
+                      href="https://ecommerce-ai-chatbot-ochre.vercel.app/demo-api/products-demo.json"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-[10px] font-extrabold text-cyan-700 hover:text-cyan-900 flex items-center gap-1 underline"
+                    >
+                      <span>📥 Test Demo JSON Payload</span>
+                      <ExternalLink className="w-3 h-3" />
+                    </a>
+                  </div>
+
+                  <div>
+                    <label className="block text-[11px] text-slate-800 font-extrabold mb-1">
+                      1. Products Catalog API Endpoint URL (GET)
+                    </label>
+                    <input
+                      type="url"
+                      placeholder="https://njwade.net/api/products.php"
+                      value={customApiUrl}
+                      onChange={(e) => setCustomApiUrl(e.target.value)}
+                      className="w-full bg-white border border-slate-300 rounded-xl px-3.5 py-2 text-xs text-slate-900 outline-none font-mono"
+                    />
+                    <p className="text-[10px] text-slate-500 mt-1">
+                      *Returns array of products from MySQL. Demo URL: <code className="text-cyan-700 bg-cyan-100 px-1 rounded">https://ecommerce-ai-chatbot-ochre.vercel.app/demo-api/products-demo.json</code>
+                    </p>
+                  </div>
+
+                  <div>
+                    <label className="block text-[11px] text-slate-800 font-extrabold mb-1">
+                      2. Order Placed Webhook Endpoint URL (POST)
+                    </label>
+                    <input
+                      type="url"
+                      placeholder="https://njwade.net/api/orders.php"
+                      value={customOrderWebhookUrl}
+                      onChange={(e) => setCustomOrderWebhookUrl(e.target.value)}
+                      className="w-full bg-white border border-slate-300 rounded-xl px-3.5 py-2 text-xs text-slate-900 outline-none font-mono"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-[11px] text-slate-800 font-extrabold mb-1">
+                      3. Prospect Lead Captured Webhook Endpoint URL (POST)
+                    </label>
+                    <input
+                      type="url"
+                      placeholder="https://njwade.net/api/leads.php"
+                      value={customLeadWebhookUrl}
+                      onChange={(e) => setCustomLeadWebhookUrl(e.target.value)}
+                      className="w-full bg-white border border-slate-300 rounded-xl px-3.5 py-2 text-xs text-slate-900 outline-none font-mono"
+                    />
+                  </div>
+                </div>
+              )}
+
+              {/* Shopify Configuration */}
+              {dbMode === "shopify" && (
+                <div className="bg-slate-50 p-4 rounded-2xl border border-emerald-300 space-y-3">
+                  <div className="flex items-center justify-between">
+                    <h4 className="text-xs font-black text-emerald-800 flex items-center gap-1.5 uppercase tracking-wider">
+                      <ShoppingBag className="w-4 h-4 text-emerald-600" />
+                      <span>Shopify Storefront API Integration</span>
+                    </h4>
+                  </div>
+                  <div>
+                    <label className="block text-[11px] text-slate-800 font-bold mb-1">Shopify Store Domain</label>
+                    <input
+                      type="text"
+                      placeholder="your-store.myshopify.com"
+                      value={shopifyDomain}
+                      onChange={(e) => setShopifyDomain(e.target.value)}
+                      className="w-full bg-white border border-slate-300 rounded-xl px-3.5 py-2 text-xs text-slate-900 outline-none"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[11px] text-slate-800 font-bold mb-1">Storefront Access Token</label>
+                    <input
+                      type="password"
+                      placeholder="shpat_..."
+                      value={shopifyAccessToken}
+                      onChange={(e) => setShopifyAccessToken(e.target.value)}
+                      className="w-full bg-white border border-slate-300 rounded-xl px-3.5 py-2 text-xs text-slate-900 outline-none font-mono"
+                    />
+                  </div>
+                </div>
+              )}
+
+              {/* WooCommerce Configuration */}
+              {dbMode === "woocommerce" && (
+                <div className="bg-slate-50 p-4 rounded-2xl border border-indigo-300 space-y-3">
+                  <h4 className="text-xs font-black text-indigo-800 flex items-center gap-1.5 uppercase tracking-wider">
+                    <ShoppingBag className="w-4 h-4 text-indigo-600" />
+                    <span>WooCommerce REST API Integration</span>
+                  </h4>
+                  <div>
+                    <label className="block text-[11px] text-slate-800 font-bold mb-1">WordPress Store URL</label>
+                    <input
+                      type="url"
+                      placeholder="https://mywordpressstore.com"
+                      value={wooUrl}
+                      onChange={(e) => setWooUrl(e.target.value)}
+                      className="w-full bg-white border border-slate-300 rounded-xl px-3.5 py-2 text-xs text-slate-900 outline-none"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[11px] text-slate-800 font-bold mb-1">Consumer Key (ck_...)</label>
+                    <input
+                      type="text"
+                      placeholder="ck_123456789..."
+                      value={wooConsumerKey}
+                      onChange={(e) => setWooConsumerKey(e.target.value)}
+                      className="w-full bg-white border border-slate-300 rounded-xl px-3.5 py-2 text-xs text-slate-900 outline-none font-mono"
+                    />
+                  </div>
+                </div>
+              )}
+
+              {/* Supabase Configuration */}
+              {dbMode === "supabase" && (
+                <div className="bg-slate-50 p-4 rounded-2xl border border-teal-300 space-y-3">
+                  <h4 className="text-xs font-black text-teal-800 flex items-center gap-1.5 uppercase tracking-wider">
+                    <Database className="w-4 h-4 text-teal-600" />
+                    <span>Supabase PostgreSQL Integration</span>
+                  </h4>
+                  <div>
+                    <label className="block text-[11px] text-slate-800 font-bold mb-1">Supabase Project URL</label>
+                    <input
+                      type="url"
+                      placeholder="https://xyzcompany.supabase.co"
+                      value={supabaseUrl}
+                      onChange={(e) => setSupabaseUrl(e.target.value)}
+                      className="w-full bg-white border border-slate-300 rounded-xl px-3.5 py-2 text-xs text-slate-900 outline-none"
+                    />
+                  </div>
+                </div>
+              )}
             </div>
           )}
 
           {/* TAB 4: AUTOMATED NOTIFICATIONS */}
           {activeTab === "notifications" && (
             <div className="space-y-4">
-              <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-3">
-                <h4 className="text-xs font-extrabold text-emerald-700 flex items-center gap-1.5">
-                  <Smartphone className="w-4 h-4 text-emerald-600" />
-                  <span>Direct TextMeBot WhatsApp API Key / Link</span>
-                </h4>
+              
+              {/* TextMeBot Direct Setup */}
+              <div className="bg-slate-50 p-4 rounded-2xl border border-emerald-300 space-y-3 shadow-sm">
+                <div className="flex items-center justify-between">
+                  <h4 className="text-xs font-black text-emerald-800 flex items-center gap-1.5 uppercase tracking-wider">
+                    <Smartphone className="w-4 h-4 text-emerald-600" />
+                    <span>Direct TextMeBot WhatsApp API Key / Link</span>
+                  </h4>
+                  <a
+                    href="https://textmebot.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[11px] text-purple-700 font-extrabold flex items-center gap-1 underline"
+                  >
+                    <span>💬 Get Free Key on TextMeBot.com</span>
+                    <ExternalLink className="w-3 h-3" />
+                  </a>
+                </div>
                 
                 <div>
-                  <label className="block text-[11px] text-slate-700 font-bold mb-1">
-                    Paste Your TextMeBot API Key or Link (e.g. Lgy1D7Prsd5u)
+                  <label className="block text-[11px] text-slate-800 font-bold mb-1">
+                    Paste Client's TextMeBot API Key or Link (e.g. Lgy1D7Prsd5u)
                   </label>
                   <input
                     type="text"
                     placeholder="https://api.textmebot.com/addphone.php?apikey=Lgy1D7Prsd5u"
                     value={callMeBotApiKey}
                     onChange={(e) => setCallMeBotApiKey(e.target.value)}
-                    className="w-full bg-white border border-slate-200 rounded-xl px-3.5 py-2 text-xs text-slate-900 outline-none font-mono font-bold"
+                    className="w-full bg-white border border-slate-300 rounded-xl px-3.5 py-2 text-xs text-slate-900 outline-none font-mono font-bold"
                   />
+                  <p className="text-[10px] text-slate-500 mt-1 font-medium">
+                    *Client pastes their key here and WhatsApp alerts dispatch automatically to their phone!
+                  </p>
                 </div>
               </div>
+
+              {/* Telegram Bot Setup */}
+              <div className="bg-slate-50 p-4 rounded-2xl border border-cyan-300 space-y-3">
+                <h4 className="text-xs font-black text-cyan-800 flex items-center gap-1.5 uppercase tracking-wider">
+                  <SendHorizontal className="w-4 h-4 text-cyan-600" />
+                  <span>Telegram Bot Instant Alerts</span>
+                </h4>
+                
+                <div className="grid grid-cols-2 gap-2">
+                  <div>
+                    <label className="block text-[11px] text-slate-800 font-bold mb-1">Telegram Bot Token</label>
+                    <input
+                      type="password"
+                      placeholder="123456:ABC-DEF..."
+                      value={telegramBotToken}
+                      onChange={(e) => setTelegramBotToken(e.target.value)}
+                      className="w-full bg-white border border-slate-300 rounded-xl px-3.5 py-2 text-xs text-slate-900 outline-none font-mono"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-[11px] text-slate-800 font-bold mb-1">Telegram Chat ID</label>
+                    <input
+                      type="text"
+                      placeholder="-100123456"
+                      value={telegramChatId}
+                      onChange={(e) => setTelegramChatId(e.target.value)}
+                      className="w-full bg-white border border-slate-300 rounded-xl px-3.5 py-2 text-xs text-slate-900 outline-none font-mono"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Discord Webhook Setup */}
+              <div className="bg-slate-50 p-4 rounded-2xl border border-indigo-300 space-y-3">
+                <h4 className="text-xs font-black text-indigo-800 flex items-center gap-1.5 uppercase tracking-wider">
+                  <Bell className="w-4 h-4 text-indigo-600" />
+                  <span>Discord Channel Webhook URL</span>
+                </h4>
+                <input
+                  type="url"
+                  placeholder="https://discord.com/api/webhooks/..."
+                  value={discordWebhookUrl}
+                  onChange={(e) => setDiscordWebhookUrl(e.target.value)}
+                  className="w-full bg-white border border-slate-300 rounded-xl px-3.5 py-2 text-xs text-slate-900 outline-none font-mono"
+                />
+              </div>
+
             </div>
           )}
 
@@ -499,7 +714,7 @@ export function ApiSettingsModal({
 
             <button
               type="submit"
-              className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-extrabold text-xs shadow-md shadow-purple-600/20 transition-all"
+              className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-extrabold text-xs shadow-md shadow-purple-600/20 transition-all cursor-pointer"
             >
               {isSaved ? (
                 <>

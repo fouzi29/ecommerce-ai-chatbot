@@ -1,0 +1,19 @@
+{
+  "event": "order_placed",
+  "orderId": "AU-9942",
+  "customerName": "Alex Rivera",
+  "customerEmail": "alex@example.com",
+  "customerPhone": "+15550192831",
+  "shippingAddress": "742 Evergreen Terrace, Springfield, OR",
+  "items": [
+    {
+      "id": "demo-prod-1",
+      "name": "Aura Pro Wireless ANC Headphones",
+      "price": 249.99,
+      "quantity": 1
+    }
+  ],
+  "totalAmount": 249.99,
+  "status": "Processing",
+  "createdAt": "2026-07-27T11:40:00.000Z"
+}
