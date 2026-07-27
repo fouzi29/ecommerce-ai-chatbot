@@ -22,7 +22,7 @@ function getAppOriginUrl() {
   if (typeof window !== "undefined" && window.location?.origin) {
     return window.location.origin;
   }
-  return "https://ecommerce-ai-chatbot-r6ol4hktf-fouzicse-1722s-projects.vercel.app";
+  return "https://ecommerce-ai-chatbot-ochre.vercel.app";
 }
 
 // ----------------------------------------------------
