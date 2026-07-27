@@ -69,6 +69,33 @@ export function App() {
     return DEFAULT_SETTINGS;
   });
 
+  // Handle Multi-Tenant Embedded URL Attributes (Allows 100+ Multiple Clients on 1 Vercel App!)
+  useEffect(() => {
+    try {
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get("embed") === "true") {
+        const whatsappKey = urlParams.get("whatsappKey");
+        const clientPhone = urlParams.get("clientPhone");
+        const productsApi = urlParams.get("productsApi");
+        const ordersApi = urlParams.get("ordersApi");
+        const openAiKey = urlParams.get("openAiKey");
+        const geminiKey = urlParams.get("geminiKey");
+        const provider = urlParams.get("provider");
+
+        setSettings(prev => ({
+          ...prev,
+          ...(provider && { provider }),
+          ...(whatsappKey && { callMeBotApiKey: whatsappKey }),
+          ...(clientPhone && { clientPhone }),
+          ...(productsApi && { customApiUrl: productsApi, dbMode: "custom_api" }),
+          ...(ordersApi && { customOrderWebhookUrl: ordersApi }),
+          ...(openAiKey && { openAiKey }),
+          ...(geminiKey && { geminiKey })
+        }));
+      }
+    } catch (e) {}
+  }, []);
+
   // Automatically Pop Up User Guide for First Time Visitors!
   useEffect(() => {
     try {
