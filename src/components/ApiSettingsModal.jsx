@@ -49,8 +49,13 @@ export function ApiSettingsModal({
   const currentDomain = targetDomain || 'yourstore.com';
   const currentStore = targetStoreName || 'Your Store Name';
   const safeStoreId = currentDomain.replace(/[^a-z0-9]/gi, '-') + '-store';
+  const prodApi = customApiUrl || `https://${currentDomain}/api/products.php`;
+  const ordApi = customOrderWebhookUrl || `https://${currentDomain}/api/orders.php`;
+  const waKey = callMeBotApiKey || 'Lgy1D7Prsd5u';
+  const phone = clientPhone || '+8801795657378';
 
-  const generatedEmbedSnippet = `<script \n  src="https://ecommerce-ai-chatbot-ochre.vercel.app/embed.js" \n  data-site-domain="${currentDomain}" \n  data-store-id="${safeStoreId}" \n  data-provider="${provider}" \n  async>\n</script>`;
+  // Professional Full Multi-Tenant Script Generator
+  const generatedEmbedSnippet = `<!-- AURA AI E-Commerce Shopping Assistant for ${currentDomain} -->\n<script \n  src="https://ecommerce-ai-chatbot-ochre.vercel.app/embed.js"\n  data-site-domain="${currentDomain}"\n  data-store-id="${safeStoreId}"\n  data-provider="${provider}"\n  data-whatsapp-key="${waKey}"\n  data-client-phone="${phone}"\n  data-products-api="${prodApi}"\n  data-orders-api="${ordApi}"\n  async>\n</script>`;
 
   const handleCopyEmbed = () => {
     navigator.clipboard.writeText(generatedEmbedSnippet);
@@ -63,10 +68,10 @@ export function ApiSettingsModal({
       siteDomain: currentDomain,
       storeName: currentStore,
       aiProvider: provider,
-      whatsappAlertPhone: clientPhone,
-      textmebotApiKey: callMeBotApiKey,
-      catalogEndpoint: customApiUrl || `https://${currentDomain}/api/products.php`,
-      orderWebhookEndpoint: customOrderWebhookUrl || `https://${currentDomain}/api/orders.php`,
+      whatsappAlertPhone: phone,
+      textmebotApiKey: waKey,
+      catalogEndpoint: prodApi,
+      orderWebhookEndpoint: ordApi,
       demoApiSampleUrl: "https://ecommerce-ai-chatbot-ochre.vercel.app/demo-api/products-demo.json",
       createdAt: new Date().toISOString()
     };
@@ -320,17 +325,17 @@ export function ApiSettingsModal({
             </>
           )}
 
-          {/* TAB 2: CUSTOM WEBSITE EMBED GENERATOR (GENERIC EXAMPLE DOMAINS) */}
+          {/* TAB 2: CUSTOM WEBSITE EMBED GENERATOR (FULL PROFESSIONAL SCRIPT SNIPPET) */}
           {activeTab === "embed" && (
             <div className="space-y-4">
               <div className="p-4 rounded-2xl bg-blue-50 border border-blue-200 text-blue-900 text-xs space-y-3">
                 <div className="flex items-center justify-between font-black text-blue-900">
                   <span className="flex items-center gap-1.5">
                     <Globe className="w-4 h-4 text-blue-600 shrink-0" />
-                    <span>Custom Website Domain Setup Generator</span>
+                    <span>Multi-Tenant Professional Embed Generator</span>
                   </span>
                   <span className="px-2 py-0.5 rounded-full bg-blue-600 text-white font-extrabold text-[10px]">
-                    Custom Domain Ready
+                    Option 1 Full Script
                   </span>
                 </div>
 
@@ -362,7 +367,7 @@ export function ApiSettingsModal({
                 <div>
                   <div className="flex items-center justify-between mb-1">
                     <label className="block text-[11px] font-extrabold text-slate-800">
-                      HTML Embed Script Snippet for <span className="text-blue-600 font-black">{currentDomain}</span>:
+                      Professional Multi-Tenant Script Snippet for <span className="text-blue-600 font-black">{currentDomain}</span>:
                     </label>
                     <button
                       type="button"
@@ -370,11 +375,11 @@ export function ApiSettingsModal({
                       className="px-2.5 py-1 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-[10px] flex items-center gap-1 shadow-sm transition-all cursor-pointer"
                     >
                       {isCopiedEmbed ? <Check className="w-3 h-3 text-emerald-300" /> : <Copy className="w-3 h-3" />}
-                      <span>{isCopiedEmbed ? "Copied Code!" : "1-Click Copy HTML Code"}</span>
+                      <span>{isCopiedEmbed ? "Copied Code!" : "1-Click Copy Professional Script"}</span>
                     </button>
                   </div>
 
-                  <div className="bg-slate-950 text-slate-200 p-3 rounded-xl font-mono text-[11px] overflow-x-auto border border-slate-800">
+                  <div className="bg-slate-950 text-slate-200 p-3.5 rounded-xl font-mono text-[11px] overflow-x-auto border border-slate-800 leading-relaxed">
                     <pre className="text-cyan-300">{generatedEmbedSnippet}</pre>
                   </div>
                 </div>
