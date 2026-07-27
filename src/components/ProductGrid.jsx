@@ -22,32 +22,47 @@ export function ProductGrid({
       {/* Category Pills & Section Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
         <div>
-          <h2 className="text-2xl font-black text-slate-900 tracking-tight">Featured Gear Catalog</h2>
-          <p className="text-slate-600 text-xs sm:text-sm font-semibold">High-performance tech curated for modern lifestyles</p>
+          <h2
+            className="text-2xl font-black tracking-tight"
+            style={{ color: "#0f172a", opacity: 1 }}
+          >
+            Featured Gear Catalog
+          </h2>
+          <p
+            className="text-xs sm:text-sm font-semibold"
+            style={{ color: "#475569", opacity: 1 }}
+          >
+            High-performance tech curated for modern lifestyles
+          </p>
         </div>
 
         {/* Filter Tabs */}
         <div className="flex items-center gap-2 overflow-x-auto pb-2 sm:pb-0 scrollbar-none">
-          {categories.map(cat => (
-            <button
-              key={cat}
-              onClick={() => setActiveCategory(cat)}
-              className={`px-4 py-2 rounded-xl font-extrabold text-xs transition-all whitespace-nowrap shadow-sm ${
-                activeCategory === cat
-                  ? "bg-purple-600 text-white shadow-md shadow-purple-600/30 border border-purple-500"
-                  : "bg-slate-900 border border-slate-800 text-slate-200 hover:text-white hover:bg-slate-800"
-              }`}
-            >
-              {cat}
-            </button>
-          ))}
+          {categories.map(cat => {
+            const isActive = activeCategory === cat;
+            return (
+              <button
+                key={cat}
+                type="button"
+                onClick={() => setActiveCategory(cat)}
+                style={
+                  isActive
+                    ? { backgroundColor: "#7c3aed", color: "#ffffff", border: "1px solid #6d28d9" }
+                    : { backgroundColor: "#0f172a", color: "#ffffff", border: "1px solid #1e293b" }
+                }
+                className="px-4 py-2 rounded-xl font-extrabold text-xs transition-all whitespace-nowrap shadow-md cursor-pointer"
+              >
+                {cat}
+              </button>
+            );
+          })}
         </div>
       </div>
 
       {/* Grid */}
       {filteredProducts.length === 0 ? (
         <div className="text-center py-16 bg-white rounded-2xl border border-slate-200 shadow-sm">
-          <p className="text-slate-700 font-extrabold text-sm">No products found matching your search filter.</p>
+          <p className="font-extrabold text-sm" style={{ color: "#0f172a" }}>No products found matching your search filter.</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">

@@ -1,7 +1,15 @@
 import React from "react";
 import { Bot, Sparkles, ShieldCheck, Truck, RefreshCw } from "lucide-react";
 
+const LinkedinIcon = ({ className = "w-4 h-4" }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+    <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/>
+  </svg>
+);
+
 export function HeroBanner({ onOpenChat }) {
+  const LINKEDIN_PROFILE_URL = "https://www.linkedin.com/in/mdfouzi/";
+
   return (
     <div className="relative overflow-hidden rounded-3xl bg-slate-900 border border-purple-500/30 p-8 sm:p-12 mb-10 shadow-2xl shadow-purple-950/40 text-white backdrop-blur-xl">
       {/* Background Radial Glow */}
@@ -25,7 +33,7 @@ export function HeroBanner({ onOpenChat }) {
           Experience personal AI product recommendations, real-time cart intelligence, order tracking, and instant answers powered by GPT-4o and Gemini 2.0 Flash.
         </p>
 
-        <div className="flex flex-wrap items-center gap-4">
+        <div className="flex flex-wrap items-center gap-3">
           <button
             onClick={onOpenChat}
             className="flex items-center gap-2.5 px-6 py-3.5 rounded-2xl bg-gradient-to-r from-purple-600 via-violet-600 to-cyan-500 text-white font-extrabold text-sm shadow-xl shadow-purple-600/40 hover:scale-[1.03] active:scale-[0.98] transition-all"
@@ -35,8 +43,18 @@ export function HeroBanner({ onOpenChat }) {
           </button>
 
           <a
+            href={LINKEDIN_PROFILE_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 px-5 py-3.5 rounded-2xl bg-blue-600 hover:bg-blue-700 border border-blue-500 text-white font-extrabold text-sm transition-all shadow-lg"
+          >
+            <LinkedinIcon className="w-4 h-4 text-white" />
+            <span>LinkedIn Profile</span>
+          </a>
+
+          <a
             href="#catalog"
-            className="px-6 py-3.5 rounded-2xl bg-slate-800/90 hover:bg-slate-700 border border-slate-700 text-white font-bold text-sm transition-all shadow-lg"
+            className="px-5 py-3.5 rounded-2xl bg-slate-800/90 hover:bg-slate-700 border border-slate-700 text-white font-bold text-sm transition-all shadow-lg"
           >
             Explore Catalog
           </a>
