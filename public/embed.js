@@ -9,7 +9,7 @@
     return scripts[scripts.length - 1];
   })();
 
-  const siteDomain = currentScript?.getAttribute('data-site-domain') || window.location.hostname || 'njwade.net';
+  const siteDomain = currentScript?.getAttribute('data-site-domain') || window.location.hostname || 'yourstore.com';
   const storeId = currentScript?.getAttribute('data-store-id') || 'custom-store';
   const provider = currentScript?.getAttribute('data-provider') || 'demo';
   

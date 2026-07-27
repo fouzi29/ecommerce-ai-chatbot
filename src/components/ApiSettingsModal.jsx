@@ -17,9 +17,9 @@ export function ApiSettingsModal({
   const [openAiModel, setOpenAiModel] = useState(settings.openAiModel || "gpt-4o-mini");
   const [geminiModel, setGeminiModel] = useState(settings.geminiModel || "gemini-1.5-flash");
 
-  // Custom Website Embed Configuration State (e.g. njwade.net)
-  const [targetDomain, setTargetDomain] = useState(settings.targetDomain || "njwade.net");
-  const [targetStoreName, setTargetStoreName] = useState(settings.targetStoreName || "NJ Wade Store");
+  // Custom Website Embed Configuration State (Generic example placeholders)
+  const [targetDomain, setTargetDomain] = useState(settings.targetDomain || "yourstore.com");
+  const [targetStoreName, setTargetStoreName] = useState(settings.targetStoreName || "Your Store Name");
   const [isCopiedEmbed, setIsCopiedEmbed] = useState(false);
 
   // Database Integration State & Webhooks (Custom REST API, Shopify, WooCommerce, Supabase)
@@ -46,7 +46,11 @@ export function ApiSettingsModal({
 
   if (!isOpen) return null;
 
-  const generatedEmbedSnippet = `<script \n  src="https://ecommerce-ai-chatbot-ochre.vercel.app/embed.js" \n  data-site-domain="${targetDomain || 'njwade.net'}" \n  data-store-id="${(targetDomain || 'njwade.net').replace(/[^a-z0-9]/gi, '-')}-store" \n  data-provider="${provider}" \n  async>\n</script>`;
+  const currentDomain = targetDomain || 'yourstore.com';
+  const currentStore = targetStoreName || 'Your Store Name';
+  const safeStoreId = currentDomain.replace(/[^a-z0-9]/gi, '-') + '-store';
+
+  const generatedEmbedSnippet = `<script \n  src="https://ecommerce-ai-chatbot-ochre.vercel.app/embed.js" \n  data-site-domain="${currentDomain}" \n  data-store-id="${safeStoreId}" \n  data-provider="${provider}" \n  async>\n</script>`;
 
   const handleCopyEmbed = () => {
     navigator.clipboard.writeText(generatedEmbedSnippet);
@@ -56,13 +60,13 @@ export function ApiSettingsModal({
 
   const handleDownloadConfigJson = () => {
     const configData = {
-      siteDomain: targetDomain || "njwade.net",
-      storeName: targetStoreName || "NJ Wade Store",
+      siteDomain: currentDomain,
+      storeName: currentStore,
       aiProvider: provider,
       whatsappAlertPhone: clientPhone,
       textmebotApiKey: callMeBotApiKey,
-      catalogEndpoint: customApiUrl || `https://${targetDomain || 'njwade.net'}/api/products.php`,
-      orderWebhookEndpoint: customOrderWebhookUrl || `https://${targetDomain || 'njwade.net'}/api/orders.php`,
+      catalogEndpoint: customApiUrl || `https://${currentDomain}/api/products.php`,
+      orderWebhookEndpoint: customOrderWebhookUrl || `https://${currentDomain}/api/orders.php`,
       demoApiSampleUrl: "https://ecommerce-ai-chatbot-ochre.vercel.app/demo-api/products-demo.json",
       createdAt: new Date().toISOString()
     };
@@ -71,7 +75,7 @@ export function ApiSettingsModal({
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `aura-config-${(targetDomain || 'njwade.net').replace(/[^a-z0-9]/gi, '-')}.json`;
+    a.download = `aura-config-${currentDomain.replace(/[^a-z0-9]/gi, '-')}.json`;
     a.click();
     URL.revokeObjectURL(url);
   };
@@ -116,8 +120,8 @@ export function ApiSettingsModal({
     setGeminiKey("");
     setOpenAiModel("gpt-4o-mini");
     setGeminiModel("gemini-1.5-flash");
-    setTargetDomain("njwade.net");
-    setTargetStoreName("NJ Wade Store");
+    setTargetDomain("yourstore.com");
+    setTargetStoreName("Your Store Name");
     setDbMode("demo");
     setCustomApiUrl("");
     setCustomOrderWebhookUrl("");
@@ -316,7 +320,7 @@ export function ApiSettingsModal({
             </>
           )}
 
-          {/* TAB 2: CUSTOM WEBSITE EMBED GENERATOR (e.g. njwade.net) */}
+          {/* TAB 2: CUSTOM WEBSITE EMBED GENERATOR (GENERIC EXAMPLE DOMAINS) */}
           {activeTab === "embed" && (
             <div className="space-y-4">
               <div className="p-4 rounded-2xl bg-blue-50 border border-blue-200 text-blue-900 text-xs space-y-3">
@@ -326,7 +330,7 @@ export function ApiSettingsModal({
                     <span>Custom Website Domain Setup Generator</span>
                   </span>
                   <span className="px-2 py-0.5 rounded-full bg-blue-600 text-white font-extrabold text-[10px]">
-                    njwade.net Ready
+                    Custom Domain Ready
                   </span>
                 </div>
 
@@ -335,7 +339,7 @@ export function ApiSettingsModal({
                     <label className="block text-[11px] font-bold text-slate-700 mb-1">Target Client Website Domain</label>
                     <input
                       type="text"
-                      placeholder="njwade.net"
+                      placeholder="yourstore.com"
                       value={targetDomain}
                       onChange={(e) => setTargetDomain(e.target.value)}
                       className="w-full bg-white border border-slate-300 rounded-xl px-3 py-2 text-xs text-slate-900 font-bold outline-none"
@@ -346,7 +350,7 @@ export function ApiSettingsModal({
                     <label className="block text-[11px] font-bold text-slate-700 mb-1">Store / Brand Name</label>
                     <input
                       type="text"
-                      placeholder="NJ Wade Store"
+                      placeholder="Your Store Name"
                       value={targetStoreName}
                       onChange={(e) => setTargetStoreName(e.target.value)}
                       className="w-full bg-white border border-slate-300 rounded-xl px-3 py-2 text-xs text-slate-900 font-bold outline-none"
@@ -358,12 +362,12 @@ export function ApiSettingsModal({
                 <div>
                   <div className="flex items-center justify-between mb-1">
                     <label className="block text-[11px] font-extrabold text-slate-800">
-                      HTML Embed Script Snippet for <span className="text-blue-600 font-black">{targetDomain || 'njwade.net'}</span>:
+                      HTML Embed Script Snippet for <span className="text-blue-600 font-black">{currentDomain}</span>:
                     </label>
                     <button
                       type="button"
                       onClick={handleCopyEmbed}
-                      className="px-2.5 py-1 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-[10px] flex items-center gap-1 shadow-sm transition-all"
+                      className="px-2.5 py-1 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-[10px] flex items-center gap-1 shadow-sm transition-all cursor-pointer"
                     >
                       {isCopiedEmbed ? <Check className="w-3 h-3 text-emerald-300" /> : <Copy className="w-3 h-3" />}
                       <span>{isCopiedEmbed ? "Copied Code!" : "1-Click Copy HTML Code"}</span>
@@ -378,13 +382,13 @@ export function ApiSettingsModal({
                 {/* Download Config Button */}
                 <div className="pt-2 flex items-center justify-between border-t border-blue-200">
                   <span className="text-[11px] text-slate-600 font-medium">
-                    Download full setup configuration file for <strong>{targetDomain || 'njwade.net'}</strong>:
+                    Download setup configuration file for <strong>{currentDomain}</strong>:
                   </span>
 
                   <button
                     type="button"
                     onClick={handleDownloadConfigJson}
-                    className="px-3.5 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-extrabold text-xs shadow-md transition-all flex items-center gap-1.5"
+                    className="px-3.5 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-extrabold text-xs shadow-md transition-all flex items-center gap-1.5 cursor-pointer"
                   >
                     <Code2 className="w-3.5 h-3.5 text-white" />
                     <span>Download aura-config.json</span>
@@ -394,7 +398,7 @@ export function ApiSettingsModal({
             </div>
           )}
 
-          {/* TAB 3: DATABASE & PLATFORM CONNECTORS (ALWAYS FULLY EXPANDED) */}
+          {/* TAB 3: DATABASE & PLATFORM CONNECTORS */}
           {activeTab === "database" && (
             <div className="space-y-4">
               <div>
@@ -465,13 +469,13 @@ export function ApiSettingsModal({
                 </div>
               </div>
 
-              {/* Custom REST API Endpoint Configuration Fields (Always Expandable) */}
+              {/* Custom REST API Endpoint Configuration Fields */}
               {dbMode === "custom_api" && (
                 <div className="bg-slate-50 p-4 rounded-2xl border border-cyan-300 space-y-3.5 shadow-sm">
                   <div className="flex items-center justify-between">
                     <h4 className="text-xs font-black text-cyan-800 flex items-center gap-1.5 uppercase tracking-wider">
                       <Server className="w-4 h-4 text-cyan-600" />
-                      <span>Custom PHP / MySQL API Setup (e.g. njwade.net)</span>
+                      <span>Custom PHP / MySQL API Setup (e.g. yourstore.com)</span>
                     </h4>
                     <a
                       href="https://ecommerce-ai-chatbot-ochre.vercel.app/demo-api/products-demo.json"
@@ -490,7 +494,7 @@ export function ApiSettingsModal({
                     </label>
                     <input
                       type="url"
-                      placeholder="https://njwade.net/api/products.php"
+                      placeholder="https://yourstore.com/api/products.php"
                       value={customApiUrl}
                       onChange={(e) => setCustomApiUrl(e.target.value)}
                       className="w-full bg-white border border-slate-300 rounded-xl px-3.5 py-2 text-xs text-slate-900 outline-none font-mono"
@@ -506,7 +510,7 @@ export function ApiSettingsModal({
                     </label>
                     <input
                       type="url"
-                      placeholder="https://njwade.net/api/orders.php"
+                      placeholder="https://yourstore.com/api/orders.php"
                       value={customOrderWebhookUrl}
                       onChange={(e) => setCustomOrderWebhookUrl(e.target.value)}
                       className="w-full bg-white border border-slate-300 rounded-xl px-3.5 py-2 text-xs text-slate-900 outline-none font-mono"
@@ -519,7 +523,7 @@ export function ApiSettingsModal({
                     </label>
                     <input
                       type="url"
-                      placeholder="https://njwade.net/api/leads.php"
+                      placeholder="https://yourstore.com/api/leads.php"
                       value={customLeadWebhookUrl}
                       onChange={(e) => setCustomLeadWebhookUrl(e.target.value)}
                       className="w-full bg-white border border-slate-300 rounded-xl px-3.5 py-2 text-xs text-slate-900 outline-none font-mono"
@@ -645,9 +649,6 @@ export function ApiSettingsModal({
                     onChange={(e) => setCallMeBotApiKey(e.target.value)}
                     className="w-full bg-white border border-slate-300 rounded-xl px-3.5 py-2 text-xs text-slate-900 outline-none font-mono font-bold"
                   />
-                  <p className="text-[10px] text-slate-500 mt-1 font-medium">
-                    *Client pastes their key here and WhatsApp alerts dispatch automatically to their phone!
-                  </p>
                 </div>
               </div>
 
@@ -706,7 +707,7 @@ export function ApiSettingsModal({
             <button
               type="button"
               onClick={handleReset}
-              className="flex items-center gap-1.5 text-xs text-slate-500 hover:text-slate-900 font-bold"
+              className="flex items-center gap-1.5 text-xs text-slate-500 hover:text-slate-900 font-bold cursor-pointer"
             >
               <RefreshCw className="w-3.5 h-3.5" />
               <span>Reset Defaults</span>
