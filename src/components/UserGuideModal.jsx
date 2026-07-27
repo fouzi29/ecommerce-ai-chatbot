@@ -232,7 +232,7 @@ export function UserGuideModal({ isOpen, onClose, onOpenChat, onOpenSettings }) 
 
         </div>
 
-        {/* Footer & Hire Me CTA */}
+        {/* Footer & Connect CTA */}
         <div className="pt-4 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
           <div className="flex items-center gap-2 text-slate-700">
             <Code2 className="w-4 h-4 text-purple-600" />
@@ -246,7 +246,7 @@ export function UserGuideModal({ isOpen, onClose, onOpenChat, onOpenSettings }) 
               rel="noopener noreferrer"
               className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold flex items-center gap-1.5 shadow-md transition-all"
             >
-              <span>Hire Fouzi on Fiverr</span>
+              <span>Connect on Fiverr</span>
               <ExternalLink className="w-3.5 h-3.5 text-white" />
             </a>
           </div>

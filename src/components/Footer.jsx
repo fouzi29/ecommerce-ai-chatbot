@@ -1,5 +1,5 @@
 import React from "react";
-import { Sparkles, ExternalLink, Code2, Heart, Bot, ShieldCheck } from "lucide-react";
+import { Sparkles, ExternalLink, Code2, Heart } from "lucide-react";
 
 export function Footer({ onOpenSettings, onOpenAdmin, onOpenGuide }) {
   const FIVERR_PROFILE_URL = "https://www.fiverr.com/s/e6BNbv3";
@@ -47,14 +47,14 @@ export function Footer({ onOpenSettings, onOpenAdmin, onOpenGuide }) {
             </ul>
           </div>
 
-          {/* Hire Developer */}
+          {/* Connect & Collaborate */}
           <div className="space-y-3 bg-purple-950/40 p-4 rounded-xl border border-purple-500/30">
             <h4 className="font-extrabold text-white text-xs flex items-center gap-1.5">
               <Code2 className="w-4 h-4 text-cyan-400" />
-              <span>Hire Me on Fiverr</span>
+              <span>Connect on Fiverr</span>
             </h4>
             <p className="text-slate-300 text-[11px] leading-relaxed">
-              Need a custom AI Chatbot for your e-commerce store or website? Hire Fouzi directly on Fiverr!
+              Explore custom AI Chatbot integrations for your e-commerce store or web platform with Fouzi!
             </p>
             <div className="space-y-2 pt-1">
               <a
@@ -63,7 +63,7 @@ export function Footer({ onOpenSettings, onOpenAdmin, onOpenGuide }) {
                 rel="noopener noreferrer"
                 className="flex items-center justify-center gap-1.5 w-full py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-md transition-all"
               >
-                <span>Order AI Chatbot Gig</span>
+                <span>Explore AI Chatbot Gig</span>
                 <ExternalLink className="w-3 h-3" />
               </a>
               <a

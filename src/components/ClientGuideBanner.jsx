@@ -30,7 +30,7 @@ export function ClientGuideBanner({ onOpenChat, onOpenSettings, onOpenGuide }) {
           </div>
         </div>
 
-        {/* Action Controls & Hire Me Button */}
+        {/* Action Controls & Connect Button */}
         <div className="flex items-center gap-2 flex-wrap sm:flex-nowrap">
           <a
             href={FIVERR_GIG_URL}
@@ -38,7 +38,7 @@ export function ClientGuideBanner({ onOpenChat, onOpenSettings, onOpenGuide }) {
             rel="noopener noreferrer"
             className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs shadow-md transition-all border border-emerald-500"
           >
-            <span className="text-white font-extrabold">Hire Fouzi on Fiverr</span>
+            <span className="text-white font-extrabold">Connect on Fiverr</span>
             <ExternalLink className="w-3.5 h-3.5 text-white" />
           </a>
 
