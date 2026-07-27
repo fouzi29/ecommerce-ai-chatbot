@@ -1,5 +1,5 @@
 import React from "react";
-import { X, BookOpen, Bot, ShoppingCart, Database, Bell, ExternalLink, Code2, Server, Key, Sparkles, Scale, RefreshCw, Heart, Camera, Mic, BarChart3 } from "lucide-react";
+import { X, BookOpen, Bot, ShoppingCart, Database, Bell, ExternalLink, Code2, Server, Key, Sparkles, Scale, RefreshCw, Heart, Camera, Mic, BarChart3, Globe, Smartphone, CheckCircle2, ArrowRight, ShieldCheck, Download } from "lucide-react";
 
 const LinkedinIcon = ({ className = "w-3.5 h-3.5" }) => (
   <svg className={className} viewBox="0 0 24 24" fill="currentColor">
@@ -17,10 +17,10 @@ export function UserGuideModal({ isOpen, onClose, onOpenChat, onOpenSettings }) 
   return (
     <div className="modal-backdrop" onClick={onClose}>
       <div
-        className="bg-white border border-purple-200 rounded-3xl max-w-3xl w-full p-6 sm:p-8 relative shadow-2xl overflow-hidden animate-slideUp max-h-[85vh] flex flex-col text-slate-900"
+        className="bg-white border border-purple-200 rounded-3xl max-w-3xl w-full p-6 sm:p-8 relative shadow-2xl overflow-hidden animate-slideUp max-h-[88vh] flex flex-col text-slate-900"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Header Bar with Vibrant High-Contrast Icon */}
+        {/* Header Bar */}
         <div className="flex items-center justify-between pb-4 border-b border-slate-200">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-purple-600 text-white flex items-center justify-center shadow-lg shadow-purple-500/30 shrink-0">
@@ -28,257 +28,225 @@ export function UserGuideModal({ isOpen, onClose, onOpenChat, onOpenSettings }) 
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h3 className="font-extrabold text-slate-900 text-xl">Interactive Client User & API Guide</h3>
-                <span className="px-2.5 py-0.5 rounded-full bg-purple-100 border border-purple-300 text-purple-700 font-bold text-[11px]">
+                <h3 className="font-black text-slate-900 text-xl tracking-tight">Interactive Graphical User Guide</h3>
+                <span className="px-2.5 py-0.5 rounded-full bg-purple-100 border border-purple-300 text-purple-700 font-extrabold text-[11px]">
                   Fiverr Portfolio Edition
                 </span>
               </div>
               <p className="text-slate-600 text-xs mt-0.5 font-semibold">
-                Engineered & Developed by <strong className="text-purple-600">Fouzi</strong> • Enterprise Blueprint
+                Engineered & Designed by <strong className="text-purple-600 font-black">Fouzi</strong> • Enterprise AI Blueprint
               </p>
             </div>
           </div>
 
-          <button onClick={onClose} className="p-2 rounded-xl text-slate-400 hover:text-slate-900 hover:bg-slate-100 transition-colors">
+          <button onClick={onClose} className="p-2 rounded-xl text-slate-400 hover:text-slate-900 hover:bg-slate-100 transition-colors cursor-pointer">
             <X className="w-5 h-5" />
           </button>
         </div>
 
-        {/* Guide Content */}
-        <div className="flex-1 overflow-y-auto my-4 space-y-4 pr-1 text-xs">
+        {/* Scrollable Visual Guide Body */}
+        <div className="flex-1 overflow-y-auto my-4 space-y-5 pr-1 text-xs">
           
-          {/* NEW SECTION: Enterprise 25-Module Feature Suite Breakdown */}
-          <div className="bg-gradient-to-r from-purple-900 via-indigo-900 to-slate-900 text-white p-4.5 rounded-2xl space-y-3 shadow-lg border border-purple-700">
+          {/* VISUAL BANNER: Enterprise 25-Module Feature Suite Breakdown */}
+          <div className="bg-gradient-to-r from-purple-900 via-indigo-900 to-slate-950 text-white p-5 rounded-2xl space-y-3.5 shadow-xl border border-purple-700 relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-48 h-48 bg-purple-500/10 rounded-full blur-2xl pointer-events-none" />
             <div className="flex items-center justify-between">
               <h4 className="text-xs font-black text-amber-300 flex items-center gap-2 uppercase tracking-wider">
                 <Sparkles className="w-4 h-4 text-amber-300" />
-                <span>Enterprise 25-Module AI E-Commerce Capabilities</span>
+                <span>Enterprise 25-Module AI E-Commerce Suite</span>
               </h4>
-              <span className="px-2.5 py-0.5 bg-purple-600 text-white font-black text-[10px] rounded-full uppercase">
+              <span className="px-3 py-1 bg-purple-600 text-white font-black text-[10px] rounded-full uppercase shadow-sm">
                 24/7 AI Sales Agent
               </span>
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 text-[11px] font-medium pt-1">
-              <div className="flex items-center gap-1.5 bg-purple-950/60 p-2 rounded-xl border border-purple-700">
-                <ShoppingCart className="w-3.5 h-3.5 text-purple-300 shrink-0" />
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5 text-[11px] font-bold pt-1">
+              <div className="flex items-center gap-2 bg-purple-950/80 p-2.5 rounded-xl border border-purple-700 text-purple-100">
+                <ShoppingCart className="w-4 h-4 text-purple-300 shrink-0" />
                 <span>In-Chat Direct Checkout</span>
               </div>
 
-              <div className="flex items-center gap-1.5 bg-purple-950/60 p-2 rounded-xl border border-purple-700">
-                <Scale className="w-3.5 h-3.5 text-cyan-300 shrink-0" />
+              <div className="flex items-center gap-2 bg-purple-950/80 p-2.5 rounded-xl border border-purple-700 text-purple-100">
+                <Scale className="w-4 h-4 text-cyan-300 shrink-0" />
                 <span>Side-by-Side Comparison</span>
               </div>
 
-              <div className="flex items-center gap-1.5 bg-purple-950/60 p-2 rounded-xl border border-purple-700">
-                <BarChart3 className="w-3.5 h-3.5 text-emerald-300 shrink-0" />
-                <span>Order Tracking & Invoice</span>
+              <div className="flex items-center gap-2 bg-purple-950/80 p-2.5 rounded-xl border border-purple-700 text-purple-100">
+                <BarChart3 className="w-4 h-4 text-emerald-300 shrink-0" />
+                <span>Order Tracking & PDF Invoice</span>
               </div>
 
-              <div className="flex items-center gap-1.5 bg-purple-950/60 p-2 rounded-xl border border-purple-700">
-                <RefreshCw className="w-3.5 h-3.5 text-amber-300 shrink-0" />
+              <div className="flex items-center gap-2 bg-purple-950/80 p-2.5 rounded-xl border border-purple-700 text-purple-100">
+                <RefreshCw className="w-4 h-4 text-amber-300 shrink-0" />
                 <span>In-Chat Returns & RMA</span>
               </div>
 
-              <div className="flex items-center gap-1.5 bg-purple-950/60 p-2 rounded-xl border border-purple-700">
-                <Heart className="w-3.5 h-3.5 text-rose-300 shrink-0" />
+              <div className="flex items-center gap-2 bg-purple-950/80 p-2.5 rounded-xl border border-purple-700 text-purple-100">
+                <Heart className="w-4 h-4 text-rose-300 shrink-0" />
                 <span>Wishlist & Loyalty Points</span>
               </div>
 
-              <div className="flex items-center gap-1.5 bg-purple-950/60 p-2 rounded-xl border border-purple-700">
-                <Camera className="w-3.5 h-3.5 text-cyan-300 shrink-0" />
+              <div className="flex items-center gap-2 bg-purple-950/80 p-2.5 rounded-xl border border-purple-700 text-purple-100">
+                <Camera className="w-4 h-4 text-cyan-300 shrink-0" />
                 <span>Camera Photo & Barcode</span>
               </div>
             </div>
           </div>
 
-          {/* Section 1: AI Engines */}
-          <div className="bg-slate-50 p-4 rounded-2xl border border-purple-200">
-            <div className="flex items-center justify-between mb-2">
-              <h4 className="text-xs font-extrabold text-purple-700 flex items-center gap-2 uppercase tracking-wider">
-                <Bot className="w-4 h-4 text-purple-600" />
-                <span>1. Testing Dual AI Engines (OpenAI vs Gemini vs Smart Demo)</span>
-              </h4>
-              <button
-                onClick={() => { onClose(); onOpenSettings(); }}
-                className="px-2.5 py-1 rounded-xl bg-purple-600 hover:bg-purple-700 text-white text-[11px] font-bold shadow-sm"
-              >
-                AI Settings
-              </button>
-            </div>
-            <p className="text-slate-600 leading-relaxed font-medium">
-              • <strong>Smart Demo Mode</strong>: Works out-of-the-box with zero setup and zero cost!  
-              • <strong>OpenAI (GPT-4o)</strong>: Enter your OpenAI API key (<code className="text-purple-700 font-bold bg-purple-100 px-1 rounded">sk-...</code>) in Settings.  
-              • <strong>Google Gemini (2.0 Flash)</strong>: Enter your Gemini API key (<code className="text-cyan-700 font-bold bg-cyan-100 px-1 rounded">AIza...</code>) in Settings.
-            </p>
-          </div>
-
-          {/* Section 2: Direct AI Orders & Leads */}
-          <div className="bg-slate-50 p-4 rounded-2xl border border-cyan-200">
-            <div className="flex items-center justify-between mb-2">
-              <h4 className="text-xs font-extrabold text-cyan-700 flex items-center gap-2 uppercase tracking-wider">
-                <ShoppingCart className="w-4 h-4 text-cyan-600" />
-                <span>2. In-Chat AI Direct Checkout & Prospect Lead Form</span>
-              </h4>
-              <button
-                onClick={() => { onClose(); onOpenChat(); }}
-                className="px-2.5 py-1 rounded-xl bg-cyan-600 hover:bg-cyan-700 text-white text-[11px] font-bold shadow-sm"
-              >
-                Open Chatbot
-              </button>
-            </div>
-            <p className="text-slate-600 leading-relaxed font-medium">
-              • <strong>Direct AI Order Checkout</strong>: Say *"Order Aura Headphones"* in chat. An in-chat checkout form asks for Name, Email, Phone, & Address, then places the order (`#AU-9821`)!  
-              • <strong>Lead Collector Form</strong>: Say *"Request custom quote"*. Renders a lead capture form and saves to database.  
-              • <strong>Promo Codes & Tracking</strong>: Test active code <code className="text-cyan-700 font-bold bg-cyan-100 px-1 rounded">AURA20</code> or track package <code className="text-cyan-700 font-bold bg-cyan-100 px-1 rounded">#AU-8821</code>.
-            </p>
-          </div>
-
-          {/* Section 3: Custom REST API Architecture Blueprint */}
-          <div className="bg-purple-50/70 p-4 rounded-2xl border border-purple-300 space-y-3">
-            <div className="flex items-center justify-between">
-              <h4 className="text-xs font-black text-purple-900 flex items-center gap-2 uppercase tracking-wider">
-                <Server className="w-4 h-4 text-purple-700" />
-                <span>3. Custom REST API Architecture Blueprint (PHP / MySQL / Node.js)</span>
-              </h4>
-              <button
-                onClick={() => { onClose(); onOpenSettings(); }}
-                className="px-2.5 py-1 rounded-xl bg-purple-700 hover:bg-purple-800 text-white text-[11px] font-bold shadow-sm"
-              >
-                Configure API
-              </button>
-            </div>
-
-            <p className="text-slate-700 leading-relaxed font-medium">
-              Connect custom store backends (Laravel, PHP, Node.js, Express, Python, MySQL) via 3 standard REST endpoints:
-            </p>
-
-            {/* Sub-schema A: GET /api/products */}
-            <div className="bg-slate-900 text-slate-200 p-3 rounded-xl space-y-1 font-mono text-[11px]">
-              <div className="text-cyan-400 font-bold">1. GET /api/products (Fetch Live Store Catalog)</div>
-              <div className="text-slate-400 text-[10px]">// Response JSON Array:</div>
-              <pre className="text-purple-300 text-[10px] overflow-x-auto">{`[
-  {
-    "id": "prod-1",
-    "name": "Wireless ANC Headphones",
-    "category": "Audio",
-    "price": 249.99,
-    "description": "High-fidelity wireless sound",
-    "image": "https://yourstore.com/images/item.jpg"
-  }
-]`}</pre>
-            </div>
-
-            {/* Sub-schema B: POST /api/orders */}
-            <div className="bg-slate-900 text-slate-200 p-3 rounded-xl space-y-1 font-mono text-[11px]">
-              <div className="text-emerald-400 font-bold">2. POST /api/orders (Receive AI Placed Orders)</div>
-              <div className="text-slate-400 text-[10px]">// Request Body JSON:</div>
-              <pre className="text-emerald-300 text-[10px] overflow-x-auto">{`{
-  "event": "order_placed",
-  "orderId": "AU-9942",
-  "customerName": "Alex Rivera",
-  "customerEmail": "alex@example.com",
-  "customerPhone": "+15550192831",
-  "shippingAddress": "742 Evergreen Terrace",
-  "items": [{ "name": "Aura Headphones", "price": 249.99, "quantity": 1 }],
-  "totalAmount": 249.99
-}`}</pre>
-            </div>
-          </div>
-
-          {/* Section 4: WhatsApp & Multi-Channel Alerts */}
-          <div className="bg-slate-50 p-4 rounded-2xl border border-amber-200">
-            <div className="flex items-center justify-between mb-2">
-              <h4 className="text-xs font-extrabold text-amber-700 flex items-center gap-2 uppercase tracking-wider">
-                <Bell className="w-4 h-4 text-amber-600" />
-                <span>4. Direct TextMeBot WhatsApp, Telegram, & Discord Alerts</span>
-              </h4>
-              <button
-                onClick={() => { onClose(); onOpenSettings(); }}
-                className="px-2.5 py-1 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-[11px] font-bold shadow-sm"
-              >
-                Configure Alerts
-              </button>
-            </div>
-            <p className="text-slate-600 leading-relaxed font-medium">
-              Receive instant alerts on your phone whenever an order or lead is placed via:  
-              • <strong>TextMeBot Direct WhatsApp Link Generator</strong> (Generate API Key on <a href="https://textmebot.com/" target="_blank" rel="noopener noreferrer" className="text-purple-700 font-bold underline">TextMeBot.com</a>)  
-              • <strong>Telegram Bot Token & Chat ID</strong>  
-              • <strong>Discord Webhook URL</strong>
-            </p>
-          </div>
-
-          {/* Section 5: API Keys & Connectors Directory */}
-          <div className="bg-slate-900 text-white p-4.5 rounded-2xl space-y-3 shadow-lg border border-slate-800">
-            <h4 className="text-xs font-extrabold text-cyan-400 flex items-center gap-2 uppercase tracking-wider">
-              <Key className="w-4 h-4 text-cyan-400" />
-              <span>5. 1-Click API Keys & Connectors Directory</span>
+          {/* VISUAL STEPPER: 4-Step Client Onboarding & Integration Roadmap */}
+          <div className="space-y-3">
+            <h4 className="text-xs font-black text-slate-800 uppercase tracking-wider flex items-center gap-1.5">
+              <ShieldCheck className="w-4 h-4 text-purple-600" />
+              <span>4-Step Quick Integration Roadmap</span>
             </h4>
-            
-            <p className="text-slate-300 text-[11px] leading-relaxed font-medium">
-              Click any link below to obtain your free API keys for instant integration:
-            </p>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px]">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              
+              {/* STEP 1 */}
+              <div className="bg-purple-50 p-4 rounded-2xl border border-purple-200 text-purple-950 space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="w-6 h-6 rounded-lg bg-purple-600 text-white font-black text-xs flex items-center justify-center shadow-sm">
+                    1
+                  </span>
+                  <span className="text-[10px] font-extrabold text-purple-700 uppercase bg-purple-200/60 px-2 py-0.5 rounded-md">
+                    Test Assistant
+                  </span>
+                </div>
+                <h5 className="font-extrabold text-slate-900 text-xs">Test Live AI Sales Agent</h5>
+                <p className="text-slate-600 text-[11px] leading-relaxed">
+                  Click the floating chat button at the bottom-right corner. Type <em>"Compare headphones"</em> or <em>"Order Aura Headphones"</em> to test direct checkout!
+                </p>
+              </div>
+
+              {/* STEP 2 */}
+              <div className="bg-blue-50 p-4 rounded-2xl border border-blue-200 text-blue-950 space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="w-6 h-6 rounded-lg bg-blue-600 text-white font-black text-xs flex items-center justify-center shadow-sm">
+                    2
+                  </span>
+                  <span className="text-[10px] font-extrabold text-blue-700 uppercase bg-blue-200/60 px-2 py-0.5 rounded-md">
+                    Multi-Tenant
+                  </span>
+                </div>
+                <h5 className="font-extrabold text-slate-900 text-xs">Copy 1-Line Embed Script</h5>
+                <p className="text-slate-600 text-[11px] leading-relaxed">
+                  Open the <strong>Embed Site</strong> tab in Settings to generate a complete script tag with client data attributes for zero-setup installation!
+                </p>
+              </div>
+
+              {/* STEP 3 */}
+              <div className="bg-cyan-50 p-4 rounded-2xl border border-cyan-200 text-cyan-950 space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="w-6 h-6 rounded-lg bg-cyan-600 text-white font-black text-xs flex items-center justify-center shadow-sm">
+                    3
+                  </span>
+                  <span className="text-[10px] font-extrabold text-cyan-700 uppercase bg-cyan-200/60 px-2 py-0.5 rounded-md">
+                    Database
+                  </span>
+                </div>
+                <h5 className="font-extrabold text-slate-900 text-xs">Connect Store Database (5 Connectors)</h5>
+                <p className="text-slate-600 text-[11px] leading-relaxed">
+                  Sync Shopify Storefront API, WooCommerce REST API, Supabase, or custom PHP/MySQL endpoints (`api/products.php`).
+                </p>
+              </div>
+
+              {/* STEP 4 */}
+              <div className="bg-emerald-50 p-4 rounded-2xl border border-emerald-200 text-emerald-950 space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="w-6 h-6 rounded-lg bg-emerald-600 text-white font-black text-xs flex items-center justify-center shadow-sm">
+                    4
+                  </span>
+                  <span className="text-[10px] font-extrabold text-emerald-700 uppercase bg-emerald-200/60 px-2 py-0.5 rounded-md">
+                    WhatsApp Alerts
+                  </span>
+                </div>
+                <h5 className="font-extrabold text-slate-900 text-xs">Connect WhatsApp Mobile Alerts</h5>
+                <p className="text-slate-600 text-[11px] leading-relaxed">
+                  Generate a free key on <strong>TextMeBot.com</strong> to receive instant order notifications directly on your mobile phone!
+                </p>
+              </div>
+
+            </div>
+          </div>
+
+          {/* VISUAL CARDS: Direct Starter Code Download Links */}
+          <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-3">
+            <div className="flex items-center justify-between">
+              <h4 className="text-xs font-black text-slate-800 flex items-center gap-1.5 uppercase tracking-wider">
+                <Download className="w-4 h-4 text-purple-600" />
+                <span>Live Starter Code Files for Custom Client Databases</span>
+              </h4>
+            </div>
+
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
               <a
-                href="https://textmebot.com/"
+                href="https://ecommerce-ai-chatbot-ochre.vercel.app/demo-api/php-demo.php"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-purple-300 flex items-center justify-between"
+                className="p-2.5 rounded-xl bg-white border border-slate-200 hover:border-purple-500 font-black text-[11px] text-purple-800 flex items-center justify-between shadow-sm transition-all"
               >
-                <span>💬 TextMeBot WhatsApp (TextMeBot.com)</span>
-                <ExternalLink className="w-3.5 h-3.5" />
+                <span>🐘 PHP / MySQL</span>
+                <ExternalLink className="w-3 h-3 text-purple-600" />
               </a>
 
               <a
-                href="https://platform.openai.com/api-keys"
+                href="https://ecommerce-ai-chatbot-ochre.vercel.app/demo-api/node-demo.js"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-emerald-300 flex items-center justify-between"
+                className="p-2.5 rounded-xl bg-white border border-slate-200 hover:border-emerald-500 font-black text-[11px] text-emerald-800 flex items-center justify-between shadow-sm transition-all"
               >
-                <span>🔑 OpenAI API Keys</span>
-                <ExternalLink className="w-3.5 h-3.5" />
+                <span>🟢 Node / Express</span>
+                <ExternalLink className="w-3 h-3 text-emerald-600" />
               </a>
 
               <a
-                href="https://aistudio.google.com/app/apikey"
+                href="https://ecommerce-ai-chatbot-ochre.vercel.app/demo-api/python-demo.py"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-cyan-300 flex items-center justify-between"
+                className="p-2.5 rounded-xl bg-white border border-slate-200 hover:border-cyan-500 font-black text-[11px] text-cyan-800 flex items-center justify-between shadow-sm transition-all"
               >
-                <span>🔑 Google Gemini API Keys</span>
-                <ExternalLink className="w-3.5 h-3.5" />
+                <span>🐍 Python / Flask</span>
+                <ExternalLink className="w-3 h-3 text-cyan-600" />
               </a>
 
               <a
-                href="https://help.shopify.com/en/manual/apps/custom-apps"
+                href="https://ecommerce-ai-chatbot-ochre.vercel.app/demo-api/products-demo.json"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-emerald-300 flex items-center justify-between"
+                className="p-2.5 rounded-xl bg-white border border-slate-200 hover:border-indigo-500 font-black text-[11px] text-indigo-800 flex items-center justify-between shadow-sm transition-all"
               >
-                <span>🛍️ Shopify Storefront API</span>
-                <ExternalLink className="w-3.5 h-3.5" />
-              </a>
-
-              <a
-                href="https://woocommerce.com/document/woocommerce-rest-api/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-indigo-300 flex items-center justify-between"
-              >
-                <span>🛍️ WooCommerce REST API</span>
-                <ExternalLink className="w-3.5 h-3.5" />
+                <span>📦 JSON Payload</span>
+                <ExternalLink className="w-3 h-3 text-indigo-600" />
               </a>
             </div>
           </div>
 
         </div>
 
-        {/* Footer & Social CTA */}
-        <div className="pt-4 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
-          <div className="flex items-center gap-2 text-slate-700 font-bold">
-            <Code2 className="w-4 h-4 text-purple-600" />
-            <span>App Creator: <strong className="text-slate-900 font-extrabold">Fouzi</strong></span>
+        {/* Footer Actions */}
+        <div className="pt-4 border-t border-slate-200 flex flex-wrap items-center justify-between gap-3">
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => {
+                onClose();
+                onOpenChat();
+              }}
+              className="px-4 py-2 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-extrabold text-xs shadow-md shadow-purple-600/20 transition-all flex items-center gap-1.5 cursor-pointer"
+            >
+              <Bot className="w-4 h-4 text-white" />
+              <span>Launch Live AI Chatbot</span>
+            </button>
+
+            <button
+              onClick={() => {
+                onClose();
+                onOpenSettings();
+              }}
+              className="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-extrabold text-xs transition-all flex items-center gap-1.5 cursor-pointer"
+            >
+              <Code2 className="w-4 h-4 text-purple-600" />
+              <span>Open SaaS Settings</span>
+            </button>
           </div>
 
           <div className="flex items-center gap-2">
@@ -286,20 +254,20 @@ export function UserGuideModal({ isOpen, onClose, onOpenChat, onOpenSettings }) 
               href={LINKEDIN_PROFILE_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold flex items-center gap-1.5 shadow-md transition-all"
+              className="px-3 py-2 rounded-xl bg-[#0a66c2] hover:bg-[#004182] text-white font-extrabold text-xs shadow-md flex items-center gap-1.5 transition-all"
             >
-              <LinkedinIcon className="w-3.5 h-3.5 text-white" />
-              <span>LinkedIn Profile</span>
+              <LinkedinIcon className="w-3.5 h-3.5" />
+              <span>Connect with Fouzi</span>
             </a>
 
             <a
               href={FIVERR_GIG_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold flex items-center gap-1.5 shadow-md transition-all"
+              className="px-3.5 py-2 rounded-xl bg-[#1dbf73] hover:bg-[#19a463] text-white font-extrabold text-xs shadow-md flex items-center gap-1.5 transition-all"
             >
               <span>Connect on Fiverr</span>
-              <ExternalLink className="w-3.5 h-3.5 text-white" />
+              <ExternalLink className="w-3.5 h-3.5" />
             </a>
           </div>
         </div>
