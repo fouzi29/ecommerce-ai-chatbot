@@ -1,5 +1,5 @@
 import React from "react";
-import { Sparkles, CheckCircle2, XCircle, Bot, ShoppingCart, Scale, Truck, RefreshCw, Smartphone, Camera, Mic, BarChart3, Database, Zap } from "lucide-react";
+import { Sparkles, CheckCircle2, XCircle, Bot, ShoppingBag, ShoppingCart, Scale, Truck, RefreshCw, Smartphone, Camera, Mic, BarChart3, Database, Zap } from "lucide-react";
 
 export function FeaturesComparisonSection() {
   const comparisonData = [
