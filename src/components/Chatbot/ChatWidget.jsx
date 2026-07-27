@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { Bot, MessageSquare } from "lucide-react";
+import { Bot } from "lucide-react";
 import { ChatHeader } from "./ChatHeader";
 import { ChatMessages } from "./ChatMessages";
 import { ChatInput } from "./ChatInput";
+import { ImageSearchModal } from "./ImageSearchModal";
 import { sendChatMessage } from "../../services/apiService";
 
 export function ChatWidget({
@@ -13,6 +14,8 @@ export function ChatWidget({
   products = [],
   cart = [],
   onAddToCart,
+  onUpdateQuantity,
+  onRemoveItem,
   onQuickView,
   showSettingsButton = true
 }) {
@@ -20,13 +23,14 @@ export function ChatWidget({
     {
       id: "msg-1",
       sender: "assistant",
-      text: "👋 Hi there! I'm **AURA AI**, your personalized e-commerce shopping assistant.\n\nHow can I help you today? You can ask me to order gear, request custom quotes, check promo codes, or track your order!",
+      text: "👋 Hi there! I'm **AURA AI**, your personalized e-commerce shopping assistant.\n\nHow can I help you today? You can ask me to order gear, compare products, review cart, track your order (#AU-8821), or submit a return!",
       time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     }
   ]);
 
   const [isLoading, setIsLoading] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [isImageSearchOpen, setIsImageSearchOpen] = useState(false);
 
   const handleSendMessage = async (text) => {
     const userMsg = {
@@ -90,6 +94,13 @@ export function ChatWidget({
         itemToOrder: response.itemToOrder || null,
         placedOrder: response.placedOrder || null,
         showLeadForm: response.showLeadForm || false,
+        showComparison: response.showComparison || false,
+        comparisonItems: response.comparisonItems || [],
+        showInChatCart: response.showInChatCart || false,
+        showOrderTracking: response.showOrderTracking || false,
+        orderDetails: response.orderDetails || null,
+        showReturnForm: response.showReturnForm || false,
+        showWishlistCard: response.showWishlistCard || false,
         time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
       };
 
@@ -180,17 +191,29 @@ export function ChatWidget({
             messages={messages}
             isLoading={isLoading}
             products={products}
+            cart={cart}
             onAddToCart={onAddToCart}
+            onUpdateQuantity={onUpdateQuantity}
+            onRemoveItem={onRemoveItem}
             onQuickView={onQuickView}
             onOrderPlaced={handleOrderFormCompleted}
+            onProceedToCheckout={() => handleSendMessage("order headphones")}
           />
 
           <ChatInput
             onSendMessage={handleSendMessage}
+            onOpenImageSearch={() => setIsImageSearchOpen(true)}
             isLoading={isLoading}
           />
         </div>
       )}
+
+      {/* Smartphone Camera & Image Search Modal */}
+      <ImageSearchModal
+        isOpen={isImageSearchOpen}
+        onClose={() => setIsImageSearchOpen(false)}
+        onSearchWithImage={(query) => handleSendMessage(query)}
+      />
     </>
   );
 }

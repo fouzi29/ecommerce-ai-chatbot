@@ -4,14 +4,23 @@ import { ProductRecommendationCard } from "./ProductRecommendationCard";
 import { AiOrderPlacementCard } from "./AiOrderPlacementCard";
 import { AiCheckoutFormCard } from "./AiCheckoutFormCard";
 import { LeadCaptureCard } from "./LeadCaptureCard";
+import { ProductComparisonCard } from "./ProductComparisonCard";
+import { InChatCartCard } from "./InChatCartCard";
+import { OrderTrackingCard } from "./OrderTrackingCard";
+import { ReturnRequestCard } from "./ReturnRequestCard";
+import { AccountWishlistCard } from "./AccountWishlistCard";
 
 export function ChatMessages({
   messages,
   isLoading,
   products = [],
+  cart = [],
   onAddToCart,
+  onUpdateQuantity,
+  onRemoveItem,
   onQuickView,
-  onOrderPlaced
+  onOrderPlaced,
+  onProceedToCheckout
 }) {
   const bottomRef = useRef(null);
 
@@ -56,11 +65,11 @@ export function ChatMessages({
       
       {/* Welcome Card */}
       <div className="chat-welcome-banner">
-        <div className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-purple-600/20 text-purple-400 mb-2">
+        <div className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-purple-600/20 text-purple-600 mb-2">
           <Sparkles className="w-4 h-4" />
         </div>
-        <h4>Welcome to AURA AI Shopping Assistant</h4>
-        <p>Order products directly in chat, request custom VIP quotes, track orders (#AU-8821), or get recommended gear!</p>
+        <h4>Welcome to AURA AI 25-Module Shopping Assistant</h4>
+        <p>Order gear directly, compare specs, review cart, track live orders (#AU-8821), or submit returns!</p>
       </div>
 
       {/* Message List */}
@@ -93,6 +102,39 @@ export function ChatMessages({
               <LeadCaptureCard />
             )}
 
+            {/* Render Side-by-Side Product Comparison Card */}
+            {msg.showComparison && (
+              <ProductComparisonCard
+                items={msg.comparisonItems || products.slice(0, 2)}
+                onAddToCart={onAddToCart}
+              />
+            )}
+
+            {/* Render In-Chat Shopping Cart Card */}
+            {msg.showInChatCart && (
+              <InChatCartCard
+                cart={cart}
+                onUpdateQuantity={onUpdateQuantity}
+                onRemoveItem={onRemoveItem}
+                onProceedToCheckout={onProceedToCheckout}
+              />
+            )}
+
+            {/* Render Live Order Tracking & PDF Invoice Card */}
+            {msg.showOrderTracking && (
+              <OrderTrackingCard orderDetails={msg.orderDetails} />
+            )}
+
+            {/* Render In-Chat Returns & Exchange Request Card */}
+            {msg.showReturnForm && (
+              <ReturnRequestCard />
+            )}
+
+            {/* Render Account, Wishlist & Loyalty Portal Card */}
+            {msg.showWishlistCard && (
+              <AccountWishlistCard onReorderItem={onAddToCart} />
+            )}
+
             {/* Render Recommended Product Cards */}
             {msg.recommendedProductIds && msg.recommendedProductIds.length > 0 && (
               <div className="mt-3 space-y-2">
@@ -112,14 +154,14 @@ export function ChatMessages({
 
             {/* Read Aloud Button for AI Responses */}
             {msg.sender === "assistant" && (
-              <div className="flex items-center justify-between mt-2 pt-2 border-t border-slate-700/50">
+              <div className="flex items-center justify-between mt-2 pt-2 border-t border-slate-200/80">
                 <button
                   onClick={() => speakText(msg.text)}
-                  className="text-[10px] text-slate-400 hover:text-purple-400 flex items-center gap-1 transition-colors"
+                  className="text-[10px] text-slate-500 hover:text-purple-700 flex items-center gap-1 font-bold transition-colors"
                   title="Read message aloud"
                 >
                   <Volume2 className="w-3 h-3" />
-                  <span>Listen</span>
+                  <span>Listen Audio</span>
                 </button>
                 <span className="chat-time">{msg.time || "Just now"}</span>
               </div>

@@ -1,112 +1,120 @@
 import { placeAiDirectOrder } from "./orderService";
 
 /**
- * Smart Sales Conversion AI Generator for Demo Mode
- * Intelligently handles ordinals ("order 2nd", "buy 1st", "order pods") & product selection
+ * Enterprise 25-Module AI Conversational & Intelligence Engine (Demo Mode)
  */
 export async function sendMockAiRequest({ userQuery, storeContext }) {
-  await new Promise(resolve => setTimeout(resolve, 500));
+  await new Promise(resolve => setTimeout(resolve, 400));
 
   const query = userQuery.toLowerCase();
   const products = storeContext.products || [];
+  const cart = storeContext.cart || [];
 
   let text = "";
   let recommendedProductIds = [];
   let showCheckoutForm = false;
   let itemToOrder = null;
   let showLeadForm = false;
+  let showComparison = false;
+  let comparisonItems = [];
+  let showInChatCart = false;
+  let showOrderTracking = false;
+  let orderDetails = null;
+  let showReturnForm = false;
+  let showWishlistCard = false;
 
-  // Detect Order Intent (Words: "order", "buy", "checkout", "purchase", "reserve", "2nd", "second", "1st", "first", "3rd")
-  const isOrderIntent = 
-    query.includes("order") || 
-    query.includes("buy") || 
-    query.includes("checkout") || 
-    query.includes("purchase") || 
-    query.includes("reserve") || 
-    query.includes("2nd") || 
-    query.includes("second") || 
-    query.includes("1st") || 
-    query.includes("first") ||
-    query.includes("3rd") ||
-    query.includes("third");
+  // 1. PRODUCT COMPARISON INTENT ("compare", "versus", "difference")
+  if (query.includes("compare") || query.includes("versus") || query.includes("vs") || query.includes("difference")) {
+    showComparison = true;
+    comparisonItems = products.slice(0, 2);
+    text = `⚖️ **AI Side-by-Side Product Comparison**:
 
-  if (isOrderIntent) {
-    // 1A. Check if 2ND item is requested: "2nd", "second", "pods", "earbud", "watch", "2"
-    if (query.includes("2nd") || query.includes("second") || query.includes("pods") || query.includes("earbud") || query.includes("watch") || query.includes(" 2") || query.endsWith(" 2")) {
-      itemToOrder = products.find(p => p.name.toLowerCase().includes("pods") || p.name.toLowerCase().includes("earbud") || p.category === "Wearables") || products[1] || products[0];
-    }
-    // 1B. Check if 3RD item is requested: "3rd", "third", "keyboard", "mouse", "3"
-    else if (query.includes("3rd") || query.includes("third") || query.includes("keyboard") || query.includes("mouse") || query.includes(" 3") || query.endsWith(" 3")) {
-      itemToOrder = products.find(p => p.name.toLowerCase().includes("keyboard") || p.name.toLowerCase().includes("mouse")) || products[2] || products[0];
-    }
-    // 1C. 1ST item or explicit keyword match
-    else {
-      itemToOrder = products.find(p => query.includes(p.category.toLowerCase()) || p.name.toLowerCase().includes("headphone") || (p.tags && p.tags.some(t => query.includes(t)))) || products[0];
+Here is a side-by-side specs comparison between **${comparisonItems[0]?.name}** ($${comparisonItems[0]?.price.toFixed(2)}) and **${comparisonItems[1]?.name}** ($${comparisonItems[1]?.price.toFixed(2)}):`;
+  }
+  // 2. IN-CHAT CART REVIEW ("cart", "checkout", "basket", "my cart")
+  else if ((query.includes("cart") || query.includes("basket")) && !query.includes("order")) {
+    showInChatCart = true;
+    text = `🛍️ **Here is your current Shopping Cart**:
+
+Review your items, apply promo codes (\`AURA20\` for 20% OFF), and proceed to direct AI checkout:`;
+  }
+  // 3. ORDER TRACKING & INVOICE ("track", "status", "shipment", "invoice", "#au-")
+  else if (query.includes("track") || query.includes("status") || query.includes("invoice") || query.includes("#au-")) {
+    showOrderTracking = true;
+    orderDetails = {
+      id: "AU-8821",
+      customerName: "Alex Rivera",
+      items: [{ name: "Aura Pro Wireless ANC Headphones", price: 249.99, quantity: 1 }],
+      totalAmount: 249.99,
+      status: "In Transit",
+      courier: "Pathao Express Courier",
+      trackingNumber: "TRK-99401827",
+      estimatedDelivery: "July 28, 2026 (1-2 business days)",
+      address: "742 Evergreen Terrace, Springfield"
+    };
+    text = `📦 **Order Tracking & Invoice Details for #AU-8821**:
+
+Your order is currently **In Transit** via Pathao Express Courier. You can download your official invoice TXT/PDF below:`;
+  }
+  // 4. RETURNS, EXCHANGES & REFUNDS ("return", "exchange", "refund", "rma")
+  else if (query.includes("return") || query.includes("exchange") || query.includes("refund") || query.includes("rma")) {
+    showReturnForm = true;
+    text = `🔄 **30-Day Hassle-Free Return & Exchange Request**:
+
+Our policy allows returns within 30 days of delivery with free courier pickup. Fill out the quick return form below:`;
+  }
+  // 5. ACCOUNT, WISHLIST & LOYALTY POINTS ("wishlist", "points", "rewards", "account")
+  else if (query.includes("wishlist") || query.includes("points") || query.includes("rewards") || query.includes("loyalty") || query.includes("account")) {
+    showWishlistCard = true;
+    text = `⭐ **Welcome to your AURA VIP Account Portal**:
+
+You currently have **1,250 AURA Loyalty Points ($12.50 Store Credit)** ready to redeem!`;
+  }
+  // 6. DIRECT ORDER INTENT ("order", "buy", "purchase", "reserve", "2nd", "second")
+  else if (query.includes("order") || query.includes("buy") || query.includes("purchase") || query.includes("reserve") || query.includes("2nd") || query.includes("second") || query.includes("1st") || query.includes("first")) {
+    if (query.includes("2nd") || query.includes("second") || query.includes("pods") || query.includes("earbud")) {
+      itemToOrder = products.find(p => p.name.toLowerCase().includes("pods") || p.name.toLowerCase().includes("earbud")) || products[1] || products[0];
+    } else {
+      itemToOrder = products.find(p => query.includes(p.category.toLowerCase()) || p.name.toLowerCase().includes("headphone")) || products[0];
     }
 
     showCheckoutForm = true;
     text = `🛒 **Selected Product**: **${itemToOrder.name}** ($${itemToOrder.price.toFixed(2)})
 
-Great choice! Please fill out your contact details & shipping address below to place your order:`;
+Please enter your contact details and shipping address below to place your order:`;
   }
-  // 2. LEAD CAPTURE INTENT / QUOTE / BULK / VIP
-  else if (query.includes("quote") || query.includes("contact") || query.includes("lead") || query.includes("vip") || query.includes("bulk") || query.includes("discount") || query.includes("promo")) {
-    showLeadForm = true;
-    text = `🎉 **Exclusive 20% VIP Discount & Custom Quote Request**:
+  // 7. PAYMENT & SHIPPING ASSISTANCE ("payment", "cod", "bkash", "nagad", "card", "shipping cost")
+  else if (query.includes("payment") || query.includes("pay") || query.includes("cod") || query.includes("shipping")) {
+    text = `💳 **Supported Payment & Shipping Options**:
 
-I would love to lock in an exclusive **20% VIP discount code (\`AURA20\`)** and prepare a custom spec sheet for you!
-
-Please enter your contact details below so our team can send your custom VIP quote:`;
+• **Payment Methods**: Cash on Delivery (COD), Visa / MasterCard, bKash, Nagad, Stripe, & PayPal.
+• **Shipping Costs**: **Free Express Shipping** on all orders over $75 (Code \`FREESHIP\`)! Standard delivery takes 1-2 business days.`;
   }
-  // 3. ORDER TRACKING
-  else if (query.includes("track") || query.includes("status") || query.includes("#au-")) {
-    text = `📦 **Order Status Lookup**:
-Your order **#AU-8821** is currently **In Transit** via Express Courier!
-
-• **Expected Delivery**: July 28, 2026 (1-2 business days)  
-• **Shipping Address**: 742 Evergreen Terrace  
-• **Items**: 1x *Aura Pro Wireless ANC Headphones*  
-
-Tracking Number: \`TRK-99401827\`.`;
-  }
-  // 4. AUDIO / HEADPHONES INQUIRY -> Displays 1st and 2nd items
-  else if (query.includes("headphone") || query.includes("audio") || query.includes("earbud") || query.includes("anc") || query.includes("sound")) {
+  // 8. AUDIO / HEADPHONES INQUIRY
+  else if (query.includes("headphone") || query.includes("audio") || query.includes("earbud") || query.includes("photo") || query.includes("camera")) {
     const audioItems = products.filter(p => p.category === "Audio");
     recommendedProductIds = audioItems.map(p => p.id);
     showLeadForm = true;
 
-    text = `🎵 **Top Wireless Audio Gear Recommendations**:
+    text = `🎵 **Recommended Wireless Audio Gear**:
 
 1. **Aura Pro Wireless ANC Headphones** ($249.99) — 40hr battery life & ANC.
 2. **Aura Pods Pro Wireless Earbuds** ($159.99) — IPX7 sweatproof & wireless charging.
 
-💡 **Offer**: Claim **20% OFF** with code **\`AURA20\`**!
-
-Say *"Order 1st"* for Headphones ($249.99) or *"Order 2nd"* for Pods Earbuds ($159.99)!`;
+🎁 Use promo code **\`AURA20\`** for **20% OFF** today! Say *"Order 1st"* or *"Compare headphones and pods"*!`;
   }
-  // 5. TECH / KEYBOARD / WATCH INQUIRY -> Displays Tech items
-  else if (query.includes("keyboard") || query.includes("watch") || query.includes("mouse") || query.includes("tech") || query.includes("gear")) {
-    const techItems = products.filter(p => p.category === "Tech" || p.category === "Wearables");
-    recommendedProductIds = techItems.slice(0, 2).map(p => p.id);
-    showLeadForm = true;
-
-    text = `⚡ **Recommended Workstation Gear**:
-
-1. **Nexus Ultra Smartwatch Gen 5** ($199.50) — AMOLED display & 7-day battery.
-2. **Luminary Mechanical RGB Keyboard** ($129.99) — Hot-swappable tactile switches.
-
-Say *"Order 1st"* for Smartwatch ($199.50) or *"Order 2nd"* for Keyboard ($129.99)!`;
-  }
-  // 6. GENERAL FALLBACK
+  // 9. GENERAL CONVERSATIONAL AI & PROMOTIONS
   else {
     showLeadForm = true;
-    text = `👋 Hi there! I'm **AURA AI**, your personal shopping assistant.
+    text = `👋 Hi! I'm **AURA AI**, your 24/7 Shopping Assistant & Sales Agent.
 
 I can help you:
-• **Order Gear**: Say *"Order 1st"* or *"Order 2nd"*.
-• **Get 20% OFF Promo Code**: Use code \`AURA20\` at checkout!
+• **Compare Products**: Say *"Compare headphones and pods"*.
+• **Track Order & Invoice**: Say *"Track #AU-8821"*.
+• **View Cart & Apply Coupons**: Say *"View my cart"* (Promo code \`AURA20\` for 20% OFF).
+• **Returns & Exchanges**: Say *"Return an order"*.
 
-Not ready to buy yet? Fill out your info below to lock in a VIP discount code for your next visit!`;
+How can I assist your shopping experience today?`;
   }
 
   return {
@@ -114,6 +122,13 @@ Not ready to buy yet? Fill out your info below to lock in a VIP discount code fo
     recommendedProductIds,
     showCheckoutForm,
     itemToOrder,
-    showLeadForm
+    showLeadForm,
+    showComparison,
+    comparisonItems,
+    showInChatCart,
+    showOrderTracking,
+    orderDetails,
+    showReturnForm,
+    showWishlistCard
   };
 }

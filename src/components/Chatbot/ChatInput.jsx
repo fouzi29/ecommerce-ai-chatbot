@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { Send, Mic } from "lucide-react";
+import { Send, Mic, Camera } from "lucide-react";
 import { SUGGESTION_CHIPS } from "../../data/defaultPrompts";
 
-export function ChatInput({ onSendMessage, isLoading }) {
+export function ChatInput({ onSendMessage, onOpenImageSearch, isLoading }) {
   const [inputText, setInputText] = useState("");
   const [isRecording, setIsRecording] = useState(false);
 
@@ -76,21 +76,31 @@ export function ChatInput({ onSendMessage, isLoading }) {
       </div>
 
       {/* Input Form */}
-      <form onSubmit={handleSubmit} className="flex items-center gap-2">
+      <form onSubmit={handleSubmit} className="flex items-center gap-1.5">
+        {/* Camera / Photo Upload Button */}
+        <button
+          type="button"
+          onClick={onOpenImageSearch}
+          className="p-2 rounded-xl border border-slate-200 text-slate-600 hover:text-purple-600 hover:bg-purple-50 transition-colors shrink-0"
+          title="Camera & Image Search"
+        >
+          <Camera className="w-4 h-4 text-purple-600" />
+        </button>
+
         <input
           type="text"
-          placeholder="Ask AI about headphones, discounts, orders..."
+          placeholder="Ask AI about headphones, compare, track order..."
           value={inputText}
           onChange={(e) => setInputText(e.target.value)}
           disabled={isLoading}
-          className="flex-1 bg-slate-100 border border-slate-200 focus:border-purple-500 rounded-xl px-3.5 py-2 text-xs text-slate-900 placeholder-slate-400 outline-none transition-all"
+          className="flex-1 bg-slate-100 border border-slate-200 focus:border-purple-500 rounded-xl px-3.5 py-2 text-xs text-slate-900 placeholder-slate-400 outline-none transition-all min-w-0"
         />
 
         {/* Voice Input Button */}
         <button
           type="button"
           onClick={handleVoiceInput}
-          className={`p-2 rounded-xl border border-slate-200 text-slate-600 hover:text-purple-600 ${isRecording ? 'bg-rose-100 text-rose-600 animate-pulse' : 'bg-slate-100'}`}
+          className={`p-2 rounded-xl border border-slate-200 text-slate-600 hover:text-purple-600 shrink-0 ${isRecording ? 'bg-rose-100 text-rose-600 animate-pulse' : 'bg-slate-100'}`}
           title={isRecording ? "Listening..." : "Click for Voice Input"}
         >
           <Mic className="w-4 h-4" />
@@ -100,7 +110,7 @@ export function ChatInput({ onSendMessage, isLoading }) {
         <button
           type="submit"
           disabled={!inputText.trim() || isLoading}
-          className="w-9 h-9 rounded-xl bg-gradient-to-r from-purple-600 to-cyan-600 text-white flex items-center justify-center disabled:opacity-40 disabled:cursor-not-allowed hover:opacity-90 transition-opacity shadow-md"
+          className="w-9 h-9 rounded-xl bg-gradient-to-r from-purple-600 to-cyan-600 text-white flex items-center justify-center disabled:opacity-40 disabled:cursor-not-allowed hover:opacity-90 transition-opacity shadow-md shrink-0"
           title="Send Message"
         >
           <Send className="w-4 h-4" />

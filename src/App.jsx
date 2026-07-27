@@ -190,7 +190,7 @@ export function App() {
         onOpenGuide={() => setIsGuideOpen(true)}
       />
 
-      {/* AI Floating Chatbot Widget */}
+      {/* AI Floating Chatbot Widget (Enterprise 25-Module Version) */}
       <ChatWidget
         isOpen={isChatOpen}
         onToggleOpen={() => setIsChatOpen(!isChatOpen)}
@@ -199,6 +199,8 @@ export function App() {
         products={productsList}
         cart={cart}
         onAddToCart={handleAddToCart}
+        onUpdateQuantity={handleUpdateQuantity}
+        onRemoveItem={handleRemoveFromCart}
         onQuickView={(product) => setSelectedProduct(product)}
         showSettingsButton={settings.showAdminControls}
       />
